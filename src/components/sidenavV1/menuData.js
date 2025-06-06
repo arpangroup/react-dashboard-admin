@@ -40,10 +40,10 @@ const menuData = [
     label: 'KYC Management',
     icon: <FiCheckSquare />,
     items: [
-      { label: 'Pending KYC', href: 'users.html', icon: <FiAirplay /> },
-      { label: 'Rejected KYC', href: '/admin/user/active', icon: <LuFileWarning /> },
-      { label: 'All KYC Logs', href: '/admin/user/disabled', icon: <LuContact /> },
-      { label: 'KYC Form', href: 'notification_all.html', icon: <FiCheckSquare /> },
+      { label: 'Pending KYC', href: '/admin/kyc/pending', icon: <FiAirplay /> },
+      { label: 'Rejected KYC', href: '/admin/kyc/rejected', icon: <LuFileWarning /> },
+      { label: 'All KYC Logs', href: '/admin/kyc', icon: <LuContact /> },
+      { label: 'KYC Form', href: '/admin/kyc_form', icon: <FiCheckSquare /> },
     ],
   },
   {
@@ -53,13 +53,13 @@ const menuData = [
   {
     type: 'link',
     label: 'Manage Roles',
-    href: '/admin/roles',
+    href: '#',
     icon: <LuContact />,
   },
   {
     type: 'link',
     label: 'Manage Staff',
-    href: '/admin/staff',
+    href: '#',
     icon: <LuUserCog />,
   },
   {
@@ -71,8 +71,8 @@ const menuData = [
     label: 'Manage Schema',
     icon: <LuAlbum />,
     items: [
-      { label: 'Schedule', href: 'users.html', icon: <LuAlarmClock /> },
-      { label: 'Manage Schema', href: '/admin/user/active', icon: <FiAirplay /> },
+      { label: 'Schedule', href: '#', icon: <LuAlarmClock /> },
+      { label: 'Manage Schema', href: '#', icon: <FiAirplay /> },
     ],
   },
 
@@ -96,7 +96,7 @@ const menuData = [
   {
     type: 'link',
     label: 'User Profits',
-    href: '/admin/profile',
+    href: '/admin/users/profit',
     icon: <LuCreditCard />,
   },
 
@@ -107,7 +107,7 @@ const menuData = [
   {
     type: 'link',
     label: 'Automatic Gateways',
-    href: '/admin/gateways',
+    href: '/admin/payment/gateway',
     icon: <LuDoorOpen />,
   },
 
@@ -116,10 +116,10 @@ const menuData = [
     label: 'Deposits',
     icon: <LuArrowDownCircle />,
     items: [
-      { label: 'Automatic Methods', href: 'users.html', icon: <LuWorkflow /> },
-      { label: 'Manual Methods', href: '/admin/user/active', icon: <LuCompass /> },
-      { label: 'Pending Manual Deposits', href: '/admin/user/active', icon: <LuWallet /> },
-      { label: 'Deposit History', href: '/admin/user/active', icon: <LuClipboardCheck /> },
+      { label: 'Automatic Methods', href: '/admin/deposit/method/auto', icon: <LuWorkflow /> },
+      { label: 'Manual Methods', href: '/admin/deposit/method/manual', icon: <LuCompass /> },
+      { label: 'Pending Manual Deposits', href: '/admin/deposit/pending', icon: <LuWallet /> },
+      { label: 'Deposit History', href: '/admin/deposit/history', icon: <LuClipboardCheck /> },
     ],
   },
 
@@ -128,11 +128,11 @@ const menuData = [
     label: 'Withdraw',
     icon: <LuLandmark />,
     items: [
-      { label: 'Automatic Methods', href: 'users.html', icon: <LuWorkflow /> },
-      { label: 'Manual Methods', href: '/admin/user/active', icon: <LuCompass /> },
-      { label: 'Pending Withdraws', href: '/admin/user/active', icon: <LuWallet /> },
-      { label: 'Withdraw Schedule', href: '/admin/user/active', icon: <LuAlarmClock /> },
-      { label: 'Withdraw History', href: '/admin/user/active', icon: <LuPiggyBank /> },
+      { label: 'Automatic Methods', href: '/admin/withdraw/method/auto', icon: <LuWorkflow /> },
+      { label: 'Manual Methods', href: '/admin/withdraw/method/manual', icon: <LuCompass /> },
+      { label: 'Pending Withdraws', href: '/admin/withdraw/pending', icon: <LuWallet /> },
+      { label: 'Withdraw Schedule', href: '/admin/withdraw/schedule', icon: <LuAlarmClock /> },
+      { label: 'Withdraw History', href: '/admin/withdraw/history', icon: <LuPiggyBank /> },
     ],
   },
 
@@ -142,14 +142,14 @@ const menuData = [
     label: 'Manage Referral',
     icon: <LuSettings2 />,
     items: [
-      { label: 'Multi Level Referral', href: 'users.html', icon: <LuAlignEndHorizontal /> },
-      { label: 'Targets Referral', href: '/admin/user/active', icon: <LuExpand /> }
+      { label: 'Multi Level Referral', href: '#', icon: <LuAlignEndHorizontal /> },
+      { label: 'Targets Referral', href: '#', icon: <LuExpand /> }
     ],
   },
   {
     type: 'link',
     label: 'User Rankings',
-    href: '/admin/ranking',
+    href: '#',
     icon: <LuMedal />,
   },
 
@@ -162,25 +162,25 @@ const menuData = [
     label: ' Settings',
     icon: <LuSettings />,
     items: [
-      { label: 'Site Settings', href: 'users.html', icon: <LuSettings2 /> },
-      { label: 'Email Settings', href: '/admin/user/active', icon: <LuInbox /> },
-      { label: 'Plugin Settings', href: '/admin/user/active', icon: <LuToyBrick /> },
-      { label: 'SMS Settings', href: '/admin/user/active', icon: <LuMessageCircle /> },
-      { label: 'Push Notification', href: '/admin/user/active', icon: <LuBellRing /> },
-      { label: 'Notification Tune', href: '/admin/user/active', icon: <LuVolume2 /> }
+      { label: 'Site Settings', href: '#', icon: <LuSettings2 /> },
+      { label: 'Email Settings', href: '#', icon: <LuInbox /> },
+      { label: 'Plugin Settings', href: '#', icon: <LuToyBrick /> },
+      { label: 'SMS Settings', href: '#', icon: <LuMessageCircle /> },
+      { label: 'Push Notification', href: '#', icon: <LuBellRing /> },
+      { label: 'Notification Tune', href: '#', icon: <LuVolume2 /> }
     ],
   },
 
   {
     type: 'link',
     label: 'Language Settings',
-    href: '/admin/language',
+    href: '#',
     icon: <LuLanguages />,
   },
   {
     type: 'link',
     label: 'Page Settings',
-    href: '/admin/setting/page',
+    href: '#',
     icon: <LuLayoutDashboard />,
   },
 
@@ -193,8 +193,8 @@ const menuData = [
     label: ' Theme Manage',
     icon: <LuPalette />,
     items: [
-      { label: 'Site Theme', href: 'users.html', icon: <LuRollerCoaster /> },
-      { label: 'Dynamic Landing Theme', href: '/admin/user/active', icon: <LuWarehouse /> }
+      { label: 'Site Theme', href: '#', icon: <LuRollerCoaster /> },
+      { label: 'Dynamic Landing Theme', href: '#', icon: <LuWarehouse /> }
     ],
   },
   {
@@ -202,18 +202,18 @@ const menuData = [
     label: ' Landing Page',
     icon: <LuWarehouse />,
     items: [
-      { label: 'Hero Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Schema Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Calculation Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'How it works Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Recent Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Why Choose Us Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Counter Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'FAQ Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Call To Action', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Blog Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Gateway Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Newslatter Section', href: 'users.html', icon: <LuEgg /> }
+      { label: 'Hero Section', href: '#', icon: <LuEgg /> },
+      { label: 'Schema Section', href: '#', icon: <LuEgg /> },
+      { label: 'Calculation Section', href: '#', icon: <LuEgg /> },
+      { label: 'How it works Section', href: '#', icon: <LuEgg /> },
+      { label: 'Recent Section', href: '#', icon: <LuEgg /> },
+      { label: 'Why Choose Us Section', href: '#', icon: <LuEgg /> },
+      { label: 'Counter Section', href: '#', icon: <LuEgg /> },
+      { label: 'FAQ Section', href: '#', icon: <LuEgg /> },
+      { label: 'Call To Action', href: '#', icon: <LuEgg /> },
+      { label: 'Blog Section', href: '#', icon: <LuEgg /> },
+      { label: 'Gateway Section', href: '#', icon: <LuEgg /> },
+      { label: 'Newslatter Section', href: '#', icon: <LuEgg /> }
     ],
   },
   {
@@ -221,20 +221,20 @@ const menuData = [
     label: ' Pages',
     icon: <LuLayoutDashboard />,
     items: [
-      { label: 'Hero Section', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Schema', href: 'users.html', icon: <LuEgg /> },
-      { label: 'How It Works', href: 'users.html', icon: <LuEgg /> },
-      { label: 'About Us', href: 'users.html', icon: <LuEgg /> },
-      { label: 'FAQ', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Rankings', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Blog', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Contact Us', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Privacy Policy', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Terms and Conditions', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Login', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Registration', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Forgot Password', href: 'users.html', icon: <LuEgg /> },
-      { label: 'Add New Page', href: 'users.html', icon: <LuEgg /> }
+      { label: 'Hero Section', href: '#', icon: <LuEgg /> },
+      { label: 'Schema', href: '#', icon: <LuEgg /> },
+      { label: 'How It Works', href: '#', icon: <LuEgg /> },
+      { label: 'About Us', href: '#', icon: <LuEgg /> },
+      { label: 'FAQ', href: '#', icon: <LuEgg /> },
+      { label: 'Rankings', href: '#', icon: <LuEgg /> },
+      { label: 'Blog', href: '#', icon: <LuEgg /> },
+      { label: 'Contact Us', href: '#', icon: <LuEgg /> },
+      { label: 'Privacy Policy', href: '#', icon: <LuEgg /> },
+      { label: 'Terms and Conditions', href: '#', icon: <LuEgg /> },
+      { label: 'Login', href: '#', icon: <LuEgg /> },
+      { label: 'Registration', href: '#', icon: <LuEgg /> },
+      { label: 'Forgot Password', href: '#', icon: <LuEgg /> },
+      { label: 'Add New Page', href: '#', icon: <LuEgg /> }
     ],
   },
 
@@ -284,7 +284,7 @@ const menuData = [
   {
     type: 'link',
     label: 'Application Details 2.3',
-    href: '/admin/app-details',
+    href: '#',
     icon: <LuInfo />,
   },
 
