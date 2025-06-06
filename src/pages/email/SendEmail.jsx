@@ -1,3 +1,7 @@
 export default function SendEmail() {
-  return <h1>Send Email</h1>;
+  return(
+    <div className="main-content">
+      <h1>Send Email!</h1>
+    </div>
+  )
 }

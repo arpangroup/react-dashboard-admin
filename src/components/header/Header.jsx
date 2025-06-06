@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LuList } from "react-icons/lu";
+import { LuList, LuBellRing, LuGlobe, LuUser } from "react-icons/lu";
 
 // import logo from '../assets/logo.png'; // adjust the path
 import logo from './logo.png'; // adjust the path
@@ -56,7 +56,7 @@ const Header = ({ onToggleSidebar }) => {
               className="item notification-dot"
               onClick={() => setNotificationsOpen(!notificationsOpen)}
             >
-              <i icon-name="bell-ring" className="bell-ringng"></i>
+              <LuBellRing className="bell-ringng" style={{height: '24px', width: '24px'}}/>
               <div className="number">15</div>
             </button>
             {notificationsOpen && (
@@ -95,13 +95,13 @@ const Header = ({ onToggleSidebar }) => {
               className="item"
               title="Visit Landing Page"
             >
-              <i icon-name="globe"></i>
+              <LuGlobe style={{height: '24px', width: '24px'}}/>
             </a>
           </div>
 
           <div className="single-nav-right">
             <button type="button" className="item" onClick={() => setUserMenuOpen(!userMenuOpen)}>
-              <i icon-name="user"></i>
+              <LuUser style={{height: '24px', width: '24px'}}/>
             </button>
             {userMenuOpen && (
               <ul className="dropdown-menu dropdown-menu-end show">

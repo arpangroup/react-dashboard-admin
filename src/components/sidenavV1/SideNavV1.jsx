@@ -13,6 +13,7 @@ const SideNavV1 = ({ navFolded }) => {
   const [openDropdowns, setOpenDropdowns] = useState({});
   const location = useLocation();
 
+
   const toggleDropdown = (e, index) => {
     e.preventDefault();
     setOpenDropdowns((prev) => ({
@@ -21,7 +22,7 @@ const SideNavV1 = ({ navFolded }) => {
     }));
   };
 
-  
+
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
 
@@ -30,11 +31,11 @@ const SideNavV1 = ({ navFolded }) => {
 
 
   return (
-    <div 
+    <div
       className={sideNavClass}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      >
+    >
       <div className="side-nav-inside">
         <ul className="side-nav-menu">
           {menuData.map((item, index) => {
@@ -78,9 +79,44 @@ const SideNavV1 = ({ navFolded }) => {
 
             if (item.type === 'dropdown') {
               const isOpen = openDropdowns[index];
+              // return (
+              //   <li
+              //     className={`side-nav-item side-nav-dropdown ${isOpen ? 'show' : ''}`}
+              //     key={index}
+              //   >
+              //     <a
+              //       href="#!"
+              //       className="dropdown-link"
+              //       onClick={(e) => toggleDropdown(e, index)}
+              //     >
+              //       {item.icon}
+              //       <span>{item.label}</span>
+              //       <span className="right-arrow">
+              //         {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+              //       </span>
+              //     </a>
+              //     <ul className={`dropdown-items ${isOpen ? 'show' : ''}`}>
+              //       {item.items.map((subItem, subIndex) => (
+              //         <li
+              //         className={location.pathname === item.href ? 'active' : ''} 
+              //         key={subIndex}
+              //         >
+              //           <a href={subItem.href}>
+              //             {subItem.icon}
+              //             <span>{subItem.label}</span>
+              //           </a>
+              //         </li>
+              //       ))}
+              //     </ul>
+              //   </li>
+              // );
+              const isSubRouteActive = item.items.some(
+                (subItem) => location.pathname === subItem.href
+              );
+
               return (
                 <li
-                  className={`side-nav-item side-nav-dropdown ${isOpen ? 'open' : ''}`}
+                  className={`side-nav-item side-nav-dropdown ${isOpen ? 'show' : ''} ${isSubRouteActive ? 'active' : ''}`}
                   key={index}
                 >
                   <a
@@ -96,16 +132,20 @@ const SideNavV1 = ({ navFolded }) => {
                   </a>
                   <ul className={`dropdown-items ${isOpen ? 'show' : ''}`}>
                     {item.items.map((subItem, subIndex) => (
-                      <li key={subIndex}>
-                        <a href={subItem.href}>
+                      <li
+                        key={subIndex}
+                        className={location.pathname === subItem.href ? 'active' : ''}
+                      >
+                        <NavLink to={subItem.href}>
                           {subItem.icon}
                           <span>{subItem.label}</span>
-                        </a>
+                        </NavLink>
                       </li>
                     ))}
                   </ul>
                 </li>
-              );
+              )
+
             }
 
             return null;

@@ -1,12 +1,13 @@
 import React from 'react';
-import { FiUsers, FiUserCheck, FiUserX, FiSend, FiCheckSquare, FiAirplay,} from 'react-icons/fi';
-import { LuLayoutDashboard, LuMegaphone, LuFileWarning, LuContact, LuUserCog, LuAlbum, LuAlarmClock, LuCast, LuAnchor, LuCreditCard, LuDoorOpen, LuCircleArrowDown, LuArrowDownCircle, LuWorkflow, LuCompass, LuColumns2, LuClipboardCheck, LuLandmark, LuWallet, LuPiggyBank,
-LuSettings2, LuAlignEndHorizontal, LuExpand, LuMedal, LuSettings,
-LuInbox, LuToyBrick, LuMessageCircle, LuBellRing, LuVolume2,
-LuLanguages,
-LuPalette, LuRollerCoaster, LuWarehouse, LuEgg, 
-LuMail, LuMessageSquare,
-LuWrench, LuBraces, LuInfo  
+import { FiUsers, FiUserCheck, FiUserX, FiSend, FiCheckSquare, FiAirplay, } from 'react-icons/fi';
+import {
+  LuLayoutDashboard, LuMegaphone, LuFileWarning, LuContact, LuUserCog, LuAlbum, LuAlarmClock, LuCast, LuAnchor, LuCreditCard, LuDoorOpen, LuCircleArrowDown, LuArrowDownCircle, LuWorkflow, LuCompass, LuColumns2, LuClipboardCheck, LuLandmark, LuWallet, LuPiggyBank,
+  LuSettings2, LuAlignEndHorizontal, LuExpand, LuMedal, LuSettings,
+  LuInbox, LuToyBrick, LuMessageCircle, LuBellRing, LuVolume2,
+  LuLanguages,
+  LuPalette, LuRollerCoaster, LuWarehouse, LuEgg,
+  LuMail, LuMessageSquare,
+  LuWrench, LuBraces, LuInfo
 
 } from "react-icons/lu";
 
@@ -28,10 +29,10 @@ const menuData = [
     icon: <FiUsers />,
     items: [
       { label: 'All Customers', href: '/admin/users', icon: <FiUsers /> },
-      { label: 'Active Customers', href: '/admin/user/active', icon: <FiUserCheck /> },
-      { label: 'Disabled Customers', href: '/admin/user/disabled', icon: <FiUserX /> },
-      { label: 'Notifications', href: 'notification_all.html', icon: <LuMegaphone /> },
-      { label: 'Send Email to all', href: 'mail-send-all.html', icon: <FiSend /> },
+      { label: 'Active Customers', href: '/admin/users/active', icon: <FiUserCheck /> },
+      { label: 'Disabled Customers', href: '/admin/users/disabled', icon: <FiUserX /> },
+      { label: 'Notifications', href: '/admin/notifications', icon: <LuMegaphone /> },
+      { label: 'Send Email to all', href: '/admin/users/mail-send/all', icon: <FiSend /> }
     ],
   },
   {
@@ -39,9 +40,9 @@ const menuData = [
     label: 'KYC Management',
     icon: <FiCheckSquare />,
     items: [
-      { label: 'Pending KYC', href: 'users.html', icon: <FiAirplay  /> },
+      { label: 'Pending KYC', href: 'users.html', icon: <FiAirplay /> },
       { label: 'Rejected KYC', href: '/admin/user/active', icon: <LuFileWarning /> },
-      { label: 'All KYC Logs', href: '/admin/user/disabled', icon: <LuContact  /> },
+      { label: 'All KYC Logs', href: '/admin/user/disabled', icon: <LuContact /> },
       { label: 'KYC Form', href: 'notification_all.html', icon: <FiCheckSquare /> },
     ],
   },
@@ -53,13 +54,13 @@ const menuData = [
     type: 'link',
     label: 'Manage Roles',
     href: '/admin/roles',
-    icon: <LuContact/>,
+    icon: <LuContact />,
   },
   {
     type: 'link',
     label: 'Manage Staff',
     href: '/admin/staff',
-    icon: <LuUserCog/>,
+    icon: <LuUserCog />,
   },
   {
     type: 'sectionTitle',
@@ -68,9 +69,9 @@ const menuData = [
   {
     type: 'dropdown',
     label: 'Manage Schema',
-    icon: <LuAlbum  />,
+    icon: <LuAlbum />,
     items: [
-      { label: 'Schedule', href: 'users.html', icon: <LuAlarmClock  /> },
+      { label: 'Schedule', href: 'users.html', icon: <LuAlarmClock /> },
       { label: 'Manage Schema', href: '/admin/user/active', icon: <FiAirplay /> },
     ],
   },
@@ -83,20 +84,20 @@ const menuData = [
     type: 'link',
     label: 'Transactions',
     href: '/admin/transactions',
-    icon: <LuCast/>,
+    icon: <LuCast />,
   },
   {
     type: 'link',
     label: 'Investments',
     href: '/admin/investments',
-    icon: <LuAnchor/>,
+    icon: <LuAnchor />,
   },
 
   {
     type: 'link',
     label: 'User Profits',
     href: '/admin/profile',
-    icon: <LuCreditCard/>,
+    icon: <LuCreditCard />,
   },
 
   {
@@ -115,21 +116,21 @@ const menuData = [
     label: 'Deposits',
     icon: <LuArrowDownCircle />,
     items: [
-      { label: 'Automatic Methods', href: 'users.html', icon: <LuWorkflow/> },
-      { label: 'Manual Methods', href: '/admin/user/active', icon: <LuCompass/> },
+      { label: 'Automatic Methods', href: 'users.html', icon: <LuWorkflow /> },
+      { label: 'Manual Methods', href: '/admin/user/active', icon: <LuCompass /> },
       { label: 'Pending Manual Deposits', href: '/admin/user/active', icon: <LuWallet /> },
-      { label: 'Deposit History', href: '/admin/user/active', icon: <LuClipboardCheck  /> },
+      { label: 'Deposit History', href: '/admin/user/active', icon: <LuClipboardCheck /> },
     ],
   },
 
   {
     type: 'dropdown',
     label: 'Withdraw',
-    icon: <LuLandmark/>,
+    icon: <LuLandmark />,
     items: [
-      { label: 'Automatic Methods', href: 'users.html', icon: <LuWorkflow/> },
+      { label: 'Automatic Methods', href: 'users.html', icon: <LuWorkflow /> },
       { label: 'Manual Methods', href: '/admin/user/active', icon: <LuCompass /> },
-      { label: 'Pending Withdraws', href: '/admin/user/active', icon: <LuWallet/> },
+      { label: 'Pending Withdraws', href: '/admin/user/active', icon: <LuWallet /> },
       { label: 'Withdraw Schedule', href: '/admin/user/active', icon: <LuAlarmClock /> },
       { label: 'Withdraw History', href: '/admin/user/active', icon: <LuPiggyBank /> },
     ],
@@ -139,7 +140,7 @@ const menuData = [
   {
     type: 'dropdown',
     label: 'Manage Referral',
-    icon: <LuSettings2/>,
+    icon: <LuSettings2 />,
     items: [
       { label: 'Multi Level Referral', href: 'users.html', icon: <LuAlignEndHorizontal /> },
       { label: 'Targets Referral', href: '/admin/user/active', icon: <LuExpand /> }
@@ -149,7 +150,7 @@ const menuData = [
     type: 'link',
     label: 'User Rankings',
     href: '/admin/ranking',
-    icon: <LuMedal/>,
+    icon: <LuMedal />,
   },
 
   {
@@ -159,7 +160,7 @@ const menuData = [
   {
     type: 'dropdown',
     label: ' Settings',
-    icon: <LuSettings/>,
+    icon: <LuSettings />,
     items: [
       { label: 'Site Settings', href: 'users.html', icon: <LuSettings2 /> },
       { label: 'Email Settings', href: '/admin/user/active', icon: <LuInbox /> },
@@ -174,13 +175,13 @@ const menuData = [
     type: 'link',
     label: 'Language Settings',
     href: '/admin/language',
-    icon: <LuLanguages/>,
+    icon: <LuLanguages />,
   },
   {
     type: 'link',
     label: 'Page Settings',
     href: '/admin/setting/page',
-    icon: <LuLayoutDashboard/>,
+    icon: <LuLayoutDashboard />,
   },
 
   {
@@ -246,19 +247,19 @@ const menuData = [
     type: 'link',
     label: 'Email Template',
     href: '/admin/template/email',
-    icon: <LuMail/>,
+    icon: <LuMail />,
   },
-    {
+  {
     type: 'link',
     label: 'SMS Template',
     href: '/admin/template/sms',
-    icon: <LuMessageSquare/>,
+    icon: <LuMessageSquare />,
   },
-      {
+  {
     type: 'link',
     label: 'Push Notification Template',
     href: '/admin/template/push-notification',
-    icon: <LuBellRing/>,
+    icon: <LuBellRing />,
   },
 
 
@@ -271,20 +272,20 @@ const menuData = [
     type: 'link',
     label: 'Support Tickets',
     href: '/admin/tickets',
-    icon: <LuWrench/>,
+    icon: <LuWrench />,
   },
 
   {
     type: 'link',
     label: 'Custom CSS',
     href: '/admin/custom-css',
-    icon: <LuBraces/>,
+    icon: <LuBraces />,
   },
   {
     type: 'link',
     label: 'Application Details 2.3',
     href: '/admin/app-details',
-    icon: <LuInfo/>,
+    icon: <LuInfo />,
   },
 
 
