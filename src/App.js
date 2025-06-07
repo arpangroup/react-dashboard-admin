@@ -24,6 +24,7 @@ import PushNotificationTemplate from './pages/notification/PushNotificationTempl
 import SmsTemplate from './pages/sms/SmsTemplate';
 import SupportTicket from './pages/support/SupportTicket';
 import CustomCss from './pages/custom_css/CustomCss';
+import ActiveUsers from './pages/users/ActiveUsers';
 
 
 
@@ -34,7 +35,7 @@ function App() {
         <Route index element={<HelloWorld />} />
 
         <Route path="users" element={<Users />} />
-        <Route path="users/active" element={<Users />} />
+        <Route path="users/active" element={<ActiveUsers />} />
         <Route path="users/disabled" element={<Users />} />
         <Route path="users/:id" element={<EditUser />} />
         <Route path="users/:id/edit" element={<EditUser />} />

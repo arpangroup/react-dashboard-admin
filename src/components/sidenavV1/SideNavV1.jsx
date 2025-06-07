@@ -59,6 +59,7 @@ const SideNavV1 = ({ navFolded }) => {
               // );
               return (
                 <li
+                  key={index}
                   className={`side-nav-item ${location.pathname === item.href ? 'active' : ''}`}
                 >
                   <NavLink to={item.href} className="side-nav-link">

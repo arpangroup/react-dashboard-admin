@@ -1,45 +1,54 @@
+import React, { useState } from "react";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import { themeBalham } from 'ag-grid-community';
 
-export default function Users() {
+import PageTitle from "../../components/page_title/PageTitle";
+
+ModuleRegistry.registerModules([AllCommunityModule]);
+
+const Users = () => {
+  const [rowData] = useState([
+    { avatar: "", user: "John Doe", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "" },
+    { avatar: "", user: "John Doe", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "" },
+    { avatar: "", user: "John Doe", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "" },
+    { avatar: "", user: "John Doe", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "" },
+  ]);
+
+  const [colDefs] = useState([
+    { field: "avatar"},
+    { field: "user", filter: true, filterParams: {}  },
+    { field: "email" },
+    { field: "balance" },
+    { field: "profit" },
+    { field: "kyc" },
+    { field: "status", filter: true, filterParams: {}  },
+    { field: "action"},
+  ]);
+
+  const defaultColDef = {
+    flex: 1,
+  };
+
   return (
     <div className="main-content">
-
-      <div class="page-title">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col">
-              <div class="title-content">
-                <h2 class="title">All Customers</h2>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-12">
-            <div class="site-card">
-              <div class="site-card-body table-responsive">
-                <div class="site-datatable">
-                  <table id="dataTable" class="display data-table">
-                    <thead>
-                      <tr>
-                        <th>Avatar</th>
-                        <th>User</th>
-                        <th>Email</th>
-                        <th>Balance</th>
-                        <th>Profit</th>
-                        <th>KYC</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                  </table>
+      <PageTitle title="All Customers" />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12">
+            <div className="site-card">
+              <div className="site-card-body table-responsive">
+                <div className="site-datatable">
+                  <div style={{ height: 500 }} className="ag-theme-alpine">
+                    <AgGridReact 
+                      theme={"legacy"}
+                      rowData={rowData} 
+                      columnDefs={colDefs} 
+                      defaultColDef={defaultColDef} 
+                      pagination={true}/>
+                  </div>
                 </div>
               </div>
             </div>
@@ -47,5 +56,7 @@ export default function Users() {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default Users;
