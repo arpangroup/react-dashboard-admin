@@ -14,7 +14,7 @@ import SendEmail from './pages/email/SendEmail';
 import Investments from './pages/investment/Investments';
 import UserProfit from './pages/users/UserProfit';
 import PaymentGateway from './pages/gateway/PaymentGateway';
-import KycForm from './pages/kyc/KycForm';
+import KycForms from './pages/kyc/KycForms';
 import KycList from './pages/kyc/KycList';
 import DepositHistory from './pages/deposit/DepositHistory';
 import DepositMethodAuto from './pages/deposit/DepositMethodAuto';
@@ -25,6 +25,11 @@ import SmsTemplate from './pages/sms/SmsTemplate';
 import SupportTicket from './pages/support/SupportTicket';
 import CustomCss from './pages/custom_css/CustomCss';
 import ActiveUsers from './pages/users/ActiveUsers';
+import EditUserV1 from './pages/users/EditUserV1';
+import KycFormEdit from './pages/kyc/KycFormEdit';
+import KycFormCreate from './pages/kyc/KycFormCreate';
+import Roles from './pages/role/Roles';
+import EditRole from './pages/role/EditRole';
 
 
 
@@ -37,8 +42,8 @@ function App() {
         <Route path="users" element={<Users />} />
         <Route path="users/active" element={<ActiveUsers />} />
         <Route path="users/disabled" element={<Users />} />
-        <Route path="users/:id" element={<EditUser />} />
-        <Route path="users/:id/edit" element={<EditUser />} />
+        <Route path="users/:userId" element={<EditUser />} />
+        <Route path="users/:userId/edit" element={<EditUserV1 />} />
         <Route path="users/mail-send/all" element={<SendEmail />} />
         <Route path="users/profit" element={<UserProfit />} />
 
@@ -47,7 +52,14 @@ function App() {
         <Route path="kyc/pending" element={<KycList />} />
         <Route path="kyc/rejected" element={<KycList />} />
         <Route path="kyc" element={<KycList />} />
-        <Route path="kyc_form" element={<KycForm />} />       
+        <Route path="kyc/:userId/edit" element={<KycFormEdit />} />
+        <Route path="kyc_forms" element={<KycForms />} />       
+        <Route path="kyc_forms/create" element={<KycFormCreate />} /> 
+
+
+        <Route path="roles" element={<Roles />} /> 
+        <Route path="roles/:id/edit" element={<EditRole />} /> 
+
 
 
 

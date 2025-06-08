@@ -43,7 +43,7 @@ const menuData = [
       { label: 'Pending KYC', href: '/admin/kyc/pending', icon: <FiAirplay /> },
       { label: 'Rejected KYC', href: '/admin/kyc/rejected', icon: <LuFileWarning /> },
       { label: 'All KYC Logs', href: '/admin/kyc', icon: <LuContact /> },
-      { label: 'KYC Form', href: '/admin/kyc_form', icon: <FiCheckSquare /> },
+      { label: 'KYC Form', href: '/admin/kyc_forms', icon: <FiCheckSquare /> },
     ],
   },
   {
@@ -53,7 +53,7 @@ const menuData = [
   {
     type: 'link',
     label: 'Manage Roles',
-    href: '#',
+    href: '/admin/roles',
     icon: <LuContact />,
   },
   {
