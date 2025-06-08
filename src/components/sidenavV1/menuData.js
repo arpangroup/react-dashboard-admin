@@ -72,7 +72,7 @@ const menuData = [
     icon: <LuAlbum />,
     items: [
       { label: 'Schedule', href: '#', icon: <LuAlarmClock /> },
-      { label: 'Manage Schema', href: '#', icon: <FiAirplay /> },
+      { label: 'Manage Schema', href: '/admin/schema', icon: <FiAirplay /> },
     ],
   },
 

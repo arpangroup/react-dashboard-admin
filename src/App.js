@@ -30,6 +30,8 @@ import KycFormEdit from './pages/kyc/KycFormEdit';
 import KycFormCreate from './pages/kyc/KycFormCreate';
 import Roles from './pages/role/Roles';
 import EditRole from './pages/role/EditRole';
+import Schema from './pages/schema/Schema';
+import SchemaEdit from './pages/schema/SchemaEdit';
 
 
 
@@ -59,6 +61,10 @@ function App() {
 
         <Route path="roles" element={<Roles />} /> 
         <Route path="roles/:id/edit" element={<EditRole />} /> 
+
+        
+        <Route path="schema" element={<Schema />} /> 
+        <Route path="schema/:id/edit" element={<SchemaEdit />} /> 
 
 
 

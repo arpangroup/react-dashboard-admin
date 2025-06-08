@@ -44,6 +44,38 @@ const KycList = () => {
     );
   };
 
+  const Badge = ({ value }) => {
+    if (!value) return null;
+
+    const normalizedValue = value.toLowerCase();
+
+    let badgeType = '';
+    switch (normalizedValue) {
+      case 'pending':
+      case 'unverified':
+        badgeType = 'pending';
+        break;
+      case 'verified':
+      case 'success':
+      case 'active':
+        badgeType = 'success';
+        break;
+      case 'deactivated':
+      case 'inactive':
+        badgeType = 'danger';
+        break;
+      default:
+        badgeType = 'default';
+        break;
+    }
+
+    return (
+      <div className={`site-badge ${badgeType}`}>
+        {value}
+      </div>
+    );
+  };
+
   const [rowData] = useState([
     { date: "April 20 2025 06:50", id: "1", user: "TestTest2362", type: "National ID Verification", status: "Verified", action: "" },
     { date: "April 17 2025 03:47", id: "2", user: "amitsharma1311", type: "National ID Verification", status: "Verified", action: "" }
@@ -53,7 +85,7 @@ const KycList = () => {
     { field: "date" },
     { field: "user", filter: true, filterParams: {} },
     { field: "type" },
-    { field: "status" },
+    { field: "status", cellRenderer: Badge },
     {
       field: "action",
       headerName: "Action",
