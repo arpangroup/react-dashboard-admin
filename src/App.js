@@ -21,6 +21,7 @@ import DepositMethodAuto from './pages/deposit/DepositMethodAuto';
 import DepositMethodManual from './pages/deposit/DepositMethodManual';
 import EmailTemplate from './pages/email/EmailTemplate';
 import PushNotificationTemplate from './pages/notification/PushNotificationTemplate';
+import PushNotificationTemplateEdit from './pages/notification/PushNotificationTemplateEdit';
 import SmsTemplate from './pages/sms/SmsTemplate';
 import SupportTicket from './pages/support/SupportTicket';
 import CustomCss from './pages/custom_css/CustomCss';
@@ -37,6 +38,15 @@ import WithdrawHistory from './pages/withdraw/WithdrawHistory';
 import WithdrawSchedule from './pages/withdraw/WithdrawSchedule';
 import UserRanking from './pages/ranking/UserRanking';
 import UserRankingCreate from './pages/ranking/UserRankingCreate';
+import SiteSetting from './pages/settings/SiteSetting';
+import EmailSetting from './pages/settings/EmailSetting';
+import PluginSetting from './pages/settings/PluginSetting';
+import SmsSetting from './pages/settings/SmsSetting';
+import NotificationSetting from './pages/settings/NotificationSetting';
+import NotificationTuneSetting from './pages/settings/NotificationTuneSetting';
+import TicketDetails from './pages/support/TicketDetails';
+import EmailTemplateEdit from './pages/email/EmailTemplateEdit';
+import SmsTemplateEdit from './pages/sms/SmsTemplateEdit';
 
 
 
@@ -100,14 +110,25 @@ function App() {
         <Route path="ranking/create" element={<UserRankingCreate />} />
         <Route path="ranking/:id/edit" element={<UserRankingCreate />} />
 
+        
+        <Route path="setting/site" element={<SiteSetting />} />
+        <Route path="setting/mail" element={<EmailSetting />} />
+        <Route path="setting/plugin" element={<PluginSetting />} />
+        <Route path="setting/sms" element={<SmsSetting />} />
+        <Route path="setting/notification" element={<NotificationSetting />} />
+        <Route path="setting/tune" element={<NotificationTuneSetting />} />
 
         
         <Route path="template/email" element={<EmailTemplate />} />
+        <Route path="template/email/:id/edit" element={<EmailTemplateEdit />} />
         <Route path="template/sms" element={<SmsTemplate />} />
-        <Route path="template/push-notification" element={<PushNotificationTemplate />} />
+        <Route path="template/sms/:id/edit" element={<SmsTemplateEdit />} />
+        <Route path="template/notification" element={<PushNotificationTemplate />} />
+        <Route path="template/notification/:id/edit" element={<PushNotificationTemplateEdit />} />
 
         
         <Route path="tickets" element={<SupportTicket />} />
+        <Route path="tickets/:id/details" element={<TicketDetails />} />
         <Route path="custom-css" element={<CustomCss />} />
 
 

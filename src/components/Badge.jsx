@@ -8,12 +8,14 @@ const Badge = ({ value, style = null }) => {
       case 'pending':
       case 'unverified':
       case 'no':
+      case 'open':
         badgeType = 'pending';
         break;
       case 'verified':
       case 'success':
       case 'active':
       case 'yes':
+      case 'completed':
         badgeType = 'success';
         break;
       case 'deactivated':

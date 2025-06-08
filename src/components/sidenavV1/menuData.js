@@ -162,12 +162,12 @@ const menuData = [
     label: ' Settings',
     icon: <LuSettings />,
     items: [
-      { label: 'Site Settings', href: '#', icon: <LuSettings2 /> },
-      { label: 'Email Settings', href: '#', icon: <LuInbox /> },
-      { label: 'Plugin Settings', href: '#', icon: <LuToyBrick /> },
-      { label: 'SMS Settings', href: '#', icon: <LuMessageCircle /> },
-      { label: 'Push Notification', href: '#', icon: <LuBellRing /> },
-      { label: 'Notification Tune', href: '#', icon: <LuVolume2 /> }
+      { label: 'Site Settings', href: '/admin/setting/site', icon: <LuSettings2 /> },
+      { label: 'Email Settings', href: '/admin/setting/mail', icon: <LuInbox /> },
+      { label: 'Plugin Settings', href: '/admin/setting/plugin', icon: <LuToyBrick /> },
+      { label: 'SMS Settings', href: '/admin/setting/sms', icon: <LuMessageCircle /> },
+      { label: 'Push Notification', href: '/admin/setting/notification', icon: <LuBellRing /> },
+      { label: 'Notification Tune', href: '/admin/setting/tune', icon: <LuVolume2 /> }
     ],
   },
 
@@ -258,7 +258,7 @@ const menuData = [
   {
     type: 'link',
     label: 'Push Notification Template',
-    href: '/admin/template/push-notification',
+    href: '/admin/template/notification',
     icon: <LuBellRing />,
   },
 
