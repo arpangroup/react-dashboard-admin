@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
-const Transactions = () => {
+const WithdrawHistory = () => {
 
   const UserCell = ({ data }) => {
     const { userId, user } = data;
@@ -68,7 +68,7 @@ const Transactions = () => {
 
   return (
     <div className="main-content">
-      <PageTitle title="All Transactions" />
+      <PageTitle title="Withdraw History" />
 
       <div className="container-fluid">
         <div className="row">
@@ -93,4 +93,4 @@ const Transactions = () => {
   )
 };
 
-export default Transactions;
+export default WithdrawHistory;

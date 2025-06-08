@@ -32,6 +32,11 @@ import Roles from './pages/role/Roles';
 import EditRole from './pages/role/EditRole';
 import Schema from './pages/schema/Schema';
 import SchemaEdit from './pages/schema/SchemaEdit';
+import WithdrawMethodManual from './pages/withdraw/WithdrawMethodManual';
+import WithdrawHistory from './pages/withdraw/WithdrawHistory';
+import WithdrawSchedule from './pages/withdraw/WithdrawSchedule';
+import UserRanking from './pages/ranking/UserRanking';
+import UserRankingCreate from './pages/ranking/UserRankingCreate';
 
 
 
@@ -84,11 +89,16 @@ function App() {
 
         
 
-        <Route path="withdraw/method/auto" element={<DepositMethodAuto />} />
-        <Route path="withdraw/method/manual" element={<DepositMethodManual />} />
-        <Route path="withdraw/pending" element={<DepositMethodManual />} />
-        <Route path="withdraw/schedule" element={<DepositMethodManual />} />
-        <Route path="withdraw/history" element={<DepositHistory />} />
+        <Route path="withdraw/method/auto" element={<WithdrawMethodManual />} />
+        <Route path="withdraw/method/manual" element={<WithdrawMethodManual />} />
+        <Route path="withdraw/pending" element={<WithdrawMethodManual />} />
+        <Route path="withdraw/schedule" element={<WithdrawSchedule />} />
+        <Route path="withdraw/history" element={<WithdrawHistory />} />
+
+        
+        <Route path="ranking" element={<UserRanking />} />
+        <Route path="ranking/create" element={<UserRankingCreate />} />
+        <Route path="ranking/:id/edit" element={<UserRankingCreate />} />
 
 
         

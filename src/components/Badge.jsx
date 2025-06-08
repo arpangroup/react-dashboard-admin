@@ -7,11 +7,13 @@ const Badge = ({ value, style = null }) => {
     switch (normalizedValue) {
       case 'pending':
       case 'unverified':
+      case 'no':
         badgeType = 'pending';
         break;
       case 'verified':
       case 'success':
       case 'active':
+      case 'yes':
         badgeType = 'success';
         break;
       case 'deactivated':

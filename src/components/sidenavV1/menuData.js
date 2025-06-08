@@ -149,7 +149,7 @@ const menuData = [
   {
     type: 'link',
     label: 'User Rankings',
-    href: '#',
+    href: '/admin/ranking',
     icon: <LuMedal />,
   },
 

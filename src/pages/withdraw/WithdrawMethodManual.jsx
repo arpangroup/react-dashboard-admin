@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { LuEye } from "react-icons/lu";
 import PageTitle from "../../components/page_title/PageTitle";
 import Badge from "../../components/Badge";
+import WithdrawApproveForm from './WithdrawApproveForm';
 
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { NavLink } from 'react-router-dom';
-import DepositApproveForm from './DepositApproveForm';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
-const DepositMethodManual = () => {
+const WithdrawMethodManual = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const closePanel = () => {
@@ -21,14 +21,15 @@ const DepositMethodManual = () => {
 
 
     const ActionLink = (props) => {
+      console.log("CLICKED....");
       return (
-        <button className='round-icon-btn primary-btn' type='button' onClick={handleDepositApprovalClick}>
+        <button className='round-icon-btn primary-btn' type='button' onClick={handleWithdrawApprovalClick}>
           <LuEye />
         </button>
       );
     };
 
-    const handleDepositApprovalClick = () => {
+    const handleWithdrawApprovalClick = () => {
       //setSelectedKyc(kycObj);
       setIsPanelOpen(true);
     }
@@ -67,8 +68,8 @@ const DepositMethodManual = () => {
     { field: "amount", width: 120, cellRenderer: AmountCell },
     { field: "charge", width: 100},
     { field: "gateway", width: 100},
-    { field: "status", width: 150, cellRenderer: Badge },
-    { field: "action", cellRenderer: ActionLink},
+    { field: "status", width: 120, cellRenderer: Badge },
+    { field: "action", width: 100, cellRenderer: ActionLink},
   ]);
 
 
@@ -76,7 +77,7 @@ const DepositMethodManual = () => {
 
   return (
     <div className="main-content">
-      <PageTitle title="Pending Manual Deposit" />
+      <PageTitle title="Pending Withdraws" />
 
       <div className="container-fluid">
         <div className="row">
@@ -98,7 +99,7 @@ const DepositMethodManual = () => {
         </div>
       </div>
 
-      <DepositApproveForm
+      <WithdrawApproveForm
         isOpen={isPanelOpen}
         onClose={closePanel}
       />
@@ -108,4 +109,4 @@ const DepositMethodManual = () => {
   )
 };
 
-export default DepositMethodManual;
+export default WithdrawMethodManual;
