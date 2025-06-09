@@ -1,15 +1,7 @@
 import { useState, useEffect } from "react";
+import { config, log } from "../config";
 
-// Flags
-const useLocalData = true;
-const logEnabled = true;
 
-// Logger utility
-const log = (...args) => {
-    if (logEnabled) {
-        console.log(...args);
-    }
-};
 
 // Local mock data
 const localData = {
@@ -33,13 +25,22 @@ const useFetch = (url, options = {}) => {
             setLoading(true);
             try {
                 let result;
-                if (useLocalData) {
+                if (config.useLocalData) {
                     log(`🔄 Using local data for: ${url}`);
                     result = getLocalData(url);
                     log(`✅ Local data loaded:`, result);
                 } else {
                     log(`🌐 Sending API request to: ${url}`);
-                    const response = await fetch(url, options);
+                    // const response = await fetch(url, options);
+                    const response = await fetch(url, {
+                        method: options.method || "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            ...options.headers,
+                        },
+                        body: options.body ? JSON.stringify(options.body) : undefined,
+                    });
+
                     if (!response.ok) {
                         throw new Error(`Error: ${response.statusText}`);
                     }

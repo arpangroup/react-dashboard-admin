@@ -4,6 +4,9 @@ import './assets/css/styles.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
+import globalEventLogger from './eventLogger/globalEventLogger';
+import EventFlusher from './eventLogger/EventFlusher';
+
 import DefaultLayout from './layout/DefaultLayout';
 import HelloWorld from './pages/HelloWorld';
 import Users from './pages/users/Users';
@@ -48,11 +51,20 @@ import TicketDetails from './pages/support/TicketDetails';
 import EmailTemplateEdit from './pages/email/EmailTemplateEdit';
 import SmsTemplateEdit from './pages/sms/SmsTemplateEdit';
 import DataDisplayComponent from './components/DataDisplayComponent';
+import { useEffect } from 'react';
+
 
 
 
 function App() {
+  useEffect(() => {
+    globalEventLogger.setupGlobalEventListeners();
+  }, [])
+
   return (
+    <div> 
+      <EventFlusher /> {/* This sets up the background flusher */}
+      
     <Routes>
       <Route path='/' element={<DataDisplayComponent/>} />
       <Route path="/admin" element={<DefaultLayout />}>
@@ -137,6 +149,7 @@ function App() {
       </Route>
 
     </Routes>
+    </div>
   );
 }
 
