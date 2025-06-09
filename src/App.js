@@ -53,6 +53,7 @@ import SmsTemplateEdit from './pages/sms/SmsTemplateEdit';
 function App() {
   return (
     <Routes>
+      <Route path='/' element={<HelloWorld/>} />
       <Route path="/admin" element={<DefaultLayout />}>
         <Route index element={<HelloWorld />} />
 
