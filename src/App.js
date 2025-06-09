@@ -47,14 +47,15 @@ import NotificationTuneSetting from './pages/settings/NotificationTuneSetting';
 import TicketDetails from './pages/support/TicketDetails';
 import EmailTemplateEdit from './pages/email/EmailTemplateEdit';
 import SmsTemplateEdit from './pages/sms/SmsTemplateEdit';
+import DataDisplayComponent from './components/DataDisplayComponent';
 
 
 
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<HelloWorld/>} />
-      <Route path="/react-dashboard-admin" element={<DefaultLayout />}>
+      <Route path='/' element={<DataDisplayComponent/>} />
+      <Route path="/admin" element={<DefaultLayout />}>
         <Route index element={<HelloWorld />} />
 
         <Route path="users" element={<Users />} />
