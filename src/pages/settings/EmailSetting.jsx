@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LuMail } from "react-icons/lu";
 import PageTitle from '../../components/page_title/PageTitle';
+import RightPanel from '../../components/panel/RightPanel';
 
 const EmailSetting = ({ name }) => {
-
-
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   return (
     <div className="main-content">
-      <PageTitle title="Mail Settings"/>
+      <PageTitle title="Mail Settings" />
 
 
       <div className="container-fluid">
@@ -20,7 +20,10 @@ const EmailSetting = ({ name }) => {
               <div class="site-card-header">
                 <h3 class="title">Mail Settings</h3>
                 <div class="card-header-links">
-                  <a data-bs-toggle="modal" data-bs-target="#mailConnection" href="javascript:void(0);" class="card-header-link"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mail-check" icon-name="mail-check" class="lucide lucide-mail-check"><path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8"></path><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path><path d="m16 19 2 2 4-4"></path></svg> Connection Check</a>
+                  <button class="card-header-link" onClick={() => {setIsPanelOpen(true);}}> 
+                    <LuMail style={{marginTop: '-4px', marginRight: '12px'}}/>
+                    <span>Connection Check</span>
+                    </button>
                 </div>
               </div>
 
@@ -116,6 +119,26 @@ const EmailSetting = ({ name }) => {
           </div>
         </div>
       </div>
+
+      <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{width: '600px'}}>
+        <h2>SMTP Connection</h2>
+        <form action="https://81habibi.com/admin/settings/mail-connection-test" method="post">
+          <div class="row">
+
+            <div class="col-xl-12">
+              <div class="site-input-groups">
+                <label for="" class="box-input-label">Your Email:</label>
+                <input type="email" name="email" class="box-input mb-0" required="" />
+              </div>
+            </div>
+            <div class="col-xl-12">
+              <button type="submit" class="site-btn primary-btn w-100">
+                Check Now
+              </button>
+            </div>
+          </div>
+        </form>
+      </RightPanel>
     </div>
   );
 };

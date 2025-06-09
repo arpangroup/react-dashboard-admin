@@ -116,8 +116,8 @@ const menuData = [
     label: 'Deposits',
     icon: <LuArrowDownCircle />,
     items: [
-      { label: 'Automatic Methods', href: '/admin/deposit/method/auto', icon: <LuWorkflow /> },
-      { label: 'Manual Methods', href: '/admin/deposit/method/manual', icon: <LuCompass /> },
+      // { label: 'Automatic Methods', href: '/admin/deposit/method/auto', icon: <LuWorkflow /> },
+      // { label: 'Manual Methods', href: '/admin/deposit/method/manual', icon: <LuCompass /> },
       { label: 'Pending Manual Deposits', href: '/admin/deposit/pending', icon: <LuWallet /> },
       { label: 'Deposit History', href: '/admin/deposit/history', icon: <LuClipboardCheck /> },
     ],
@@ -128,8 +128,8 @@ const menuData = [
     label: 'Withdraw',
     icon: <LuLandmark />,
     items: [
-      { label: 'Automatic Methods', href: '/admin/withdraw/method/auto', icon: <LuWorkflow /> },
-      { label: 'Manual Methods', href: '/admin/withdraw/method/manual', icon: <LuCompass /> },
+      // { label: 'Automatic Methods', href: '/admin/withdraw/method/auto', icon: <LuWorkflow /> },
+      // { label: 'Manual Methods', href: '/admin/withdraw/method/manual', icon: <LuCompass /> },
       { label: 'Pending Withdraws', href: '/admin/withdraw/pending', icon: <LuWallet /> },
       { label: 'Withdraw Schedule', href: '/admin/withdraw/schedule', icon: <LuAlarmClock /> },
       { label: 'Withdraw History', href: '/admin/withdraw/history', icon: <LuPiggyBank /> },

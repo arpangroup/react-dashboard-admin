@@ -9,16 +9,12 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { NavLink } from 'react-router-dom';
+import RightPanel from '../../components/panel/RightPanel';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
 const WithdrawMethodManual = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-
-  const closePanel = () => {
-    setIsPanelOpen(false);
-  };
-
 
     const ActionLink = (props) => {
       console.log("CLICKED....");
@@ -99,10 +95,10 @@ const WithdrawMethodManual = () => {
         </div>
       </div>
 
-      <WithdrawApproveForm
-        isOpen={isPanelOpen}
-        onClose={closePanel}
-      />
+      <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{width: '600px'}}>
+        <h2>Withdraw Approval Action</h2>
+        <WithdrawApproveForm/>
+      </RightPanel>
 
 
     </div>

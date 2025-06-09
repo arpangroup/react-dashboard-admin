@@ -1,54 +1,40 @@
 import ReactDOM from 'react-dom';
 
-const DepositApproveForm = ({ isOpen, onClose }) => {
-    if (!isOpen) return null;
-
-    return ReactDOM.createPortal(
+const DepositApproveForm = () => {
+    return (
         <>
-            {/* Backdrop */}
-            <div className="backdrop" onClick={onClose} />
+            <ul class="list-group mb-4">
 
-            {/* Panel */}
-            <aside className="side-panel">
-                <button
-                    onClick={onClose}
-                    className="close-btn"
-                    aria-label="Close panel"
-                >
-                    &times;
-                </button>
+                <li class="list-group-item">
+                    UPI ID:
+                    <img src="https://81habibi.com/assets" alt="" />
+                </li>
+                <li class="list-group-item">
+                    screenshort:
+                    <img src="https://81habibi.com/assets/global/images/qcVxCDUguY174izjLz37.jpg" alt="" />
+                </li>
+            </ul>
 
-                <div className="header">
-                    <h2>Deposit Approval Action</h2>
+            <form action="https://81habibi.com/admin/deposit/action-now" method="post">
+                <div class="site-input-groups">
+                    <label for="" class="box-input-label">Details Message(Optional)</label>
+                    <textarea name="message" class="form-textarea mb-0" placeholder="Details Message"></textarea>
                 </div>
 
-                <form action="https://81habibi.com/admin/user/mail-send" method="post" id="send-mail-form">
-                    <input type="hidden" name="_token" value="6uNwVKwHHRc8JgwVXPyPPcMCbWrA8kRaWXOJrYqQ" />
-                    <input type="hidden" name="id" value="19" id="userId" />
+                <div class="action-btns">
+                    <button type="submit" name="approve" value="yes" class="site-btn-sm primary-btn me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check" icon-name="check" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Approve
+                    </button>
+                    <button type="submit" name="reject" value="yes" class="site-btn-sm red-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                        Reject
+                    </button>
+                </div>
 
-                    <div class="site-input-groups">
-                        <label for="" class="box-input-label">Amount</label>
-                        <input type="text" name="subject" class="box-input mb-0" required="" />
-                    </div>
-                    <div class="site-input-groups">
-                        <label for="" class="box-input-label">Comment</label>
-                        <textarea name="message" class="form-textarea mb-0"></textarea>
-                    </div>
+            </form>
 
-                    <div class="action-btns">
-                        <button type="submit" class="site-btn-sm primary-btn me-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="send" icon-name="send" class="lucide lucide-send"><line x1="22" x2="11" y1="2" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                            Approve
-                        </button>
-                        <a href="#" class="site-btn-sm red-btn" data-bs-dismiss="modal" aria-label="Close">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-                            Reject
-                        </a>
-                    </div>
-                </form>
-            </aside>
-        </>,
-        document.body
+        </>
     );
 }
 

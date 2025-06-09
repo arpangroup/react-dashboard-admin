@@ -9,16 +9,12 @@ import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred the
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { NavLink } from 'react-router-dom';
 import DepositApproveForm from './DepositApproveForm';
+import RightPanel from '../../components/panel/RightPanel';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 
 const DepositMethodManual = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-
-  const closePanel = () => {
-    setIsPanelOpen(false);
-  };
-
 
     const ActionLink = (props) => {
       return (
@@ -98,10 +94,11 @@ const DepositMethodManual = () => {
         </div>
       </div>
 
-      <DepositApproveForm
-        isOpen={isPanelOpen}
-        onClose={closePanel}
-      />
+
+      <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+        <h2>Deposit Approval Action</h2>
+        <DepositApproveForm/>
+      </RightPanel>
 
 
     </div>

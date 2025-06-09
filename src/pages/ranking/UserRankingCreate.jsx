@@ -19,12 +19,10 @@ const UserRankingCreate = ({ name }) => {
                     <label class="box-input-label" for="">Ranking Icon:</label>
                     <div class="wrap-custom-file">
                       <input type="file" name="icon" id="image6" accept=".gif, .jpg, .png"/>
-                        <label for="image6" id="image-old" class="file-ok" 
-                        // style="background-image: url(&quot;https://81habibi.com/assets/global/images/sCQgIyl0OKzFiO73nmWF.svg&quot;);"
-                        >
-                          <img class="upload-icon" src="https://81habibi.com/assets/global/materials/upload.svg" alt=""/>
-                            <span>Update Icon</span>
-                        </label>
+                       <label for="image6" id="image-old" class="file-ok" style={{backgroundImage: 'url(https://81habibi.com/assets/global/images/sCQgIyl0OKzFiO73nmWF.svg)'}}>
+                                    <img class="upload-icon" src="https://81habibi.com/assets/global/materials/upload.svg" alt=""/>
+                                    <span>Update Icon</span>
+                                </label>
                     </div>
                   </div>
                   <div class="site-input-groups row mb-0">
