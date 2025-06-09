@@ -54,7 +54,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<HelloWorld/>} />
-      <Route path="/admin" element={<DefaultLayout />}>
+      <Route path="/react-dashboard-admin" element={<DefaultLayout />}>
         <Route index element={<HelloWorld />} />
 
         <Route path="users" element={<Users />} />
