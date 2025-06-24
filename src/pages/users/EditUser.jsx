@@ -1,20 +1,10 @@
-export default function EditUser() {
+import PageTitle from "../../components/page_title/PageTitle";
+
+const EditUser = () => {
     return (
         <div className="main-content">
 
-            <div className="page-title">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col">
-                            <div className="title-content">
-                                <h2 className="title">Details of Monuking1000k King </h2>
-                                <a href="/admin/user" className="title-btn"><i
-                                    icon-name="corner-down-left"></i>Back</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <PageTitle title="ssss" isBack="true" actionLink=""/>
 
 
             <div className="container-fluid">
@@ -583,3 +573,5 @@ export default function EditUser() {
         </div>
     )
 }
+
+export default EditUser;

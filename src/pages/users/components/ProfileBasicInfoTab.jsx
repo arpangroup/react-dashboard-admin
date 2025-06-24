@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const ProfileBasicInfoTab = ({ activeTab }) => {
+import FormInput from "../../../components/form/FormInput";
+
+const ProfileBasicInfoTab = ({ activeTab, formData, onFormChange }) => {
   const isActive = activeTab === "info";
-  
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({ ...prev, [name]: value }));
+  // };
+
   return (
-    <div 
-    className={`tab-pane fade ${isActive ? "show active" : ""}`}
-    id="pills-informations" role="tabpanel"
+    <div
+      className={`tab-pane fade ${isActive ? "show active" : ""}`}
+      id="pills-informations" role="tabpanel"
       aria-labelledby="pills-informations-tab">
+        
       <div className="row">
         <div className="col-xl-12">
           <div className="site-card">
@@ -15,107 +23,131 @@ const ProfileBasicInfoTab = ({ activeTab }) => {
               <h3 className="title">Basic Info</h3>
             </div>
             <div className="site-card-body">
+
               <form action="/admin/user/19" method="post">
-                <input type="hidden" name="_method" value="PUT" />
-                <input
-                  type="hidden" name="_token"
-                  value="" />
+
                 <div className="row">
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <FormInput
+                      label="First Name"
+                      name="first_name"
+                      value={formData.first_name}
+                      required={true}
+                      onChange={onFormChange}
+                    />
+                  </div>
 
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">First
-                        Name:</label>
-                      <input type="text" className="box-input"
-                        value="Monuking1000k" name="first_name"
-                        required="" />
-                    </div>
+                  <FormInput
+                    label="Last Name"
+                    name="last_name"
+                    value={formData.last_name}
+                    required
+                    onChange={onFormChange}
+                  />
                   </div>
+
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">Last
-                        Name:</label>
-                      <input type="text" className="box-input" value="King"
-                        required="" name="last_name" />
-                    </div>
+                  <FormInput
+                    label="Country"
+                    name="country"
+                    value={formData.country}
+                    required
+                    disabled={true}
+                    onChange={onFormChange}
+                  />
                   </div>
+
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for=""
-                        className="box-input-label">Country:</label>
-                      <input type="text" className="box-input" value="India"
-                        disabled />
-                    </div>
+                  <FormInput
+                    label="Phone"
+                    name="phone_extension"
+                    value={formData.phone}
+                    required
+                    disabled={true}
+                    onChange={onFormChange}
+                  />
                   </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">Phone:</label>
-                      <input type="text" className="box-input" value="+91 "
-                        disabled />
-                    </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">                    
+                  <FormInput
+                    label="Username"
+                    name="username"
+                    value={formData.username}
+                    required
+                    disabled={true}
+                    onChange={onFormChange}
+                  />
                   </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for=""
-                        className="box-input-label">Username:</label>
-                      <input type="text" className="box-input" name="username"
-                        value="Monuking1000kKing2638" required="" />
-                    </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">                  
+                  <FormInput
+                    label="Email"
+                    name="email"
+                    value={formData.email}
+                    required
+                    disabled={true}
+                    onChange={onFormChange}
+                  />
                   </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">Email:</label>
-                      <input type="email" className="box-input"
-                        value="Anitarani3774@gamil.com" disabled />
-                    </div>
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">             
+                  <FormInput
+                    label="Gender"
+                    name="gender"
+                    value={formData.gender}
+                    required
+                    disabled={true}
+                    onChange={onFormChange}
+                  />
                   </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for=""
-                        className="box-input-label">Gender:</label>
-                      <input type="text" className="box-input" value=""
-                        required="" disabled />
-                    </div>
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">             
+                  <FormInput
+                    label="Date of Birth:"
+                    name="dob"
+                    value={formData.dob}
+                    required
+                    disabled={true}
+                    onChange={onFormChange}
+                  />
                   </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">Date of
-                        Birth:</label>
-                      <input type="text" className="box-input" value=""
-                        disabled />
-                    </div>
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">            
+                  <FormInput
+                    label="City:"
+                    name="city"
+                    value={formData.city}
+                    required
+                    onChange={onFormChange}
+                  />
                   </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">City:</label>
-                      <input type="text" name="city" className="box-input"
-                        value="" />
-                    </div>
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">       
+                  <FormInput
+                    label="Zip Code::"
+                    name="zip_code"
+                    value={formData.zip_code}
+                    required
+                    onChange={onFormChange}
+                  />                
                   </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">Zip
-                        Code:</label>
-                      <input type="text" className="box-input" name="zip_code"
-                        value="" />
-                    </div>
+
+                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">   
+                  <FormInput
+                    label="Address:"
+                    name="address"
+                    value={formData.address}
+                    required
+                    onChange={onFormChange}
+                  />                
                   </div>
+
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for=""
-                        className="box-input-label">Address:</label>
-                      <input type="text" className="box-input" name="address"
-                        value="" />
-                    </div>
-                  </div>
-                  <div className="col-xl-4 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">Joining
-                        Date:</label>
-                      <input type="text" className="box-input"
-                        value="Tue, May 27, 2025 1:28 PM" required=""
-                        disabled />
-                    </div>
+                  <FormInput
+                    label="Joining Date:"
+                    name="created_at"
+                    value={formData.created_at}
+                    required
+                    onChange={onFormChange}
+                  /> 
                   </div>
 
                   <div className="col-xl-12">
@@ -130,6 +162,8 @@ const ProfileBasicInfoTab = ({ activeTab }) => {
           </div>
         </div>
       </div>
+
+
       <div className="row">
         <div className="col-xl-12">
           <div className="site-card">
@@ -137,27 +171,29 @@ const ProfileBasicInfoTab = ({ activeTab }) => {
               <h3 className="title">Change Password</h3>
             </div>
             <div className="site-card-body">
-              <form action="/admin/user/password-update/19"
-                method="post">
-                <input type="hidden" name="_token"
-                  value="" />
+              <form action="/admin/user/password-update/19" method="post">
                 <div className="row">
+                  
                   <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">New
-                        Password:</label>
-                      <input type="password" name="new_password"
-                        className="box-input" required="" />
-                    </div>
+                  <FormInput
+                    label="New Password:"
+                    name="new_password"
+                    type='password'
+                    required
+                    onChange={onFormChange}
+                  /> 
                   </div>
-                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                    <div className="site-input-groups">
-                      <label for="" className="box-input-label">Confirm
-                        Password:</label>
-                      <input type="password" name="new_confirm_password"
-                        className="box-input" required="" />
-                    </div>
+
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6">                    
+                  <FormInput
+                    label="Confirm Password:"
+                    name="new_confirm_password"
+                    type='password'
+                    required
+                    onChange={onFormChange}
+                  />                     
                   </div>
+
                   <div className="col-xl-12">
                     <button type="submit"
                       className="site-btn-sm primary-btn w-100 centered">Change

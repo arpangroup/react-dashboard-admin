@@ -1,4 +1,25 @@
-.avatar-text {
+.round-icon-btn {
+  background: #ef476f;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  margin-right: 3px;
+  color: #fff;
+  display: inline-block;
+  text-align: center;
+}
+
+.round-icon-btn.purple {
+  background: #5e3fc9;
+}
+
+.round-icon-btn.purple {
+  background: #5e3fc9;
+}
+
+
+/* .avatar-text {
     width: 32px;
     height: 32px;
     line-height: 32px;
@@ -9,7 +30,7 @@
     text-transform: uppercase;
     font-weight: 700;
     color: #ffffff;
-}
+} */
 
 .color-0 { background-color: #ef476f; }
 .color-1 { background-color: #ffd166; }

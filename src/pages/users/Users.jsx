@@ -11,36 +11,11 @@ import { themeBalham } from 'ag-grid-community';
 import PageTitle from "../../components/page_title/PageTitle";
 import { NavLink } from "react-router-dom";
 import SendEmailPanel from "./SendEmailPanel";
+import Badge from "../../components/Badge";
+import { useFetchJson } from "../../hooks/useFetchJson";
+import RightPanel from "../../components/panel/RightPanel";
 
-ModuleRegistry.registerModules([AllCommunityModule]);
-
-const styleActionButtonEdit = {
-  background: "#ef476f",
-  width: "30px",
-  height: "30px",
-  lineHeight: "30px",
-  borderRadius: "50%",
-  marginRight: "3px",
-  color: "#ffffff",
-  display: "inline-block",
-  textAlign: "center",
-  color: "#ffffff",
-  background: "#5e3fc9",
-};
-
-const styleActionButtonDelete = {
-  background: "#ef476f",
-  width: "30px",
-  height: "30px",
-  lineHeight: "30px",
-  borderRadius: "50%",
-  marginRight: "3px",
-  color: "#ffffff",
-  display: "inline-block",
-  textAlign: "center",
-  color: "#ffffff",
-  background: "#ef476f",
-};
+// ModuleRegistry.registerModules([AllCommunityModule]);
 
 
 const Users = () => {
@@ -50,47 +25,14 @@ const Users = () => {
   const ActionLink = (props) => {
     return (
       <>
-        <NavLink to={`/admin/users/${props.data.id}/edit`} style={styleActionButtonEdit} class="round-icon-btn red-btn editKyc">
+        <NavLink to={`/admin/users/${props.data.id}/edit`} className="round-icon-btn purple">
           <LuPencilLine />
         </NavLink>
 
-        <button class="round-icon-btn red-btn deleteKyc" type='button' onClick={() => handleSendEmailClisk(props.data)} style={styleActionButtonDelete} >
+        <button className="round-icon-btn red" type='button' onClick={() => handleSendEmailClisk(props.data)} >
           <LuMail />
         </button>
       </>
-    );
-  };
-
-
-  const Badge = ({ value }) => {
-    if (!value) return null;
-
-    const normalizedValue = value.toLowerCase();
-
-    let badgeType = '';
-    switch (normalizedValue) {
-      case 'pending':
-      case 'unverified':
-        badgeType = 'pending';
-        break;
-      case 'verified':
-      case 'success':
-      case 'active':
-        badgeType = 'success';
-        break;
-      case 'deactivated':
-      case 'inactive':
-        badgeType = 'danger';
-        break;
-      default:
-        badgeType = 'default';
-        break;
-    }
-
-    return (
-      <div className={`site-badge ${badgeType}`}>
-        {value}
-      </div>
     );
   };
 
@@ -109,8 +51,8 @@ const Users = () => {
   const Avatar = (props) => {
     const rowIndex = props.node?.rowIndex ?? 0;
     const colorIndex = rowIndex % 10;
-
-    const fullName = props.data?.user ?? '';
+    console.log("PROPS: ", props.data);
+    const fullName = props.data?.firstname ?? props.data.username;
     const nameParts = fullName.trim().split(' ');
     const initials = nameParts
       .slice(0, 2) // only take the first 2 words
@@ -124,28 +66,52 @@ const Users = () => {
     );
   };
 
-  const [rowData] = useState([
-    { avatar: "", id: "1", user: "John Doe", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "Unverified", status: "Deactivated", action: "" },
-    { avatar: "", id: "2", user: "Elon Musk", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "Verified", status: "Active", action: "" },
-    { avatar: "", id: "3", user: "Steve Jobs", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "" },
-    { avatar: "", id: "4", user: "Bill Gates", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "<button>Edit</button>" },
-  ]);
+  const { data, loading } = useFetchJson(
+    "/api/v1/users",
+  );
+  
 
-  const [colDefs] = useState([
-    { field: "avatar", cellRenderer: Avatar, width: 80, resizable: false, sortable: false, filter: false, suppressSizeToFit: true },
-    { field: "user", width: 200, filter: true, filterParams: {} },
-    { field: "email", width: 160 },
-    { field: "balance", width: 90 },
-    { field: "profit", width: 90 },
-    { field: "kyc", width: 140, cellRenderer: Badge },
-    { field: "status", width: 140, cellRenderer: Badge },
-    {
-      field: "action",
-      width: 120,
-      headerName: "Action",
-      cellRenderer: ActionLink
-    },
-  ]);
+  // const [rowData] = useState([
+  //   { avatar: "", id: "1", user: "John Doe", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "Unverified", status: "Deactivated", action: "" },
+  //   { avatar: "", id: "2", user: "Elon Musk", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "Verified", status: "Active", action: "" },
+  //   { avatar: "", id: "3", user: "Steve Jobs", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "" },
+  //   { avatar: "", id: "4", user: "Bill Gates", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "<button>Edit</button>" },
+  // ]);
+
+  // const [colDefs] = useState([
+  //   { field: "avatar", , width: 80, resizable: false, sortable: false, filter: false, suppressSizeToFit: true },
+  //   { field: "user", width: 200, filter: true, filterParams: {} },
+  //   { field: "email", width: 160 },
+  //   { field: "balance", width: 90 },
+  //   { field: "profit", width: 90 },
+  //   { field: "kyc", width: 140, cellRenderer: Badge },
+  //   { field: "status", width: 140, cellRenderer: Badge },
+  //   {
+  //     field: "action",
+  //     width: 120,
+  //     headerName: "Action",
+  //     cellRenderer: ActionLink
+  //   },
+  // ]);
+
+
+  const [colDefs, setColumnDefs] = useState([
+      { field: "avatar", cellRenderer: Avatar, width: 80, resizable: false, sortable: false, filter: false, suppressSizeToFit: true},
+      { field: "username", width: 200, filter: true},
+      { field: "email", width: 160},
+      { field: "walletBalance", headerName: "Balance", width: 90},
+      { field: "profitBalance", headerName: "Profit", width: 90},
+      { field: "kycInfo.status", cellRenderer: Badge, headerName: "Kyc", width: 140},
+      { field: "accountStatus", cellRenderer: Badge, headerName: "Status", width: 140},
+      {field: "Action", cellRenderer: ActionLink, width: 120}
+    ]);
+
+    // const defaultColDef = useMemo(() => {
+    //   return {
+    //     flex: 1,
+    //     minWidth: 100,
+    //   };
+    // }, []);
 
   const defaultColDef = {
     // flex: 1,    
@@ -166,7 +132,8 @@ const Users = () => {
                   <div style={{ height: 500 }} className="ag-theme-alpine">
                     <AgGridReact
                       theme={"legacy"}
-                      rowData={rowData}
+                      rowData={data}
+                      loading={loading}
                       columnDefs={colDefs}
                       defaultColDef={defaultColDef}
                       pagination={true} />
@@ -178,12 +145,18 @@ const Users = () => {
         </div>
       </div>
 
-      <SendEmailPanel
+      {/* <SendEmailPanel
         isOpen={isPanelOpen}
         onClose={closePanel}
         username={selectedUser.user}
         email={selectedUser.email}
-      />
+      /> */}
+
+      <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+        <h2>{`Send Mail to ${selectedUser.user}`}</h2>
+        <SendEmailPanel username={selectedUser.user} email={selectedUser.email}/>
+      </RightPanel>
+
 
     </div>
   );

@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { LuUser, LuAnchor, LuCreditCard, LuCast, LuNetwork, LuWrench } from "react-icons/lu";
+import { LuUser, LuAnchor, LuCreditCard, LuCast, LuNetwork, LuWrench, } from "react-icons/lu";
 
 import PageTitle from "../../components/page_title/PageTitle";
 import EarningTab from "./components/EarningTab";
@@ -23,10 +23,29 @@ const tabs = [
   { id: "tickets", label: "Ticket", icon: <LuWrench/> },
 ];
 
+
+
 export default function EditUserV1() {
     const { userId } = useParams(); // 👈 extract userId from URL
     const [activeTab, setActiveTab] = useState("info");
     const [userInfo, setUserInfo] = useState(null);
+
+    const [formData, setFormData] = useState({
+        first_name: 'Monuking1000k',
+        last_name: 'King',
+        username: 'Monuking1000kKing2638',
+        country: "India",
+        phone: "+91 80123 45678",
+        city: 'Noida',
+        zip_code: '',
+        address: '',
+        created_at: 'Tue, May 27, 2025 1:28 PM',
+    });
+
+     const handleFormChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
 
     const handleTabClick = (e, tabName) => {
         e.preventDefault();
@@ -57,9 +76,8 @@ export default function EditUserV1() {
     return (
         <div className="main-content">
             <PageTitle 
-                title="Details of John Doe"
-                isBack = {true}
-            />
+                title="Details of John Doe" 
+                isBack = {true} />
 
 
             <div className="container-fluid">
@@ -97,7 +115,7 @@ export default function EditUserV1() {
                         </div>
 
                         <div className="tab-content" id="pills-tabContent">
-                            <ProfileBasicInfoTab activeTab={activeTab} />
+                            <ProfileBasicInfoTab activeTab={activeTab} formData={formData} onFormChange={handleFormChange}/>
                             <InvestmentTab activeTab={activeTab} />
                             <EarningTab activeTab={activeTab} />
                             <TransactionTab activeTab={activeTab} />
