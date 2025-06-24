@@ -6,6 +6,8 @@ import Switch from '../../../components/form/Switch';
 import AccountStatusForm from '../AccountStatusForm';
 import TransactionStatusForm from '../TransactionStatusForm';
 import WalletStatus from '../WalletStatus';
+import './ProfileCard.css'
+import ButtonsWithTooltips from '../ButtonsWithTooltips';
 
 const ProfileCard = () => {
     const userId = 19;
@@ -31,6 +33,7 @@ const ProfileCard = () => {
         sendMoneyStatus: true,
     };
 
+
     return (
         <div className="profile-card">
             <div className="top">
@@ -41,40 +44,27 @@ const ProfileCard = () => {
                     <h4>{data.username}</h4>
                     <p>{data.country}</p>
                 </div>
-                <div className="btns">
-                    <span type="button">
-                        <a type="button" className="site-btn-round blue-btn">
-                            <LuMail />
-                        </a>
-                    </span>
-                    <span type="button">
-                        <a type="button" className="site-btn-round red-btn">
-                            <LuUserPlus />
-                        </a>
-                    </span>
-                    <span type="button">
-                        <a type="button" className="site-btn-round primary-btn">
-                            <LuWallet />
-                        </a>
-                    </span>
-                </div>
+
+                <ButtonsWithTooltips/>
+
+
             </div>
 
             <WalletStatus
-                walletBalance="0" 
-                profitBalance="0" 
-                currency="USD"/>
+                walletBalance="0"
+                profitBalance="0"
+                currency="USD" />
 
             {/* Account Status Update */}
-            <AccountStatusForm 
-                initialStatus={userStatus} 
-                userId={userId}/>
+            <AccountStatusForm
+                initialStatus={userStatus}
+                userId={userId} />
 
-            
+
             {/* Transaction Status Update */}
-            <TransactionStatusForm 
-                initialStatus={transactionStatus} 
-                userId={userId}/>
+            <TransactionStatusForm
+                initialStatus={transactionStatus}
+                userId={userId} />
 
 
         </div>
