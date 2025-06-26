@@ -34,12 +34,12 @@ import KycFormCreate from './pages/kyc/KycFormCreate';
 import Roles from './pages/role/Roles';
 import EditRole from './pages/role/EditRole';
 import Schema from './pages/schema/Schema';
-import SchemaEdit from './pages/schema/SchemaEdit';
+import SchemaForm from './pages/schema/SchemaForm';
 import WithdrawMethodManual from './pages/withdraw/WithdrawMethodManual';
 import WithdrawHistory from './pages/withdraw/WithdrawHistory';
 import WithdrawSchedule from './pages/withdraw/WithdrawSchedule';
 import UserRanking from './pages/ranking/UserRanking';
-import UserRankingCreate from './pages/ranking/UserRankingCreate';
+import UserRankingForm from './pages/ranking/UserRankingForm';
 import SiteSetting from './pages/settings/SiteSetting';
 import EmailSetting from './pages/settings/EmailSetting';
 import PluginSetting from './pages/settings/PluginSetting';
@@ -57,13 +57,14 @@ import Dashboard from './pages/dashboard/Dashboard';
 
 
 function App() {
-  useEffect(() => {
-    globalEventLogger.setupGlobalEventListeners();
-  }, [])
+  // useEffect(() => {
+  //   globalEventLogger.setupGlobalEventListeners();
+  // }, [])
 
   return (
     <div> 
-      <EventFlusher /> {/* This sets up the background flusher */}
+      {/* This sets up the background flusher */}
+      {/* <EventFlusher />  */}
       
     <Routes>
       <Route path='/' element={<DataDisplayComponent/>} />
@@ -92,8 +93,9 @@ function App() {
         <Route path="roles/:id/edit" element={<EditRole />} /> 
 
         
-        <Route path="schema" element={<Schema />} /> 
-        <Route path="schema/:id/edit" element={<SchemaEdit />} /> 
+        <Route path="schemas" element={<Schema />} /> 
+        <Route path="schemas/create" element={<SchemaForm />} />
+        <Route path="schemas/edit/:schemaId" element={<SchemaForm />} /> 
 
 
 
@@ -120,9 +122,9 @@ function App() {
         <Route path="withdraw/history" element={<WithdrawHistory />} />
 
         
-        <Route path="ranking" element={<UserRanking />} />
-        <Route path="ranking/create" element={<UserRankingCreate />} />
-        <Route path="ranking/:id/edit" element={<UserRankingCreate />} />
+        <Route path="rankings" element={<UserRanking />} />
+        <Route path="rankings/create" element={<UserRankingForm />} />
+        <Route path="rankings/edit/:rankingId" element={<UserRankingForm />} />
 
         
         <Route path="setting/site" element={<SiteSetting />} />

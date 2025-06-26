@@ -44,7 +44,7 @@ const UserRanking = (props) => {
 
       const ActionLinkAddNew = (props) => {
         return (
-          <a href="/admin/ranking/create"
+          <a href="/admin/rankings/create"
             class="title-btn">
             <LuPlus />
             <span> ADD NEW</span>
@@ -54,7 +54,7 @@ const UserRanking = (props) => {
 
     const ActionLink = (props) => {
         return (
-            <NavLink to={`/admin/ranking/${props.data.id}/edit`} style={styleActionButtonEdit} class="round-icon-btn red-btn editKyc">
+            <NavLink to={`/admin/rankings/edit/${props.data.id}`} style={styleActionButtonEdit} class="round-icon-btn red-btn editKyc">
                 <LuPencilLine />
             </NavLink>
         );

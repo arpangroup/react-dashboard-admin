@@ -43,36 +43,36 @@ const menuData = [
       { label: 'Pending KYC', href: '/admin/kyc/pending', icon: <FiAirplay /> },
       { label: 'Rejected KYC', href: '/admin/kyc/rejected', icon: <LuFileWarning /> },
       { label: 'All KYC Logs', href: '/admin/kyc', icon: <LuContact /> },
-      { label: 'KYC Form', href: '/admin/kyc_forms', icon: <FiCheckSquare /> },
+      // { label: 'KYC Form', href: '/admin/kyc_forms', icon: <FiCheckSquare /> },
     ],
   },
-  {
-    type: 'sectionTitle',
-    label: 'Staff Management',
-  },
-  {
-    type: 'link',
-    label: 'Manage Roles',
-    href: '/admin/roles',
-    icon: <LuContact />,
-  },
-  {
-    type: 'link',
-    label: 'Manage Staff',
-    href: '#',
-    icon: <LuUserCog />,
-  },
-  {
-    type: 'sectionTitle',
-    label: 'Plans',
-  },
+  // {
+  //   type: 'sectionTitle',
+  //   label: 'Staff Management',
+  // },
+  // {
+  //   type: 'link',
+  //   label: 'Manage Roles',
+  //   href: '/admin/roles',
+  //   icon: <LuContact />,
+  // },
+  // {
+  //   type: 'link',
+  //   label: 'Manage Staff',
+  //   href: '#',
+  //   icon: <LuUserCog />,
+  // },
+  // {
+  //   type: 'sectionTitle',
+  //   label: 'Plans',
+  // },
   {
     type: 'dropdown',
     label: 'Manage Schema',
     icon: <LuAlbum />,
     items: [
       { label: 'Schedule', href: '#', icon: <LuAlarmClock /> },
-      { label: 'Manage Schema', href: '/admin/schema', icon: <FiAirplay /> },
+      { label: 'Manage Schema', href: '/admin/schemas', icon: <FiAirplay /> },
     ],
   },
 
@@ -104,12 +104,12 @@ const menuData = [
     type: 'sectionTitle',
     label: 'Essentials',
   },
-  {
-    type: 'link',
-    label: 'Automatic Gateways',
-    href: '/admin/payment/gateway',
-    icon: <LuDoorOpen />,
-  },
+  // {
+  //   type: 'link',
+  //   label: 'Automatic Gateways',
+  //   href: '/admin/payment/gateway',
+  //   icon: <LuDoorOpen />,
+  // },
 
   {
     type: 'dropdown',
@@ -137,19 +137,19 @@ const menuData = [
   },
 
 
-  {
-    type: 'dropdown',
-    label: 'Manage Referral',
-    icon: <LuSettings2 />,
-    items: [
-      { label: 'Multi Level Referral', href: '#', icon: <LuAlignEndHorizontal /> },
-      { label: 'Targets Referral', href: '#', icon: <LuExpand /> }
-    ],
-  },
+  // {
+  //   type: 'dropdown',
+  //   label: 'Manage Referral',
+  //   icon: <LuSettings2 />,
+  //   items: [
+  //     { label: 'Multi Level Referral', href: '#', icon: <LuAlignEndHorizontal /> },
+  //     { label: 'Targets Referral', href: '#', icon: <LuExpand /> }
+  //   ],
+  // },
   {
     type: 'link',
     label: 'User Rankings',
-    href: '/admin/ranking',
+    href: '/admin/rankings',
     icon: <LuMedal />,
   },
 
@@ -171,72 +171,72 @@ const menuData = [
     ],
   },
 
-  {
-    type: 'link',
-    label: 'Language Settings',
-    href: '#',
-    icon: <LuLanguages />,
-  },
-  {
-    type: 'link',
-    label: 'Page Settings',
-    href: '#',
-    icon: <LuLayoutDashboard />,
-  },
+  // {
+  //   type: 'link',
+  //   label: 'Language Settings',
+  //   href: '#',
+  //   icon: <LuLanguages />,
+  // },
+  // {
+  //   type: 'link',
+  //   label: 'Page Settings',
+  //   href: '#',
+  //   icon: <LuLayoutDashboard />,
+  // },
 
-  {
-    type: 'sectionTitle',
-    label: ' Site Essentials',
-  },
-  {
-    type: 'dropdown',
-    label: ' Theme Manage',
-    icon: <LuPalette />,
-    items: [
-      { label: 'Site Theme', href: '#', icon: <LuRollerCoaster /> },
-      { label: 'Dynamic Landing Theme', href: '#', icon: <LuWarehouse /> }
-    ],
-  },
-  {
-    type: 'dropdown',
-    label: ' Landing Page',
-    icon: <LuWarehouse />,
-    items: [
-      { label: 'Hero Section', href: '#', icon: <LuEgg /> },
-      { label: 'Schema Section', href: '#', icon: <LuEgg /> },
-      { label: 'Calculation Section', href: '#', icon: <LuEgg /> },
-      { label: 'How it works Section', href: '#', icon: <LuEgg /> },
-      { label: 'Recent Section', href: '#', icon: <LuEgg /> },
-      { label: 'Why Choose Us Section', href: '#', icon: <LuEgg /> },
-      { label: 'Counter Section', href: '#', icon: <LuEgg /> },
-      { label: 'FAQ Section', href: '#', icon: <LuEgg /> },
-      { label: 'Call To Action', href: '#', icon: <LuEgg /> },
-      { label: 'Blog Section', href: '#', icon: <LuEgg /> },
-      { label: 'Gateway Section', href: '#', icon: <LuEgg /> },
-      { label: 'Newslatter Section', href: '#', icon: <LuEgg /> }
-    ],
-  },
-  {
-    type: 'dropdown',
-    label: ' Pages',
-    icon: <LuLayoutDashboard />,
-    items: [
-      { label: 'Hero Section', href: '#', icon: <LuEgg /> },
-      { label: 'Schema', href: '#', icon: <LuEgg /> },
-      { label: 'How It Works', href: '#', icon: <LuEgg /> },
-      { label: 'About Us', href: '#', icon: <LuEgg /> },
-      { label: 'FAQ', href: '#', icon: <LuEgg /> },
-      { label: 'Rankings', href: '#', icon: <LuEgg /> },
-      { label: 'Blog', href: '#', icon: <LuEgg /> },
-      { label: 'Contact Us', href: '#', icon: <LuEgg /> },
-      { label: 'Privacy Policy', href: '#', icon: <LuEgg /> },
-      { label: 'Terms and Conditions', href: '#', icon: <LuEgg /> },
-      { label: 'Login', href: '#', icon: <LuEgg /> },
-      { label: 'Registration', href: '#', icon: <LuEgg /> },
-      { label: 'Forgot Password', href: '#', icon: <LuEgg /> },
-      { label: 'Add New Page', href: '#', icon: <LuEgg /> }
-    ],
-  },
+  // {
+  //   type: 'sectionTitle',
+  //   label: ' Site Essentials',
+  // },
+  // {
+  //   type: 'dropdown',
+  //   label: ' Theme Manage',
+  //   icon: <LuPalette />,
+  //   items: [
+  //     { label: 'Site Theme', href: '#', icon: <LuRollerCoaster /> },
+  //     { label: 'Dynamic Landing Theme', href: '#', icon: <LuWarehouse /> }
+  //   ],
+  // },
+  // {
+  //   type: 'dropdown',
+  //   label: ' Landing Page',
+  //   icon: <LuWarehouse />,
+  //   items: [
+  //     { label: 'Hero Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Schema Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Calculation Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'How it works Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Recent Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Why Choose Us Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Counter Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'FAQ Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Call To Action', href: '#', icon: <LuEgg /> },
+  //     { label: 'Blog Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Gateway Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Newslatter Section', href: '#', icon: <LuEgg /> }
+  //   ],
+  // },
+  // {
+  //   type: 'dropdown',
+  //   label: ' Pages',
+  //   icon: <LuLayoutDashboard />,
+  //   items: [
+  //     { label: 'Hero Section', href: '#', icon: <LuEgg /> },
+  //     { label: 'Schema', href: '#', icon: <LuEgg /> },
+  //     { label: 'How It Works', href: '#', icon: <LuEgg /> },
+  //     { label: 'About Us', href: '#', icon: <LuEgg /> },
+  //     { label: 'FAQ', href: '#', icon: <LuEgg /> },
+  //     { label: 'Rankings', href: '#', icon: <LuEgg /> },
+  //     { label: 'Blog', href: '#', icon: <LuEgg /> },
+  //     { label: 'Contact Us', href: '#', icon: <LuEgg /> },
+  //     { label: 'Privacy Policy', href: '#', icon: <LuEgg /> },
+  //     { label: 'Terms and Conditions', href: '#', icon: <LuEgg /> },
+  //     { label: 'Login', href: '#', icon: <LuEgg /> },
+  //     { label: 'Registration', href: '#', icon: <LuEgg /> },
+  //     { label: 'Forgot Password', href: '#', icon: <LuEgg /> },
+  //     { label: 'Add New Page', href: '#', icon: <LuEgg /> }
+  //   ],
+  // },
 
   {
     type: 'sectionTitle',
