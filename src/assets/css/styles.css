@@ -841,6 +841,12 @@ img {
   color: #ffffff;
 }
 
+.switch-field input:checked + label {
+  background-color: #2a9d8f;
+  box-shadow: none;
+  color: #ffffff;
+}
+
 .switch-field input:checked + label:last-of-type {
   background: #ef476f;
 }

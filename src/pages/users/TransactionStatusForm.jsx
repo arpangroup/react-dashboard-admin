@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Switch from '../../components/form/Switch';
 
+const switchFields = [
+    { label: 'Deposit Status', name: 'depositEnabled' },
+    { label: 'Withdraw Status', name: 'withdrawEnabled' },
+    { label: 'Send Money Status', name: 'sendMoneyEnabled' },
+];
+
 const TransactionStatusForm = ({ initialStatus, userId }) => {
     const [formData, setFormData] = useState(initialStatus);
     const [loadingField, setLoadingField] = useState(null);
@@ -21,10 +27,16 @@ const TransactionStatusForm = ({ initialStatus, userId }) => {
             [field]: value
         }));
         
-        /*setLoadingField(field);
+        setLoadingField(field);
+        console.log("UPDATE_TRANSACTION_STARTUS: ", field, value);
+        let url = '/api/v1/users/1/transaction-status?';
+        if(field === 'depositEnabled') url += `depositStatus=${value === true ? 'ENABLED' : 'DISABLED'}`
+        if(field === 'withdrawEnabled') url += `withdrawStatus=${value === true ? 'ENABLED' : 'DISABLED'}`
+        if(field === 'sendMoneyEnabled') url += `sendMoneyStatus=${value === true ? 'ENABLED' : 'DISABLED'}`
+
         try {
-            const response = await fetch(`/admin/user/status-update/${userId}`, {
-                method: 'POST',
+            const response = await fetch(url, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -43,7 +55,7 @@ const TransactionStatusForm = ({ initialStatus, userId }) => {
             alert(`Failed to update ${field}`);
         } finally {
             setLoadingField(null);
-        }*/
+        }
     };
 
     const handleSubmit = (e) => {
@@ -51,12 +63,6 @@ const TransactionStatusForm = ({ initialStatus, userId }) => {
         // Here you can POST formData or handle it as needed
         console.log('Form submitted with data:', formData);
     };
-
-    const switchFields = [
-        { label: 'Deposit Status', name: 'depositStatus' },
-        { label: 'Withdraw Status', name: 'withdrawStatus' },
-        { label: 'Send Money Status', name: 'sendMoneyStatus' },
-    ];
 
     return (
         <div className="site-card mb-0">
@@ -80,11 +86,11 @@ const TransactionStatusForm = ({ initialStatus, userId }) => {
                             </div>
                         ))}
 
-                        <div className="col-12">
+                        {/* <div className="col-12">
                             <button type="submit" className="site-btn-sm primary-btn w-100 centered">
                                 Save Changes
                             </button>
-                        </div>
+                        </div> */}
                     </form>
                 </div>
             </div>
