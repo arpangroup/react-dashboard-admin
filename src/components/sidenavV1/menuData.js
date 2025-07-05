@@ -31,7 +31,7 @@ const menuData = [
       { label: 'All Customers', href: '/admin/users', icon: <FiUsers /> },
       { label: 'Active Customers', href: '/admin/users/active', icon: <FiUserCheck /> },
       { label: 'Disabled Customers', href: '/admin/users/disabled', icon: <FiUserX /> },
-      { label: 'Notifications', href: '/admin/notifications', icon: <LuMegaphone /> },
+      // { label: 'Notifications', href: '/admin/notifications', icon: <LuMegaphone /> },
       { label: 'Send Email to all', href: '/admin/users/mail-send/all', icon: <FiSend /> }
     ],
   },

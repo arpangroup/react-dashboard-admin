@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { LuPencilLine, LuMail, LuTrash } from "react-icons/lu";
 import './Users.css';
 
@@ -9,18 +9,21 @@ import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { themeBalham } from 'ag-grid-community';
 
 import PageTitle from "../../components/page_title/PageTitle";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import SendEmailPanel from "./SendEmailPanel";
 import Badge from "../../components/Badge";
 import { useFetchJson } from "../../hooks/useFetchJson";
 import RightPanel from "../../components/panel/RightPanel";
+import { usePaginatedFetch } from "../../hooks/usePaginatedFetch";
 
 // ModuleRegistry.registerModules([AllCommunityModule]);
 
-
-const Users = () => {
+const Users = ({status = ""}) => {
+  const pageSize = 9999;
+  const [page, setPage] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");
+  const { data, totalPages, loading } = usePaginatedFetch(`/api/v1/users`, page, pageSize, status);
 
   const ActionLink = (props) => {
     return (
@@ -51,7 +54,6 @@ const Users = () => {
   const Avatar = (props) => {
     const rowIndex = props.node?.rowIndex ?? 0;
     const colorIndex = rowIndex % 10;
-    console.log("PROPS: ", props.data);
     const fullName = props.data?.firstname ?? props.data.username;
     const nameParts = fullName.trim().split(' ');
     const initials = nameParts
@@ -66,9 +68,6 @@ const Users = () => {
     );
   };
 
-  const { data, loading } = useFetchJson(
-    "/api/v1/users",
-  );
   
 
   // const [rowData] = useState([
@@ -101,9 +100,9 @@ const Users = () => {
       { field: "email", width: 160},
       { field: "walletBalance", headerName: "Balance", width: 90},
       { field: "profitBalance", headerName: "Profit", width: 90},
-      { field: "kycInfo.status", cellRenderer: Badge, headerName: "Kyc", width: 140},
+      { field: "kycStatus", cellRenderer: Badge, headerName: "Kyc", width: 140},
       { field: "accountStatus", cellRenderer: Badge, headerName: "Status", width: 140},
-      {field: "Action", cellRenderer: ActionLink, width: 120}
+      { field: "Action", cellRenderer: ActionLink, width: 120}
     ]);
 
     // const defaultColDef = useMemo(() => {
@@ -119,9 +118,14 @@ const Users = () => {
     resizable: true,
   };
 
+  const onPaginationChanged = useCallback((params) => {
+    const newPage = params.api.paginationGetCurrentPage();
+    setPage(newPage);
+  }, []);
+
   return (
     <div className="main-content">
-      <PageTitle title="All Customers" />
+      <PageTitle title={`${status || 'All '} Customers`} />
 
       <div className="container-fluid">
         <div className="row">
@@ -129,14 +133,17 @@ const Users = () => {
             <div className="site-card">
               <div className="site-card-body table-responsive">
                 <div className="site-datatable">
-                  <div style={{ height: 500 }} className="ag-theme-alpine">
+                  <div style={{ height: 520 }} className="ag-theme-alpine">
                     <AgGridReact
                       theme={"legacy"}
                       rowData={data}
                       loading={loading}
                       columnDefs={colDefs}
                       defaultColDef={defaultColDef}
-                      pagination={true} />
+                      pagination={true}                      
+                      paginationPageSize={10}
+                      paginationPageSizeSelector={[10, 20, 50, 100]}
+                      onPaginationChanged={onPaginationChanged} />
                   </div>
                 </div>
               </div>
@@ -153,8 +160,8 @@ const Users = () => {
       /> */}
 
       <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
-        <h2>{`Send Mail to ${selectedUser.user}`}</h2>
-        <SendEmailPanel username={selectedUser.user} email={selectedUser.email}/>
+        <h2>{`Send Mail to ${selectedUser.username}`}</h2>
+        <SendEmailPanel username={selectedUser.username} email={selectedUser.email}/>
       </RightPanel>
 
 

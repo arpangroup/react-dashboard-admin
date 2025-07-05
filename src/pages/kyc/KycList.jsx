@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { LuEye } from "react-icons/lu";
 
 import { AgGridReact } from "ag-grid-react";
@@ -11,13 +11,24 @@ import { NavLink } from "react-router-dom";
 
 import PageTitle from "../../components/page_title/PageTitle";
 import KycDetailsPanel from './KycDetailsPanel';
+import { usePaginatedFetch } from '../../hooks/usePaginatedFetch';
+import Badge from '../../components/Badge';
 
 
-ModuleRegistry.registerModules([AllCommunityModule]);
-
-const KycList = () => {
+const KycList = ({ status = "" }) => {
+  const pageSize = 9999;
+  const [page, setPage] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedKyc, setSelectedKyc] = useState(null);
+  const { data, totalPages, loading } = usePaginatedFetch(`/api/v1/kyc`, page, pageSize, status);
+
+  const ActionLink = (props) => {
+    return (
+      <button className='round-icon-btn primary-btn' type='button' onClick={handleKycDetailsClisk}>
+        <LuEye />
+      </button>
+    );
+  };
 
   const handleKycDetailsClisk = (kyc) => {
     const kycObj = {
@@ -33,65 +44,43 @@ const KycList = () => {
     setIsPanelOpen(false);
   };
 
-  const ActionLink = (props) => {
-    return (
-      // <NavLink to={`/admin/kyc/${props.data.id}/edit`} style={{ color: "#007bff" }}>
-      //   View
-      // </NavLink>
-      <button className='round-icon-btn primary-btn' type='button' onClick={handleKycDetailsClisk}>
-        <LuEye />
-      </button>
-    );
-  };
 
-  const Badge = ({ value }) => {
-    if (!value) return null;
+  // const [rowData] = useState([
+  //   { date: "April 20 2025 06:50", id: "1", user: "TestTest2362", type: "National ID Verification", status: "Verified", action: "" },
+  //   { date: "April 17 2025 03:47", id: "2", user: "amitsharma1311", type: "National ID Verification", status: "Verified", action: "" }
+  // ]);
 
-    const normalizedValue = value.toLowerCase();
+  // const [colDefs] = useState([
+  //   { field: "date" },
+  //   { field: "user", filter: true, filterParams: {} },
+  //   { field: "type" },
+  //   { field: "status", cellRenderer: Badge },
+  //   {
+  //     field: "action",
+  //     headerName: "Action",
+  //     cellRenderer: ActionLink
+  //   },
+  // ]);
 
-    let badgeType = '';
-    switch (normalizedValue) {
-      case 'pending':
-      case 'unverified':
-        badgeType = 'pending';
-        break;
-      case 'verified':
-      case 'success':
-      case 'active':
-        badgeType = 'success';
-        break;
-      case 'deactivated':
-      case 'inactive':
-        badgeType = 'danger';
-        break;
-      default:
-        badgeType = 'default';
-        break;
-    }
-
-    return (
-      <div className={`site-badge ${badgeType}`}>
-        {value}
-      </div>
-    );
-  };
-
-  const [rowData] = useState([
-    { date: "April 20 2025 06:50", id: "1", user: "TestTest2362", type: "National ID Verification", status: "Verified", action: "" },
-    { date: "April 17 2025 03:47", id: "2", user: "amitsharma1311", type: "National ID Verification", status: "Verified", action: "" }
-  ]);
-
-  const [colDefs] = useState([
-    { field: "date" },
-    { field: "user", filter: true, filterParams: {} },
-    { field: "type" },
+  const [colDefs, setColumnDefs] = useState([
+    { field: "createdAt", headerName: "Date" },
+    { field: "fullname", filter: true, filterParams: {} },
+    { field: "documentType", headerName: "Type" },
     { field: "status", cellRenderer: Badge },
-    {
-      field: "action",
-      headerName: "Action",
-      cellRenderer: ActionLink
-    },
+    { field: "action", cellRenderer: ActionLink, headerName: "Action" },
   ]);
+
+
+  const defaultColDef = {
+    // flex: 1,    
+    minWidth: 80,
+    resizable: true,
+  };
+
+  const onPaginationChanged = useCallback((params) => {
+    const newPage = params.api.paginationGetCurrentPage();
+    setPage(newPage);
+  }, []);
 
 
 
@@ -108,9 +97,14 @@ const KycList = () => {
                   <div style={{ height: 500 }} className="ag-theme-alpine">
                     <AgGridReact
                       theme={"legacy"}
-                      rowData={rowData}
+                      rowData={data}
+                      loading={loading}
                       columnDefs={colDefs}
-                      pagination={true} />
+                      defaultColDef={defaultColDef}
+                      pagination={true}                      
+                      paginationPageSize={10}
+                      paginationPageSizeSelector={[10, 20, 50, 100]}
+                      onPaginationChanged={onPaginationChanged}/>
                   </div>
                 </div>
               </div>
@@ -119,7 +113,7 @@ const KycList = () => {
         </div>
       </div>
 
-       <KycDetailsPanel
+      <KycDetailsPanel
         isOpen={isPanelOpen}
         onClose={closePanel}
         kycData={selectedKyc}

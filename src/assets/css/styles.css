@@ -4952,3 +4952,8 @@ img {
   color: #fff;
   background: #5e3fc9;
 }
+
+body.no-scroll {
+  overflow: hidden;
+  padding-right: 15px; /* Adjust for scrollbar width if needed */
+}

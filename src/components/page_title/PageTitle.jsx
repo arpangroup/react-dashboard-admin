@@ -2,6 +2,14 @@ import React, { act } from 'react';
 import { useNavigate } from "react-router-dom";
 import { LuCornerDownLeft } from "react-icons/lu";
 
+const capitalizeWords = (str) => {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 const PageTitle = ({ title, isBack = false, actionLink = null }) => {
     const navigate = useNavigate();
 
@@ -16,7 +24,7 @@ const PageTitle = ({ title, isBack = false, actionLink = null }) => {
                 <div className="row">
                      <div className="col">
                         <div className="title-content">
-                            <h2 className="title">{title}</h2>
+                            <h2 className="title">{capitalizeWords(title)}</h2>
                             {isBack &&                             
                                 <a href="#" onClick={handleBack} className="title-btn">
                                     <LuCornerDownLeft/>

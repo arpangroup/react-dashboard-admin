@@ -1,8 +1,24 @@
 import ReactDOM from 'react-dom';
 import './RightPanel.css';
+import { useEffect } from 'react';
 
 const RightPanel = ({ isOpen, onClose, children, style = null }) => {
+    useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [isOpen]);
+
+
+
     if (!isOpen) return null;
+    
 
     return (
     <>

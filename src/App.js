@@ -52,6 +52,7 @@ import SmsTemplateEdit from './pages/sms/SmsTemplateEdit';
 import DataDisplayComponent from './components/DataDisplayComponent';
 import { useEffect } from 'react';
 import Dashboard from './pages/dashboard/Dashboard';
+import SendEmailPanel from './pages/users/SendEmailPanel';
 
 
 
@@ -72,18 +73,21 @@ function App() {
         <Route index element={<Dashboard />} />
 
         <Route path="users" element={<Users />} />
-        <Route path="users/active" element={<ActiveUsers />} />
-        <Route path="users/disabled" element={<Users />} />
+        <Route path="users/active" element={<Users status={'ACTIVE'} />} />
+        <Route path="users/disabled" element={<Users status={'DISABLED'}/>} />
+        <Route path="users/pending" element={<Users status={'PENDING'}/>} />
         <Route path="users/:userId" element={<EditUser />} />
         <Route path="users/:userId/edit" element={<EditUserV1 />} />
         <Route path="users/mail-send/all" element={<SendEmail />} />
+        {/* <Route path="users/mail-send/all" element={<SendEmailPanel username={"johndoe"} email={"hel@helo.com"} />} /> */}
         <Route path="users/profit" element={<UserProfit />} />
 
 
         <Route path="kyc" element={<KycList />} />
-        <Route path="kyc/pending" element={<KycList />} />
-        <Route path="kyc/rejected" element={<KycList />} />
-        <Route path="kyc" element={<KycList />} />
+        <Route path="kyc/pending" element={<KycList status={'PENDING'}/>} />
+        <Route path="kyc/rejected" element={<KycList status={'REJECTED'} />} />
+        <Route path="kyc/verified" element={<KycList status={'VERIFIED'} />} />
+        <Route path="kyc/unverified" element={<KycList status={'UNVERIFIED'} />} />
         <Route path="kyc/:userId/edit" element={<KycFormEdit />} />
         <Route path="kyc_forms" element={<KycForms />} />       
         <Route path="kyc_forms/create" element={<KycFormCreate />} /> 

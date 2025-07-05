@@ -9,6 +9,7 @@
   z-index: 9999;
   opacity: 1;
   transition: opacity 0.3s ease;
+  /* background: linear-gradient(224deg,rgba(21,32,95,.8) 6.84%,rgba(36,64,154,.8) 73.19%); */
 }
 
 .side-panel {
@@ -28,6 +29,7 @@
   transform: translateX(100%); /* Start hidden off-screen */
   transition: right 0.3s ease;
   transition: transform 0.3s ease;
+  /* background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, .959) 8.73%, #f7f9fe 17.51%, #ecf7fc 81.97%); */
 }
 
 .side-panel.open {

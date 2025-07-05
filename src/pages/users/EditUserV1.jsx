@@ -15,6 +15,9 @@ import ButtonsWithTooltips from "./ButtonsWithTooltips";
 import WalletStatus from "./WalletStatus";
 import AccountStatusForm from "./AccountStatusForm";
 import TransactionStatusForm from "./TransactionStatusForm";
+import RightPanel from "../../components/panel/RightPanel";
+import SendEmailPanel from "./SendEmailPanel";
+import BalancePanel from "./BalancePanel";
 
 
 
@@ -27,24 +30,27 @@ const tabs = [
     { id: "tickets", label: "Ticket", icon: <LuWrench /> },
 ];
 
-    const userStatus = {
-        accountStatus: false,
-        emailVerified: true,
-        kycVerified: true,
-        '2FAVerified': false,
-    };
-    const transactionStatus = {
-        depositStatus: false,
-        withdrawStatus: true,
-        sendMoneyStatus: true,
-    };
+const userStatus = {
+    accountStatus: false,
+    emailVerified: true,
+    kycVerified: true,
+    '2FAVerified': false,
+};
+const transactionStatus = {
+    depositStatus: false,
+    withdrawStatus: true,
+    sendMoneyStatus: true,
+};
 
 
 
 export default function EditUserV1() {
+    const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [panel, setPanel] = useState(null);
     const { userId } = useParams(); // 👈 extract userId from URL
     const [activeTab, setActiveTab] = useState("info");
     const [userInfo, setUserInfo] = useState({});
+
 
     // const [formData, setFormData] = useState({
     //     firstname: 'Monuking1000k',
@@ -62,6 +68,27 @@ export default function EditUserV1() {
         const { name, value } = e.target;
         //setFormData((prev) => ({ ...prev, [name]: value }));
         setUserInfo((prev) => ({ ...prev, [name]: value }))
+    };
+
+    const handleClosePanel = () => {setIsPanelOpen(false)}
+
+    const handleButtonClick = (action) => {
+        switch (action) {
+        case "sendMail":
+            setPanel(action)
+            setIsPanelOpen(true);
+            break;
+        case "loginAsUser":
+            console.log("Login as user:", userInfo.username);
+            break;
+        case "fundUpdate":
+            console.log("Fund update for:", userInfo.username);
+            setPanel(action)
+            setIsPanelOpen(true);
+            break;
+        default:
+            console.warn("Unknown action:", action);
+        }
     };
 
     // const handleTabClick = (e, tabName) => {
@@ -94,7 +121,7 @@ export default function EditUserV1() {
     return (
         <div className="main-content">
             <PageTitle
-                title="Details of John Doe"
+                title={`Details of ${userInfo.username}`}
                 isBack={true} />
 
 
@@ -114,7 +141,7 @@ export default function EditUserV1() {
                                     <p>{userInfo.country}</p>
                                 </div>
 
-                                <ButtonsWithTooltips />
+                                <ButtonsWithTooltips onButtonClick={handleButtonClick}/>
 
 
                             </div>
@@ -177,6 +204,19 @@ export default function EditUserV1() {
                     </div>
                 </div>
             </div>
+            {panel === 'sendMail' && 
+                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>            
+                     <h3 className="mb-4">{`Send Mail to ${userInfo.username}`}</h3>
+                    <SendEmailPanel username={userInfo.username} email={userInfo.email} onClose={handleClosePanel} />
+                </RightPanel>
+            }
+            
+            {panel === 'fundUpdate' && 
+                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{width: '500px'}}>            
+                    <h3 className="mb-4">{`Balance Add or Subtract`}</h3>
+                    <BalancePanel username={userInfo.username} email={userInfo.email} onClose={handleClosePanel} />
+                </RightPanel>
+            }
         </div>
     )
 }

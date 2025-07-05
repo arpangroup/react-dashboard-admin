@@ -14,7 +14,8 @@ export const useFetchJson = (url, limit) => {
             // Note error handling is omitted here for brevity
             const response = await fetch(url);                
             const json = await response.json();
-            const data = limit ? json.slice(0, limit) : json;
+            //const data = limit ? json.slice(0, limit) : json;
+            const data = limit ? json.content.slice(0, limit) : json.content;
             setData(data);
             setLoading(false);
         };
