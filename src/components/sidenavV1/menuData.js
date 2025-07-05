@@ -62,17 +62,17 @@ const menuData = [
   //   href: '#',
   //   icon: <LuUserCog />,
   // },
-  // {
-  //   type: 'sectionTitle',
-  //   label: 'Plans',
-  // },
+  {
+    type: 'sectionTitle',
+    label: 'Plans',
+  },
   {
     type: 'dropdown',
-    label: 'Manage Schema',
+    label: 'Manage Stake',
     icon: <LuAlbum />,
     items: [
-      { label: 'Schedule', href: '#', icon: <LuAlarmClock /> },
-      { label: 'Manage Schema', href: '/admin/schemas', icon: <FiAirplay /> },
+      // { label: 'Schedule', href: '#', icon: <LuAlarmClock /> },
+      { label: 'Manage Investments', href: '/admin/schemas', icon: <FiAirplay /> },
     ],
   },
 

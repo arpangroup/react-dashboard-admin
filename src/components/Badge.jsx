@@ -16,6 +16,9 @@ const Badge = ({ value, style = null }) => {
       case 'active':
       case 'yes':
       case 'completed':
+      case 'crypto':
+      case 'cilver':
+      case 'premium':
         badgeType = 'success';
         break;
       case 'deactivated':

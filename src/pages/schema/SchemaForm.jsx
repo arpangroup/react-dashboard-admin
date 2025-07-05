@@ -10,54 +10,61 @@ import { useParams } from 'react-router';
 
 const CURRENCY_UNIT = "INR";
 
+const scheduleOptions = [
+  {label: 'Hourly', value: '1'}, 
+  {label: 'Daily', value: '24'}, 
+  {label: 'Weekly', value: '168'}, 
+  {label: 'Monthly', value: '720'}
+];
+
+
 const fields = [
-  { label: "Schema Name", name: "schema_name", inputType: "text", type: "text" },
-  { label: "Schema Badge", name: "schema_badge", inputType: "text", type: "text" },
+  { label: "Schema Name", name: "title", inputType: "text", type: "text" },
+  { label: "Schema Badge", name: "schemaBadge", inputType: "text", type: "text" },
 
   // Toggle: Fixed = true, Range = false
-  { label: "Schema Type", name: "schema_type", type: "toggle", labels: ["Fixed", "Range"] },
+  { label: "Schema Type", name: "schemaType", type: "toggle", labels: ["Fixed", "Range"] },
 
   // Only show when schema_type is Fixed (true)
-  { label: "Amount", name: "amount", inputType: "number", unit: CURRENCY_UNIT, type: "unit", conditionalOn: { field: "schema_type", value: true } },
-  { label: "Range", name: "amount_range", type: "range", min: 0, max: 0,  conditionalOn: { field: "schema_type", value: false } },
+  { label: "Amount", name: "minimumInvestmentAmount", inputType: "number", unit: CURRENCY_UNIT, type: "unit", conditionalOn: { field: "schemaType", value: true } },
+  { label: "Range", name: "amount_range", type: "range", min: 0, max: 0,  conditionalOn: { field: "schemaType", value: false } },
 
   // Only show when schema_type is Range (false)
   // { label: "Min Amount", name: "min_amount", inputType: "number", unit: CURRENCY_UNIT, type: "unit", conditionalOn: { field: "schema_type", value: false } },
   // { label: "Max Amount", name: "max_amount", inputType: "number", unit: CURRENCY_UNIT, type: "unit", conditionalOn: { field: "schema_type", value: false } },
 
-  { label: "Return Of Interest", name: "return_interest", inputType: "number", type: "number_with_select" },
-  {
-    label: "Return Period", name: "return_period", type: "select", options: [
-      { value: "1", label: "Hour" },
-      { value: "2", label: "Daily" },
-      { value: "3", label: "Weekly" },
-      { value: "4", label: "Month" },
-      { value: "5", label: "2 Week" }
-    ]
-  },
+  { label: "Return Of Interest", name: "returnRate", inputType: "number", type: "number_with_select" },
+  { label: "Return Period", name: "returnSchedule", type: "select", options: scheduleOptions },
 
   // Toggle: Period = true, Lifetime = false
-  { label: "Return Type", name: "return_type", type: "toggle", labels: ["Period", "Lifetime"] },
+  { label: "Return Type", name: "returnType", type: "toggle", labels: ["Period", "Lifetime"] },
 
   // Only show if return_type is Period (true)
-  { label: "Number of Period", name: "number_of_period", inputType: "number", unit: "Times", type: "unit", conditionalOn: { field: "return_type", value: true } },
+  { type: "DIV", conditionalOn: { field: "returnType", value: false } },
+  { label: "Number of Period", name: "totalReturnPeriods", inputType: "number", unit: "Times", type: "unit", conditionalOn: { field: "returnType", value: true } },
 
-  { label: "Capital Back", name: "capital_back", type: "toggle", labels: ["Yes", "No"] },
+
+  { label: "Capital Back", name: "capitalReturned", type: "toggle", labels: ["Yes", "No"] },
   { label: "Featured", name: "featured", type: "toggle", labels: ["Yes", "No"] },
 
   // Toggle: Yes = true
-  { label: "Schema Cancel", name: "schema_cancel", type: "toggle", labels: ["Yes", "No"] },
+  { label: "Schema Cancel", name: "cancellable", type: "toggle", labels: ["Yes", "No"] },
 
   // Only show if schema_cancel is Yes (true)
-  { label: "Cancel Expiry (Minutes)", name: "expiry_minute", inputType: "number", type: "number", conditionalOn: { field: "schema_cancel", value: true } },
+  { label: "Cancel Expiry (Minutes)", name: "cancellationGracePeriodMinutes", inputType: "number", type: "number", conditionalOn: { field: "cancellable", value: true } },
 
-  { label: "Schema Trending", name: "is_trending", type: "toggle", labels: ["Yes", "No"] },
+  { label: "Schema Trending", name: "tradeable", type: "toggle", labels: ["Yes", "No"] },  
+  { label: "Currency", name: "currency", type: "toggle", labels: ["USD", "INR"] },
+  { label: "Early Exit Penalty", name: "earlyExitPenalty", inputType: "number"},
+  { label: "Terms & Condition URL", name: "termsAndConditionsUrl", type: "text" },
+
+  { label: "Description", name: "description", type: "textarea" },
   { label: "Status", name: "status", type: "toggle", labels: ["Active", "Deactivate"] },
 ];
 
 const interestTypeOptions = [
-  { value: 'percentage', label: '%' },
-  { value: 'fixed', label: '₹' },
+  { value: 'PERCENTAGE', label: '%' },
+  { value: 'FLAT', label: '₹' },
 ];
 
 const SchemaForm = () => {
@@ -65,24 +72,22 @@ const SchemaForm = () => {
   const isEditMode = !!schemaId;
 
   const defaultFormState = {
-    schema_type: true, // false = Range, true = Fixed
-    return_type: false,  // true = Period, false = Lifetime
-    capital_back: true,
+    title: '',
+    schemaBadge: '',
+    schemaType: true, // true = Fixed, false = Range,
+    minimumInvestmentAmount: '0',
+    maximumInvestmentAmount: '0',
+    returnRate: '20',
+    returnSchedule: scheduleOptions,
+    returnType: false,  // true = Period, false = Lifetime
+    totalReturnPeriods: '0',
+    capitalReturned: true,
     featured: true,
-    schema_cancel: false,
-    is_trending: true,
-    status: true, // Active
+    cancellable: false,
+    cancellationGracePeriodMinutes: 0,
+    tradeable: true,
 
-    schema_name: '',
-    schema_badge: '',
-    schema_desc: '',
-    min_amount: '0',
-    max_amount: '0',
-    return_interest: '20',
-    number_of_period: '0',    
-    expiry_minute: '',
-    interest_type: 'percentage',
-    return_period: '1',
+    status: true, // Active
     off_days: [],
     schema_img: null,
   };
@@ -97,21 +102,22 @@ const SchemaForm = () => {
     const fetchSchema = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/schema/${schemaId}`);
+        const response = await fetch(`/api/v1/investment-schemas/${schemaId}`);
         if (!response.ok) throw new Error('Failed to fetch schema');
         const data = await response.json();
-        setFormData({ ...data, schema_img: null });
+        // setFormData({ ...data, schema_img: null });
 
         // Normalize data if needed, e.g. boolean/string toggles
         setFormData({
           ...defaultFormState,
           ...data,
-          return_type: data.return_type === '1' ? 'Period' : 'Lifetime',
-          capital_back: data.capital_back === '1' ? 'Yes' : 'No',
-          featured: data.featured === '1' ? 'Yes' : 'No',
-          schema_cancel: data.schema_cancel === '1' ? 'Yes' : 'No',
-          is_trending: data.is_trending === '1' ? 'Yes' : 'No',
-          status: data.status === '1' ? 'Active' : 'Deactivate',
+          schemaType: data.schemaType === 'FIXED' ? true : false,
+          returnType: data.returnType === 'PERIOD' ? true : false,
+          capitalReturned: data.capitalReturned,
+          featured: data.featured,
+          cancellable: data.cancellable,
+          tradeable: data.tradeable,
+          status: data.active,
           schema_img: null,
         });
       } catch (error) {
@@ -216,6 +222,10 @@ const SchemaForm = () => {
       };
 
       switch (field.type) {
+        case 'DIV':
+          return (
+            <div className="col-xl-6"></div>
+          )
         case 'unit':
           return (
             <div className="col-xl-6" key={field.name}>
@@ -225,15 +235,15 @@ const SchemaForm = () => {
         case 'textarea':
           return (
             <div className="col-xl-12" key={field.name}>
-              <label className="box-input-label" htmlFor={field.name}>
-                {field.label}
-              </label>
-              <textarea
-                name={field.name}
-                className={`form-textarea ${field.name}`}
-                value={formData[field.name] || ''}
-                onChange={handleChange}
-              />
+              <div className='site-input-groups'>
+                <label className="box-input-label" htmlFor={field.name}>{field.label}</label>
+                <textarea
+                  name={field.name}
+                  className='form-textarea mb-0'
+                  value={formData[field.name] || ''}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
           );
         case 'select':
@@ -246,7 +256,7 @@ const SchemaForm = () => {
                 className="form-select"
                 name={field.name}
                 id={field.name}
-                value={formData[field.name]}
+                value={field.name === 'returnSchedule' ? formData.returnSchedule.scheduleInHour : formData[field.name]}
                 onChange={handleChange}
               >
                 {field.options.map((opt) => (
@@ -320,11 +330,11 @@ const SchemaForm = () => {
               <FormInputWithSelect
                 label={field.label}
                 inputName="return_interest"
-                inputValue={formData.return_interest || ''}
+                inputValue={formData.returnRate || ''}
                 onInputChange={handleReturnInterestChange}
                 inputPlaceholder=""
-                selectName="interest_type"
-                selectValue={formData.interest_type || 'percentage'}
+                selectName="interestCalculationMethod"
+                selectValue={formData.interestCalculationMethod || 'PERCENTAGE'}
                 onSelectChange={handleInterestTypeChange}
                 selectOptions={interestTypeOptions}
               />
@@ -338,6 +348,7 @@ const SchemaForm = () => {
                 type={field.inputType || 'number'}
                 min={0}
                 max={field.max || undefined}
+                value={formData[field.name]}
               />
             </div>
           );
@@ -345,8 +356,8 @@ const SchemaForm = () => {
           return (
             <div className="col-xl-6 row">
             <FormInputRange
-              minValue={field.min}
-              maxValue={field.max}
+              minValue={formData.minimumInvestmentAmount || field.min}
+              maxValue={formData.maximumInvestmentAmount || field.max}
               onChange={() => {}}
             />
             </div>

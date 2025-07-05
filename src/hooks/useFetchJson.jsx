@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
  * Fetch example Json data
  * Not recommended for production use!
  */
-export const useFetchJson = (url, limit) => {
+export const useFetchJson = (url) => {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
     useEffect(() => {
@@ -14,12 +14,10 @@ export const useFetchJson = (url, limit) => {
             // Note error handling is omitted here for brevity
             const response = await fetch(url);                
             const json = await response.json();
-            //const data = limit ? json.slice(0, limit) : json;
-            const data = limit ? json.content.slice(0, limit) : json.content;
-            setData(data);
+            setData(json);
             setLoading(false);
         };
         fetchData();
-    }, [url, limit]);
+    }, [url]);
     return { data, loading };
 };
