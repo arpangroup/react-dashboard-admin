@@ -169,14 +169,14 @@ const UserRankingForm = () => {
         );
       case 'toggle':
         return (
-          <>
+          <div key={field.name}>
             <label className="box-input-label mt-4">Status:</label>
             <Switch
               name={field.name}
               enabled={formData[field.name] === '1'}
               onToggle={handleToggle}
             />
-          </>
+          </div>
         );
       default:
         return (
@@ -209,11 +209,11 @@ const UserRankingForm = () => {
 
                   {/* File Upload */}
                   <div className="site-input-groups">
-                    <label className="box-input-label" for="">Ranking Icon:</label>
+                    <label className="box-input-label" htmlFor="">Ranking Icon:</label>
                     <div className="wrap-custom-file">
                       <input type="file" name="icon" id="image6" accept=".gif, .jpg, .png" />
                       <label
-                        for="image6"
+                        htmlFor="image6"
                         id="image-old"
                         className="file-ok"
                         style={{ backgroundImage: 'url(https://81habibi.com/assets/global/images/sCQgIyl0OKzFiO73nmWF.svg)' }}

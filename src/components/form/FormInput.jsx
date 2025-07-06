@@ -1,5 +1,6 @@
 // components/FormInput.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import LabelWithInfo from './LabelWithInfo';
 
 const FormInput = ({
   label,
@@ -8,11 +9,12 @@ const FormInput = ({
   value,
   required = false,
   disabled = false,
+  info = null,
   onChange
-}) => {
+}) => {  
   return (
-    <div className="site-input-groups">
-      <label className="box-input-label">{label}</label>
+    <div className="site-input-groups">      
+      <LabelWithInfo label={label} info={info} />
       <input
         type={type}
         className="box-input"

@@ -68,11 +68,11 @@ const menuData = [
   },
   {
     type: 'dropdown',
-    label: 'Manage Stake',
+    label: 'Manage Schema',
     icon: <LuAlbum />,
     items: [
       // { label: 'Schedule', href: '#', icon: <LuAlarmClock /> },
-      { label: 'Manage Investments', href: '/admin/schemas', icon: <FiAirplay /> },
+      { label: 'Investment Schemas', href: '/admin/schemas', icon: <FiAirplay /> },
     ],
   },
 
@@ -146,12 +146,24 @@ const menuData = [
   //     { label: 'Targets Referral', href: '#', icon: <LuExpand /> }
   //   ],
   // },
+  // {
+  //   type: 'link',
+  //   label: 'User Rankings',
+  //   href: '/admin/rankings',
+  //   icon: <LuMedal />,
+  // },
   {
-    type: 'link',
+    type: 'dropdown',
     label: 'User Rankings',
-    href: '/admin/rankings',
     icon: <LuMedal />,
+    items: [
+      { label: 'Rankings', href: '/admin/rankings', icon: <LuAlarmClock /> },
+      { label: 'Rank Configs', href: '/admin/rankings/config-editor', icon: <FiAirplay /> },
+    ],
   },
+
+
+
 
   {
     type: 'sectionTitle',

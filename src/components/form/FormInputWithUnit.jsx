@@ -1,5 +1,6 @@
 // components/FormInputWithUnit.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import LabelWithInfo from './LabelWithInfo';
 
 const FormInputWithUnit = ({
   label,
@@ -11,11 +12,12 @@ const FormInputWithUnit = ({
   onChange,
   required = false,
   disabled = false,
+  info = null,
   inputClassName = '',
 }) => {
   return (
-    <div className="site-input-groups">
-      <label className="box-input-label">{label}</label>
+    <div className="site-input-groups">      
+      <LabelWithInfo label={label} info={info} />
       <div className="input-group joint-input">
         <input
           type={type}

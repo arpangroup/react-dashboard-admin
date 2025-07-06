@@ -22,7 +22,7 @@ const Users = ({status = ""}) => {
   const pageSize = 9999;
   const [page, setPage] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");  
   const { data, totalPages, loading } = usePaginatedFetch(`/api/v1/users`, page, pageSize, status);
 
   const ActionLink = (props) => {

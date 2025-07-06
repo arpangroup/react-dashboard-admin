@@ -53,6 +53,8 @@ import DataDisplayComponent from './components/DataDisplayComponent';
 import { useEffect } from 'react';
 import Dashboard from './pages/dashboard/Dashboard';
 import SendEmailPanel from './pages/users/SendEmailPanel';
+import UserRankingFormV1 from './pages/ranking/UserRankingFormV1';
+import RankConfigEditor from './pages/ranking/RankConfigEditor';
 
 
 
@@ -127,8 +129,9 @@ function App() {
 
         
         <Route path="rankings" element={<UserRanking />} />
-        <Route path="rankings/create" element={<UserRankingForm />} />
-        <Route path="rankings/edit/:rankingId" element={<UserRankingForm />} />
+        <Route path="rankings/create" element={<UserRankingFormV1 />} />
+        <Route path="rankings/edit/:rankingId" element={<UserRankingFormV1 />} />
+        <Route path="rankings/config-editor" element={<RankConfigEditor />} />
 
         
         <Route path="setting/site" element={<SiteSetting />} />
