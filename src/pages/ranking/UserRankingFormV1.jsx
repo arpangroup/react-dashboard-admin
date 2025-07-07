@@ -26,7 +26,7 @@ const rankTypeOptions = [
 
 const fields = [
   { label: "Ranking Code", name: "code", info: 'Unique internal code like RANK_1, RANK_2', },
-  { label: "Priority", name: "priority", type: "unit", inputType: "number", info: 'Order of rank evaluation', },
+  { label: "Rank Order", name: "rankOrder", type: "unit", inputType: "number", info: 'Order of rank evaluation', },
   { label: "Display Name", name: "displayName", },
 
   { label: "Minimum Deposit", name: "minDepositAmount", unit: CURRENCY_UNIT, type: "unit", inputType: "number", info: '<h6>Minimum personal deposit by user</h6> Ensures user has invested some funds personally (used in crypto/finance MLMs)' },
@@ -54,7 +54,7 @@ const fields = [
 const defaultFormState = {
   code: '',
   displayName: '',
-  priority: 0,
+  rankOrder: 0,
   minDepositAmount: 0,
   minInvestmentAmount: 0,
   minDirectReferrals: 0,
