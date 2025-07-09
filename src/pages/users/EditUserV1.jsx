@@ -30,6 +30,13 @@ const tabs = [
     { id: "tickets", label: "Ticket", icon: <LuWrench /> },
 ];
 
+const sidePanelButtons = [
+    { id: "deposit_now", label: "Deposit Balance", icon: <LuUser /> },
+    { id: "investment_now", label: "Investment Now", icon: <LuAnchor /> },
+    { id: "send_money", label: "Send Money", icon: <LuCreditCard /> },
+    { id: "withdraw", label: "Withdraw", icon: <LuCast /> },
+];
+
 const userStatus = {
     accountStatus: false,
     emailVerified: true,
@@ -70,24 +77,24 @@ export default function EditUserV1() {
         setUserInfo((prev) => ({ ...prev, [name]: value }))
     };
 
-    const handleClosePanel = () => {setIsPanelOpen(false)}
+    const handleClosePanel = () => { setIsPanelOpen(false) }
 
     const handleButtonClick = (action) => {
         switch (action) {
-        case "sendMail":
-            setPanel(action)
-            setIsPanelOpen(true);
-            break;
-        case "loginAsUser":
-            console.log("Login as user:", userInfo.username);
-            break;
-        case "fundUpdate":
-            console.log("Fund update for:", userInfo.username);
-            setPanel(action)
-            setIsPanelOpen(true);
-            break;
-        default:
-            console.warn("Unknown action:", action);
+            case "sendMail":
+                setPanel(action)
+                setIsPanelOpen(true);
+                break;
+            case "loginAsUser":
+                console.log("Login as user:", userInfo.username);
+                break;
+            case "fundUpdate":
+                console.log("Fund update for:", userInfo.username);
+                setPanel(action)
+                setIsPanelOpen(true);
+                break;
+            default:
+                console.warn("Unknown action:", action);
         }
     };
 
@@ -127,6 +134,29 @@ export default function EditUserV1() {
 
             <div className="container-fluid">
 
+
+                <div className="row">
+                    <div className="col-xl-12">
+                        <div className="admin-latest-announcements">
+                            <div className="content">
+                                {sidePanelButtons.map((panel) => (
+                                    <a href="#" className="site-btn-xs primary-btn"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setPanel(panel.id)
+                                            setIsPanelOpen(true);
+                                        }}
+                                    >
+                                        {panel.icon} <span>{panel.label}</span>
+                                    </a>
+                                ))}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="row justify-content-center">
                     <div className="col-xxl-3 col-xl-6 col-lg-8 col-md-6 col-sm-12">
                         {/* <ProfileCard /> */}
@@ -141,7 +171,7 @@ export default function EditUserV1() {
                                     <p>{userInfo.country}</p>
                                 </div>
 
-                                <ButtonsWithTooltips onButtonClick={handleButtonClick}/>
+                                <ButtonsWithTooltips onButtonClick={handleButtonClick} />
 
 
                             </div>
@@ -204,17 +234,41 @@ export default function EditUserV1() {
                     </div>
                 </div>
             </div>
-            {panel === 'sendMail' && 
-                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>            
-                     <h3 className="mb-4">{`Send Mail to ${userInfo.username}`}</h3>
+            {panel === 'sendMail' &&
+                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+                    <h3 className="mb-4">{`Send Mail to ${userInfo.username}`}</h3>
                     <SendEmailPanel username={userInfo.username} email={userInfo.email} onClose={handleClosePanel} />
                 </RightPanel>
             }
-            
-            {panel === 'fundUpdate' && 
-                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{width: '500px'}}>            
+
+            {panel === 'fundUpdate' &&
+                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{ width: '500px' }}>
                     <h3 className="mb-4">{`Balance Add or Subtract`}</h3>
                     <BalancePanel userId={userInfo.id} username={userInfo.username} onClose={handleClosePanel} />
+                </RightPanel>
+            }
+
+            {panel === 'deposit_now' &&
+                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} >
+                    <h3 className="mb-4">{`Deposit Amount`}</h3>
+                </RightPanel>
+            }
+
+            {panel === 'investment_now' &&
+                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+                    <h3 className="mb-4">{`Invest Amount`}</h3>
+                </RightPanel>
+            }
+            
+            {panel === 'send_money' &&
+                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+                    <h3 className="mb-4">{`Send Money`}</h3>
+                </RightPanel>
+            }
+
+            {panel === 'withdraw' &&
+                <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+                    <h3 className="mb-4">{`Withdraw Amount`}</h3>
                 </RightPanel>
             }
         </div>
