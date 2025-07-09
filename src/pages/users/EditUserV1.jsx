@@ -214,7 +214,7 @@ export default function EditUserV1() {
             {panel === 'fundUpdate' && 
                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{width: '500px'}}>            
                     <h3 className="mb-4">{`Balance Add or Subtract`}</h3>
-                    <BalancePanel username={userInfo.username} email={userInfo.email} onClose={handleClosePanel} />
+                    <BalancePanel userId={userInfo.id} username={userInfo.username} onClose={handleClosePanel} />
                 </RightPanel>
             }
         </div>

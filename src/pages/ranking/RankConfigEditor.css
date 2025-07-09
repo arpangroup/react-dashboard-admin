@@ -286,7 +286,7 @@ th {
   font-size: 14px;
 }
 
-form {
+/* form {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -294,7 +294,7 @@ form {
   padding: 10px;
   background-color: #f9f9f9;
   border-radius: 8px;
-}
+} */
 
 form label {
   font-weight: 600;
