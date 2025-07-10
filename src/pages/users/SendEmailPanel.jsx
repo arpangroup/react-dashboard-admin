@@ -22,17 +22,15 @@ const SendEmailPanel = ({ email, username, isAllEmail = false, isOpen, onClose }
     return (
         <>
             <form onSubmit={handleSubmit}>
-
-                <div className="site-input-groups">
-                    <FormInput
-                        label="Subject:"
-                        name="subject"
-                        type="text"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        required
-                    />
-                </div>
+                
+                <FormInput
+                    label="Subject:"
+                    name="subject"
+                    type="text"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    required
+                />
                 <div className="site-input-groups">
                     <label for="" className="box-input-label">Email Details</label>
                     <textarea

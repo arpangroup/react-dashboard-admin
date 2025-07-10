@@ -19,12 +19,16 @@ const FormDropdown = ({
       <select
         name={name}
         className="form-select"
-      // value={selectValue}
+        value={value || ""}
+        onChange={onChange}
       // onChange={e => onSelectChange(e.target.value)}
-      // disabled={disabled}
+        required={required}
+        disabled={disabled}
       >
-        {options.map(({ value, label }) => (
-          <option key={value} value={value}>{label}</option>
+        {options.map(({ value, label, disabled  }) => (
+          <option key={value} value={value} disabled={disabled}>
+            {label}
+          </option>
         ))}
       </select>
 

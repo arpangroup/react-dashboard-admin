@@ -19,6 +19,11 @@ import RightPanel from "../../components/panel/RightPanel";
 import SendEmailPanel from "./SendEmailPanel";
 import BalancePanel from "./BalancePanel";
 import apiClient from "../../api/apiClient";
+import DepositNow from "../deposit/DepositNow";
+import InvestNow from "../deposit/InvestNow";
+import DepositSuccess from "../deposit/DepositSuccess";
+import SendMoney from "../deposit/SendMoney";
+import WithdrawRequest from "../deposit/WithdrawRequest";
 
 
 
@@ -242,24 +247,29 @@ export default function EditUserV1() {
             {panel === 'deposit_now' &&
                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} >
                     <h3 className="mb-4">{`Deposit Amount`}</h3>
+                    <DepositNow userId={userInfo.id} username={userInfo.username}/>
+                    {/* <DepositSuccess userId={userInfo.id} username={userInfo.username} /> */}
                 </RightPanel>
             }
 
             {panel === 'investment_now' &&
                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
-                    <h3 className="mb-4">{`Invest Amount`}</h3>
+                    <h3 className="mb-4">Confirm Investment</h3>
+                    <InvestNow userId={userInfo.id} username={userInfo.username}/>
                 </RightPanel>
             }
             
             {panel === 'send_money' &&
                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
                     <h3 className="mb-4">{`Send Money`}</h3>
+                    <SendMoney senderId={userInfo.id} senderName={userInfo.username} email={"hello"}/>
                 </RightPanel>
             }
 
             {panel === 'withdraw' &&
                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
-                    <h3 className="mb-4">{`Withdraw Amount`}</h3>
+                    <h3 className="mb-4">{`Withdraw Money`}</h3>
+                    <WithdrawRequest senderId={userInfo.id} senderName={userInfo.username} email={"hello"}/>
                 </RightPanel>
             }
         </div>
