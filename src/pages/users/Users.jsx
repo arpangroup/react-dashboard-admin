@@ -12,10 +12,9 @@ import PageTitle from "../../components/page_title/PageTitle";
 import { NavLink, useParams } from "react-router-dom";
 import SendEmailPanel from "./SendEmailPanel";
 import Badge from "../../components/Badge";
-import { useFetchJson } from "../../hooks/useFetchJson";
 import RightPanel from "../../components/panel/RightPanel";
-import { usePaginatedFetch } from "../../hooks/usePaginatedFetch";
 import { API_ROUTES } from "../../constants/apiRoutes";
+import { usePaginatedFetch } from "../../api/usePaginatedFetch";
 
 // ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -67,32 +66,6 @@ const Users = ({status = ""}) => {
       </span>
     );
   };
-
-  
-
-  // const [rowData] = useState([
-  //   { avatar: "", id: "1", user: "John Doe", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "Unverified", status: "Deactivated", action: "" },
-  //   { avatar: "", id: "2", user: "Elon Musk", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "Verified", status: "Active", action: "" },
-  //   { avatar: "", id: "3", user: "Steve Jobs", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "" },
-  //   { avatar: "", id: "4", user: "Bill Gates", email: "john@doe.com", balance: 64950, profit: 2000, kyc: "PENDING", status: "ACTIVE", action: "<button>Edit</button>" },
-  // ]);
-
-  // const [colDefs] = useState([
-  //   { field: "avatar", , width: 80, resizable: false, sortable: false, filter: false, suppressSizeToFit: true },
-  //   { field: "user", width: 200, filter: true, filterParams: {} },
-  //   { field: "email", width: 160 },
-  //   { field: "balance", width: 90 },
-  //   { field: "profit", width: 90 },
-  //   { field: "kyc", width: 140, cellRenderer: Badge },
-  //   { field: "status", width: 140, cellRenderer: Badge },
-  //   {
-  //     field: "action",
-  //     width: 120,
-  //     headerName: "Action",
-  //     cellRenderer: ActionLink
-  //   },
-  // ]);
-
 
   const [colDefs, setColumnDefs] = useState([
       { field: "avatar", cellRenderer: Avatar, width: 80, resizable: false, sortable: false, filter: false, suppressSizeToFit: true},

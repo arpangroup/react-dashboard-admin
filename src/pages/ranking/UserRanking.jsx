@@ -1,34 +1,46 @@
-import React from 'react';
-import { LuPencilLine, LuPlus, LuSettings } from "react-icons/lu";
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AgGridReact } from 'ag-grid-react';
+import { LuPencilLine, LuPlus, LuSettings } from 'react-icons/lu';
 
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { themeBalham } from 'ag-grid-community';
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
-
-import PageTitle from "../../components/page_title/PageTitle";
+import PageTitle from '../../components/page_title/PageTitle';
 import Badge from '../../components/Badge';
-import { useFetchJson } from '../../hooks/useFetchJson';
 import RightPanel from '../../components/panel/RightPanel';
 import RankConfigEditor from './RankConfigEditor';
 
-import rank5 from '../../assets/images/rank5.jpg';
+import rank0 from '../../assets/icons/rank0.png';
+import rank1 from '../../assets/icons/rank1.svg';
+import rank2 from '../../assets/icons/rank2.svg';
+import rank3 from '../../assets/icons/rank3.svg';
+import rank4 from '../../assets/icons/rank4.svg';
+import rank5 from '../../assets/icons/rank5.jpg';
 
+import { usePaginatedFetch } from '../../api/usePaginatedFetch';
+import { API_ROUTES } from '../../constants/apiRoutes';
+
+
+// const fallbackIcons = {
+//   1: "https://cdn-icons-png.flaticon.com/512/8037/8037137.png",
+//   2: "https://81habibi.com/assets/global/images/sCQgIyl0OKzFiO73nmWF.svg",
+//   3: "https://81habibi.com/assets/global/images/TQDUvbD48kmhmV9qifzh.svg",
+//   4: "https://81habibi.com/assets/global/images/hGHllGGCIYfpx5Z2VKrW.svg",
+//   5: "https://81habibi.com/assets/global/images/SaNfYL7WD2pzAAME8Sqb.svg",
+//   6: rank5,
+// };
 
 const fallbackIcons = {
-  1: "https://cdn-icons-png.flaticon.com/512/8037/8037137.png",
-  2: "https://81habibi.com/assets/global/images/sCQgIyl0OKzFiO73nmWF.svg",
-  3: "https://81habibi.com/assets/global/images/TQDUvbD48kmhmV9qifzh.svg",
-  4: "https://81habibi.com/assets/global/images/hGHllGGCIYfpx5Z2VKrW.svg",
-  5: "https://81habibi.com/assets/global/images/SaNfYL7WD2pzAAME8Sqb.svg",
+  1: rank0,
+  2: rank1,
+  3: rank2,
+  4: rank3,
+  5: rank4,
   6: rank5,
 };
 
 const UserRanking = (props) => {
-    const { data, loading } = useFetchJson(`/api/v2/rankings`);
+  const [page, setPage] = useState(0);
+    //const { data, loading } = useFetchJson(`/api/v2/rankings`);
+    const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.RANK_CONFIGS, page, 9999, {status: "ACTIVE"});
     const [isPanelOpen, setIsPanelOpen] = useState(false);
 
 
@@ -66,16 +78,6 @@ const UserRanking = (props) => {
         );
     };
 
-
-
-
-    // const [rowData] = useState([
-    //     { id: 1, rank: "Level 1", rankName: "Hyip Member", minimumEarning: "0 INR", bonus: "0 INR", description: "", status: "Active", rankIcon: "https://81habibi.com/assets/global/images/sCQgIyl0OKzFiO73nmWF.svg" },
-    //     { id: 2, rank: "Level 2", rankName: "Hyip Leader", minimumEarning: "60 INR", bonus: "10 INR", description: "", status: "Active", rankIcon: "https://81habibi.com/assets/global/images/TQDUvbD48kmhmV9qifzh.svg" },
-    //     { id: 3, rank: "Level 3", rankName: "Hyip Captain", minimumEarning: "220 INR", bonus: "20 INR", description: "", status: "Active", rankIcon: "https://81habibi.com/assets/global/images/hGHllGGCIYfpx5Z2VKrW.svg" },
-    //     { id: 4, rank: "Level 4", rankName: "Hyip Victor", minimumEarning: "2000 INR", bonus: "50 INR", description: "", status: "Active", rankIcon: "https://81habibi.com/assets/global/images/SaNfYL7WD2pzAAME8Sqb.svg" },
-    // ]);
-
     const [colDefs] = useState([
         { field: "code", headerName: 'RANK', width: 100,  },
         { field: "rankIcon", width: 80, headerName: "ICON", cellRenderer: RankIconCell },
@@ -112,12 +114,12 @@ const UserRanking = (props) => {
                                         <AgGridReact
                                             theme={"legacy"}
                                             rowData={data}
-                                            // rowData={data}
                                             loading={loading}
                                             columnDefs={colDefs}
                                             defaultColDef={defaultColDef}
-                                            rowHeight={60}
-                                            pagination={true} />
+                                            pagination={true}                      
+                                            paginationPageSize={10}
+                                            paginationPageSizeSelector={[10, 20, 50, 100]} />
                                     </div>
                                 </div>
                             </div>

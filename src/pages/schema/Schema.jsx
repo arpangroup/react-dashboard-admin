@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 
 import PageTitle from "../../components/page_title/PageTitle";
 import Badge from '../../components/Badge';
-import { useFetchJson } from '../../hooks/useFetchJson';
+import { useFetchJson } from '../../api/useFetchJson';
 
 const Schema = (props) => {
     const { data, loading } = useFetchJson(`/api/v1/investment-schemas`);

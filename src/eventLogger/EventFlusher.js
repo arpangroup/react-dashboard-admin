@@ -1,7 +1,7 @@
 // EventFlusher.js
 import { useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
 import globalEventLogger from "./globalEventLogger";
+import useFetch from "../api/useFetch";
 
 const EventFlusher = () => {
     console.log("EventFlusher......");

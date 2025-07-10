@@ -5,8 +5,8 @@ import { AgGridReact } from 'ag-grid-react';
 
 // Internal project imports
 import { API_ROUTES } from '../constants/apiRoutes';
-import { usePaginatedFetch } from '../hooks/usePaginatedFetch';
 import { formatDate } from '../utils/dateUtils';
+import { usePaginatedFetch } from '../api/usePaginatedFetch';
 import Badge from './Badge';
 
 // Cell renderers

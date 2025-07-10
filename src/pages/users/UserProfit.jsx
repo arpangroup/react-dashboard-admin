@@ -7,7 +7,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { NavLink } from 'react-router-dom';
-import { usePaginatedFetch } from '../../hooks/usePaginatedFetch';
+import { usePaginatedFetch } from '../../api/usePaginatedFetch';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const formatDate = (dateString) => {
