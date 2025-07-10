@@ -1,31 +1,50 @@
 import { useEffect, useState } from "react";
+import apiClient from "../api/apiClient";
 
-export const usePaginatedFetch = (url, page = 0, size = 10, status) => {
-  console.log("usePaginatedFetch: ", url)
+/**
+ * usePaginatedFetch
+ *
+ * @param {string} baseUrl - The base URL (e.g., `/api/v1/users`)
+ * @param {number} page - Current page index (0-based)
+ * @param {number} size - Page size
+ * @param {object} filters - Optional query parameters (e.g., { status: "active" })
+ * @returns {object} - { data, totalPages, loading, error }
+ */
+export const usePaginatedFetch = (baseUrl, page = 0, size = 10, filters = {}, status="") => {
+  console.log("usePaginatedFetch: ", baseUrl)
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      setError(null);
 
-      let fullUrl = `${url}?page=${page}&size=${size}`;
-      if (status) {
-        fullUrl += `&status=${status}`;
+      try {
+        const queryParams = new URLSearchParams({
+          page: page.toString(),
+          size: size.toString(),
+          ...filters,
+        });
+
+        const fullUrl = `${baseUrl}?${queryParams.toString()}`;
+        const response = await apiClient.get(fullUrl);
+
+        setData(response.content || []);
+        setTotalPages(response.totalPages || 0);
+      } catch (err) {
+        console.error("usePaginatedFetch error:", err);
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
       }
-
-      const response = await fetch(fullUrl);
-      const json = await response.json();
-
-      setData(json.content || []);
-      setTotalPages(json.totalPages || 0);
-      setLoading(false);
+      
     };
 
     fetchData();
-  }, [url, page, size, status]);
+  }, [baseUrl, page, size, JSON.stringify(filters)]); // re-run on dependency change
 
-  console.log("ROWDATA: ", data);
   return { data, totalPages, loading };
 };

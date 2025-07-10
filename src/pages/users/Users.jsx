@@ -15,6 +15,7 @@ import Badge from "../../components/Badge";
 import { useFetchJson } from "../../hooks/useFetchJson";
 import RightPanel from "../../components/panel/RightPanel";
 import { usePaginatedFetch } from "../../hooks/usePaginatedFetch";
+import { API_ROUTES } from "../../constants/apiRoutes";
 
 // ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -23,7 +24,9 @@ const Users = ({status = ""}) => {
   const [page, setPage] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");  
-  const { data, totalPages, loading } = usePaginatedFetch(`/api/v1/users`, page, pageSize, status);
+  // const { data, totalPages, loading } = usePaginatedFetch(`/api/v1/users`, page, pageSize, status);
+  // const { data, totalPages, loading } = usePaginatedFetch(`/api/v1/users`, page, pageSize, status);
+  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.USERS, page, 10, {status: "ACTIVE"});
 
   const ActionLink = (props) => {
     return (
