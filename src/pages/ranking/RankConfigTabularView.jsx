@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './RankConfigEditor.css';
 import { LuPlus } from 'react-icons/lu';
 import { NavLink } from 'react-router-dom';
+import { API_ROUTES } from '../../constants/apiRoutes';
+import apiClient from '../../api/apiClient';
 
 const incomeConfigBaseUrl = '/api/v1/config/income';
 
@@ -16,9 +18,8 @@ export default function RankConfigTabularView() {
 
   const fetchRankConfigData = async () => {
     try {
-      const resp = await fetch('/api/v2/rankings');
-      const data = await resp.json();
-      setRankConfigData(data);
+      const data = await apiClient.get(API_ROUTES.RANK_CONFIGS);
+      setRankConfigData(data.content);
       setRankChanged(false);
     } catch (err) {
       setAlertMsg('Failed to load rank data.');

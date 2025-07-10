@@ -13,10 +13,10 @@ import { API_ROUTES } from '../../constants/apiRoutes';
 const CURRENCY_UNIT = "INR";
 
 const scheduleOptions = [
-  {label: 'Hourly', value: '1'}, 
-  {label: 'Daily', value: '24'}, 
-  {label: 'Weekly', value: '168'}, 
-  {label: 'Monthly', value: '720'}
+  { label: 'Hourly', value: '1' },
+  { label: 'Daily', value: '24' },
+  { label: 'Weekly', value: '168' },
+  { label: 'Monthly', value: '720' }
 ];
 
 
@@ -29,7 +29,7 @@ const fields = [
 
   // Only show when schema_type is Fixed (true)
   { label: "Amount", name: "minimumInvestmentAmount", inputType: "number", unit: CURRENCY_UNIT, type: "unit", conditionalOn: { field: "schemaType", value: true } },
-  { label: "Range", name: "amount_range", type: "range", min: 0, max: 0,  conditionalOn: { field: "schemaType", value: false } },
+  { label: "Range", name: "amount_range", type: "range", min: 0, max: 0, conditionalOn: { field: "schemaType", value: false } },
 
   // Only show when schema_type is Range (false)
   // { label: "Min Amount", name: "min_amount", inputType: "number", unit: CURRENCY_UNIT, type: "unit", conditionalOn: { field: "schema_type", value: false } },
@@ -55,9 +55,9 @@ const fields = [
   // Only show if schema_cancel is Yes (true)
   { label: "Cancel Expiry (Minutes)", name: "cancellationGracePeriodMinutes", inputType: "number", type: "number", conditionalOn: { field: "cancellable", value: true } },
 
-  { label: "Schema Trending", name: "tradeable", type: "toggle", labels: ["Yes", "No"] },  
+  { label: "Schema Trending", name: "tradeable", type: "toggle", labels: ["Yes", "No"] },
   { label: "Currency", name: "currency", type: "toggle", labels: ["USD", "INR"] },
-  { label: "Early Exit Penalty", name: "earlyExitPenalty", inputType: "number"},
+  { label: "Early Exit Penalty", name: "earlyExitPenalty", inputType: "number" },
   { label: "Terms & Condition URL", name: "termsAndConditionsUrl", type: "text" },
 
   { label: "Description", name: "description", type: "textarea" },
@@ -70,30 +70,30 @@ const interestTypeOptions = [
 ];
 
 
-  const defaultFormState = {
-    title: '',
-    schemaBadge: '',
-    schemaType: true, // true = Fixed, false = Range,
-    minimumInvestmentAmount: '0',
-    maximumInvestmentAmount: '0',
-    returnRate: '20',
-    returnSchedule: scheduleOptions,
-    returnType: false,  // true = Period, false = Lifetime
-    totalReturnPeriods: '0',
-    capitalReturned: true,
-    featured: true,
-    cancellable: false,
-    cancellationGracePeriodMinutes: 0,
-    tradeable: true,
+const defaultFormState = {
+  title: '',
+  schemaBadge: '',
+  schemaType: true, // true = Fixed, false = Range,
+  minimumInvestmentAmount: '0',
+  maximumInvestmentAmount: '0',
+  returnRate: '20',
+  returnSchedule: scheduleOptions,
+  returnType: false,  // true = Period, false = Lifetime
+  totalReturnPeriods: '0',
+  capitalReturned: true,
+  featured: true,
+  cancellable: false,
+  cancellationGracePeriodMinutes: 0,
+  tradeable: true,
 
-    status: true, // Active
-    off_days: [],
-    schema_img: null,
-  };
+  status: true, // Active
+  off_days: [],
+  schema_img: null,
+};
 
 const SchemaForm = () => {
   const { schemaId } = useParams();
-  const isEditMode = !!schemaId;  
+  const isEditMode = !!schemaId;
   const [formData, setFormData] = useState({ ...defaultFormState });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
@@ -102,32 +102,32 @@ const SchemaForm = () => {
     if (!isEditMode) return;
 
     const fetchSchemaInfo = async () => {
-        try {
-            const data = await apiClient.get(API_ROUTES.SCHEMA_By_ID(schemaId));
-            setFormData({
-              ...defaultFormState,
-              ...data,
-              schemaType: data.schemaType === 'FIXED' ? true : false,
-              returnType: data.returnType === 'PERIOD' ? true : false,
-              capitalReturned: data.capitalReturned,
-              featured: data.featured,
-              cancellable: data.cancellable,
-              tradeable: data.tradeable,
-              status: data.active,
-              schema_img: null,
-            });
-        } catch (err) {
-            setMessage({ type: 'error', text: err.message });
-            console.error("Error fetching schema info:", err);
-        } finally {
-          setLoading(false);
-        }
+      try {
+        const data = await apiClient.get(API_ROUTES.SCHEMA_By_ID(schemaId));
+        setFormData({
+          ...defaultFormState,
+          ...data,
+          schemaType: data.schemaType === 'FIXED' ? true : false,
+          returnType: data.returnType === 'PERIOD' ? true : false,
+          capitalReturned: data.capitalReturned,
+          featured: data.featured,
+          cancellable: data.cancellable,
+          tradeable: data.tradeable,
+          status: data.active,
+          schema_img: null,
+        });
+      } catch (err) {
+        setMessage({ type: 'error', text: err.message });
+        console.error("Error fetching schema info:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     if (schemaId) {
-        fetchSchemaInfo();
+      fetchSchemaInfo();
     }
-}, [schemaId]);
+  }, [schemaId]);
 
 
 
@@ -171,7 +171,7 @@ const SchemaForm = () => {
   const handleInterestTypeChange = useCallback((val) => {
     setFormData(prev => ({ ...prev, interest_type: val }));
   }, []);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -203,7 +203,7 @@ const SchemaForm = () => {
     }
   };
 
- const renderField = useCallback(
+  const renderField = useCallback(
     (field) => {
       // Handle conditional fields
       if (field.conditionalOn) {
@@ -356,11 +356,11 @@ const SchemaForm = () => {
         case 'range':
           return (
             <div className="col-xl-6 row">
-            <FormInputRange
-              minValue={formData.minimumInvestmentAmount || field.min}
-              maxValue={formData.maximumInvestmentAmount || field.max}
-              onChange={() => {}}
-            />
+              <FormInputRange
+                minValue={formData.minimumInvestmentAmount || field.min}
+                maxValue={formData.maximumInvestmentAmount || field.max}
+                onChange={() => { }}
+              />
             </div>
           );
         default:
