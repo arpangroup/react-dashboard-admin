@@ -12,8 +12,11 @@ const apiClient = {
       
       console.log(`[MOCK] GET: ${fullMockUrl}`);
 
-      const handler = mockResponses[baseUrl] || findMockResponse(baseUrl);
+      const handler = mockResponses[baseUrl];
+
+      // If no direct match, try dynamic pattern match
       if (typeof handler === "function") {
+        //return await handler(queryParams);
         return await handler(queryParams);
       }
 

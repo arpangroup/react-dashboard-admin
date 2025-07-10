@@ -1,11 +1,10 @@
 import React from 'react';
 import TransactionTable from '../../../components/TransactionTable';
-const TransactionTab = ({ activeTab, userId = 1 }) => {
-  const isActive = activeTab === "transactions";
+const TransactionTab = ({ userId }) => {
 
   return (
     <div
-      className={`tab-pane fade ${isActive ? "show active" : ""}`}
+      className="tab-pane fade show active"
       id="pills-transactions"
       role="tabpanel"
       aria-labelledby="pills-transactions-tab"

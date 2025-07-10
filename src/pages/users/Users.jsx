@@ -20,13 +20,10 @@ import { API_ROUTES } from "../../constants/apiRoutes";
 // ModuleRegistry.registerModules([AllCommunityModule]);
 
 const Users = ({status = ""}) => {
-  const pageSize = 9999;
   const [page, setPage] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");  
-  // const { data, totalPages, loading } = usePaginatedFetch(`/api/v1/users`, page, pageSize, status);
-  // const { data, totalPages, loading } = usePaginatedFetch(`/api/v1/users`, page, pageSize, status);
-  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.USERS, page, 10, {status: "ACTIVE"});
+  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.USERS, page, 9999, {status: "ACTIVE"});
 
   const ActionLink = (props) => {
     return (

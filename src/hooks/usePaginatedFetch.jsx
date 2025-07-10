@@ -10,14 +10,14 @@ import apiClient from "../api/apiClient";
  * @param {object} filters - Optional query parameters (e.g., { status: "active" })
  * @returns {object} - { data, totalPages, loading, error }
  */
-export const usePaginatedFetch = (baseUrl, page = 0, size = 10, filters = {}, status="") => {
-  console.log("usePaginatedFetch: ", baseUrl)
+export const usePaginatedFetch = (baseUrl, page = 0, size = 9999, filters = {}) => {
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchData = async () => {
       setLoading(true);
       setError(null);
@@ -31,9 +31,12 @@ export const usePaginatedFetch = (baseUrl, page = 0, size = 10, filters = {}, st
 
         const fullUrl = `${baseUrl}?${queryParams.toString()}`;
         const response = await apiClient.get(fullUrl);
+        // console.log("RESPONSE: ", response);
 
-        setData(response.content || []);
-        setTotalPages(response.totalPages || 0);
+        if(isMounted){
+          setData(response.content || []);
+          setTotalPages(response.totalPages || 0);
+        }
       } catch (err) {
         console.error("usePaginatedFetch error:", err);
         setError(err.message || "Something went wrong");

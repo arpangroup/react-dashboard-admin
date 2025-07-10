@@ -4,7 +4,6 @@ const Badge = ({ value, style = null }) => {
 
   // Normalize value to string for comparison
   let normalizedValue = '';
-  console.log("BADGE_VAL: ", value);
 
   if (typeof value === 'boolean') {
     normalizedValue = value ? 'true' : 'false';

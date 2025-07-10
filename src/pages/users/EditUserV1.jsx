@@ -18,6 +18,7 @@ import TransactionStatusForm from "./TransactionStatusForm";
 import RightPanel from "../../components/panel/RightPanel";
 import SendEmailPanel from "./SendEmailPanel";
 import BalancePanel from "./BalancePanel";
+import apiClient from "../../api/apiClient";
 
 
 
@@ -105,16 +106,11 @@ export default function EditUserV1() {
     // }
 
     useEffect(() => {
-        console.log("fetchUserInfo: ", userId);
         const fetchUserInfo = async () => {
-            console.log("fetchUserInfo: ", userId);
             try {
-                const response = await fetch(`/api/v1/users/${userId}`);
-                if (!response.ok) throw new Error("Failed to fetch user info");
-                const data = await response.json();
+                const data = await apiClient.get(`/api/v1/users/${userId}`);
                 setUserInfo(data);
                 console.log("User Info:", data);
-                setUserInfo(data);
             } catch (err) {
                 console.error("Error fetching user info:", err);
             }
@@ -137,10 +133,10 @@ export default function EditUserV1() {
 
                 <div className="row">
                     <div className="col-xl-12">
-                        <div className="admin-latest-announcements">
+                        <div className="admin-latest-announcements"key="actions">
                             <div className="content">
                                 {sidePanelButtons.map((panel) => (
-                                    <a href="#" className="site-btn-xs primary-btn"
+                                    <a href="#" className="site-btn-xs primary-btn" key={panel.id}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             setPanel(panel.id)
@@ -227,7 +223,8 @@ export default function EditUserV1() {
                             <ProfileBasicInfoTab activeTab={activeTab} userInfo={userInfo || {}} onFormChange={handleFormChange} />
                             <InvestmentTab activeTab={activeTab} />
                             <EarningTab activeTab={activeTab} />
-                            <TransactionTab activeTab={activeTab} />
+                            {/* <TransactionTab activeTab={activeTab} /> */}
+                            {activeTab === "transactions" && <TransactionTab userId={userInfo.id} />}
                             <ReferralTreeTab activeTab={activeTab} />
                             <TicketsTab activeTab={activeTab} />
                         </div>
