@@ -7,6 +7,8 @@ import FormInputRange from '../../components/form/FormInputRange';
 import Switch from '../../components/form/Switch';
 import LoaderOverlay from '../../components/LoaderOverlay';
 import { useParams } from 'react-router';
+import apiClient from '../../api/apiClient';
+import { API_ROUTES } from '../../constants/apiRoutes';
 
 const CURRENCY_UNIT = "INR";
 
@@ -67,9 +69,6 @@ const interestTypeOptions = [
   { value: 'FLAT', label: '₹' },
 ];
 
-const SchemaForm = () => {
-  const { schemaId } = useParams();
-  const isEditMode = !!schemaId;
 
   const defaultFormState = {
     title: '',
@@ -92,6 +91,9 @@ const SchemaForm = () => {
     schema_img: null,
   };
 
+const SchemaForm = () => {
+  const { schemaId } = useParams();
+  const isEditMode = !!schemaId;  
   const [formData, setFormData] = useState({ ...defaultFormState });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
@@ -99,36 +101,35 @@ const SchemaForm = () => {
   useEffect(() => {
     if (!isEditMode) return;
 
-    const fetchSchema = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`/api/v1/investment-schemas/${schemaId}`);
-        if (!response.ok) throw new Error('Failed to fetch schema');
-        const data = await response.json();
-        // setFormData({ ...data, schema_img: null });
-
-        // Normalize data if needed, e.g. boolean/string toggles
-        setFormData({
-          ...defaultFormState,
-          ...data,
-          schemaType: data.schemaType === 'FIXED' ? true : false,
-          returnType: data.returnType === 'PERIOD' ? true : false,
-          capitalReturned: data.capitalReturned,
-          featured: data.featured,
-          cancellable: data.cancellable,
-          tradeable: data.tradeable,
-          status: data.active,
-          schema_img: null,
-        });
-      } catch (error) {
-        setMessage({ type: 'error', text: error.message });
-      } finally {
-        setLoading(false);
-      }
+    const fetchSchemaInfo = async () => {
+        try {
+            const data = await apiClient.get(API_ROUTES.SCHEMA_By_ID(schemaId));
+            setFormData({
+              ...defaultFormState,
+              ...data,
+              schemaType: data.schemaType === 'FIXED' ? true : false,
+              returnType: data.returnType === 'PERIOD' ? true : false,
+              capitalReturned: data.capitalReturned,
+              featured: data.featured,
+              cancellable: data.cancellable,
+              tradeable: data.tradeable,
+              status: data.active,
+              schema_img: null,
+            });
+        } catch (err) {
+            setMessage({ type: 'error', text: err.message });
+            console.error("Error fetching schema info:", err);
+        } finally {
+          setLoading(false);
+        }
     };
 
-    fetchSchema();
-  }, [isEditMode, schemaId]);
+    if (schemaId) {
+        fetchSchemaInfo();
+    }
+}, [schemaId]);
+
+
 
   // Generic change handler
   const handleChange = useCallback((e) => {
@@ -435,8 +436,3 @@ const SchemaForm = () => {
 };
 
 export default SchemaForm;
-
-
-// below component is working fine, how to make amount will be visible only if schema_type is fixed, if schema_type is ange then min_amount and max_amount will show, for schematype fixed min_amount and max_amount will not visible. 
-
-// similarly if return_type is period then only number_of_period field will show. similarly if schema_cancel is selected then only expiry_minute will show

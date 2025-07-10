@@ -3,10 +3,6 @@ import { LuPencilLine, LuMail, LuTrash } from "react-icons/lu";
 import './Users.css';
 
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { themeBalham } from 'ag-grid-community';
 
 import PageTitle from "../../components/page_title/PageTitle";
 import { NavLink, useParams } from "react-router-dom";
@@ -124,13 +120,6 @@ const Users = ({status = ""}) => {
           </div>
         </div>
       </div>
-
-      {/* <SendEmailPanel
-        isOpen={isPanelOpen}
-        onClose={closePanel}
-        username={selectedUser.user}
-        email={selectedUser.email}
-      /> */}
 
       <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
         <h2>{`Send Mail to ${selectedUser.username}`}</h2>

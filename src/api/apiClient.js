@@ -12,12 +12,24 @@ const apiClient = {
       
       console.log(`[MOCK] GET: ${fullMockUrl}`);
 
-      const handler = mockResponses[baseUrl];
+      // Try direct match first
+      //const handler = mockResponses[baseUrl] || findMockResponse(baseUrl);
+      let handler = mockResponses[baseUrl];
+      let params = {};
+
+      // If not found, try dynamic matching
+      if (!handler) {
+        const match = findMockResponse(baseUrl, mockResponses);
+        if (match) {
+          handler = match.handler;
+          params = match.params;
+        }
+      }
 
       // If no direct match, try dynamic pattern match
       if (typeof handler === "function") {
         //return await handler(queryParams);
-        return await handler(queryParams);
+        return await handler({ ...params, queryParams });
       }
 
       throw new Error(`No mock handler found for URL: ${url}`);

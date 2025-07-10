@@ -1,20 +1,20 @@
-import React from 'react';
 import { LuPencilLine, LuPlus } from "react-icons/lu";
 
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { themeBalham } from 'ag-grid-community';
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import PageTitle from "../../components/page_title/PageTitle";
 import Badge from '../../components/Badge';
 import { useFetchJson } from '../../api/useFetchJson';
+import { API_ROUTES } from "../../constants/apiRoutes";
+import { usePaginatedFetch } from "../../api/usePaginatedFetch";
 
 const Schema = (props) => {
-    const { data, loading } = useFetchJson(`/api/v1/investment-schemas`);
+  const [page, setPage] = useState(0);
+    //const { data, loading } = useFetchJson(`/api/v1/investment-schemas`);
+    const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.SCHEMA_LIST, page, 9999);
+    
     const ActionLinkAddNew = (props) => {
         return (
             <a href="/admin/schemas/create"
@@ -32,7 +32,6 @@ const Schema = (props) => {
     };
 
     const AmountRangeCell = (props) => {
-        console.log("PROPS_DATA: ", props.data);
         const { schemaType, minimumInvestmentAmount, maximumInvestmentAmount, currency } = props.data;
 
         let amountRangeStr = `${minimumInvestmentAmount} ${currency}`;
@@ -52,11 +51,6 @@ const Schema = (props) => {
             </NavLink>
         );
     };
-
-
-    // const [rowData] = useState([
-    //     { id: 1, icon: "", planName: "Crypto investment", amountRange: "500 INR-25000 INR", badge: "Crypto", status: "Active", action: "" },
-    // ]);
 
     const [colDefs] = useState([
         { field: "icon", headerName: 'ICON', width: 80 },
@@ -90,7 +84,9 @@ const Schema = (props) => {
                                             loading={loading}
                                             columnDefs={colDefs}
                                             defaultColDef={defaultColDef}
-                                            pagination={true} />
+                                            pagination={true}                      
+                                            paginationPageSize={10}
+                                            paginationPageSizeSelector={[10, 20, 50, 100]} />
                                     </div>
                                 </div>
                             </div>

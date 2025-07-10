@@ -9,7 +9,7 @@ import { ContextProvider } from './context/Context';
 
 ReactDOM.render(
   <BrowserRouter>
-    <ContextProvider >
+    <ContextProvider>
        <App />
      </ContextProvider>
   </BrowserRouter>,

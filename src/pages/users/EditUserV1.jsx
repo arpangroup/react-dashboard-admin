@@ -99,12 +99,6 @@ export default function EditUserV1() {
         }
     };
 
-    // const handleTabClick = (e, tabName) => {
-    //     e.preventDefault();
-    //     console.log("TAB_NAME: ", tabName);
-    //     setActiveTab(tabName);
-    // }
-
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
