@@ -10,11 +10,11 @@ const PushNotificationTemplateEdit = ({ name }) => {
               <div class="site-card-header">
                 <h3 class="title"> Edit New User Template</h3>
                 <div class="card-header-links">
-                  <a href="https://81habibi.com/admin/template/notification" class="card-header-link">Back</a>
+                  <a href="#" class="card-header-link">Back</a>
                 </div>
               </div>
               <div class="site-card-body">
-                <form action="https://81habibi.com/admin/template/notification/template-update" method="post" enctype="multipart/form-data">
+                <form action="#" method="post" enctype="multipart/form-data">
                   <input type="hidden" name="_token" value="RtOih6ujzDcML9cSdZ1x5oykyYyUfNL7EXkZgrod" />
                   <input type="hidden" name="id" value="1" />
 

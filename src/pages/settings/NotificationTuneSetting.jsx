@@ -13,7 +13,7 @@ const NotificationTuneSetting = ({ name }) => {
               <div class="site-card-header d-flex">
                 <h3 class="title">Notification Tune Settings</h3>
                 <div class="card-header-links">
-                  <a href="https://81habibi.com/admin/settings/plugin/notification" class="card-header-link new-referral" type="button" data-type="investment">
+                  <a href="#" class="card-header-link new-referral" type="button" data-type="investment">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="corner-down-left" icon-name="corner-down-left" class="lucide lucide-corner-down-left"><polyline points="9 10 4 15 9 20"></polyline><path d="M20 4v7a4 4 0 0 1-4 4H4"></path></svg>Back</a>
                 </div>
               </div>
@@ -37,7 +37,7 @@ const NotificationTuneSetting = ({ name }) => {
                       </button>
                     </div>
                     <div class="gateway-status m-0">
-                      <a href="https://81habibi.com/admin/settings/notification/tune/status/1" class="site-btn-xs green-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check" icon-name="check" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"></polyline></svg>Active in</a>
+                      <a href="#" class="site-btn-xs green-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check" icon-name="check" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"></polyline></svg>Active in</a>
                     </div>
 
                   </div>
@@ -60,7 +60,7 @@ const NotificationTuneSetting = ({ name }) => {
                       </button>
                     </div>
                     <div class="gateway-status m-0">
-                      <a href="https://81habibi.com/admin/settings/notification/tune/status/2" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
+                      <a href="" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
                     </div>
 
                   </div>
@@ -83,7 +83,7 @@ const NotificationTuneSetting = ({ name }) => {
                       </button>
                     </div>
                     <div class="gateway-status m-0">
-                      <a href="https://81habibi.com/admin/settings/notification/tune/status/3" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
+                      <a href="#" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
                     </div>
 
                   </div>
@@ -106,7 +106,7 @@ const NotificationTuneSetting = ({ name }) => {
                       </button>
                     </div>
                     <div class="gateway-status m-0">
-                      <a href="https://81habibi.com/admin/settings/notification/tune/status/4" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
+                      <a href="#" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
                     </div>
 
                   </div>
@@ -129,7 +129,7 @@ const NotificationTuneSetting = ({ name }) => {
                       </button>
                     </div>
                     <div class="gateway-status m-0">
-                      <a href="https://81habibi.com/admin/settings/notification/tune/status/5" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
+                      <a href="#" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
                     </div>
 
                   </div>
@@ -152,7 +152,7 @@ const NotificationTuneSetting = ({ name }) => {
                       </button>
                     </div>
                     <div class="gateway-status m-0">
-                      <a href="https://81habibi.com/admin/settings/notification/tune/status/6" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
+                      <a href="#" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
                     </div>
 
                   </div>
@@ -175,7 +175,7 @@ const NotificationTuneSetting = ({ name }) => {
                       </button>
                     </div>
                     <div class="gateway-status m-0">
-                      <a href="https://81habibi.com/admin/settings/notification/tune/status/7" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
+                      <a href="#" class="site-btn-xs red-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>Inactive</a>
                     </div>
 
                   </div>

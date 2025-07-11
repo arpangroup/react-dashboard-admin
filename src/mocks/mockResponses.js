@@ -10,6 +10,7 @@ export const mockResponses = {
   [API_ROUTES.SCHEMA_LIST]: async () => SCHEMA_LIST,
   // [API_ROUTES.SCHEMA_By_ID(1)]: async () => SCHEMA_LIST.content[0],
   [API_ROUTES.SCHEMA_By_ID(':id')]: async ({ id }) => SCHEMA_LIST.content.find(s => s.id === Number(id)),
+  [API_ROUTES.CONFIG_PROPERTIES]: async () => CONFIG_PROPERTIES,
 };
 
 
@@ -57,9 +58,6 @@ const SCHEMA_LIST = { content: [
   {"id":4,"title":"Dynamic Tiered Plan","schemaBadge":"DYNAMIC","schemaType":"RANGE","minimumInvestmentAmount":1000.0,"maximumInvestmentAmount":20000.0,"returnRate":7.0,"interestCalculationMethod":"PERCENTAGE","returnSchedule":{"id":1,"scheduleName":"2 Week","scheduleInHour":336},"returnType":"PERIOD","totalReturnPeriods":26,"cancellationGracePeriodMinutes":0,"description":"Tiered returns for a range of investments.","createdAt":"2025-07-10T19:35:09.813798","updatedAt":"2025-07-10T19:35:09.813798","createdBy":"admin","updatedBy":"admin","currency":"USD","earlyExitPenalty":150.0,"termsAndConditionsUrl":"https://example.com/tc/dynamictier","active":true,"featured":false,"tradeable":true,"capitalReturned":true,"cancellable":false}
 ]};
 
-
-
-
 const USER_BY_ID = {
     "id": 1,
     "username": "mockuser1",
@@ -98,3 +96,42 @@ const USER_BY_ID = {
     },
     "createdAt": "10 Jul Thu, 2025 12:52 PM"
 }
+
+
+const CONFIG_PROPERTIES = {
+  propertySources: [
+    {
+      name: "database",
+      source: {        
+        "spring.sql.init.schema-locations": "classpath:schema.sql",
+        "bonus.referral.calculation-type": "PERCENTAGE",
+        "spring.sql.init.data-locations": "classpath:data.sql",
+        "spring.datasource.driverClassName": "com.mysql.cj.jdbc.Driver",
+        "mail.password": "apple banana mango orange",
+        "spring.jpa.hibernate.ddl-auto": "create",
+        "bonus.signup.flat-amount": "1001",
+        "spring.sql.init.mode": "NEVER",
+        "mail.host": "smtp.gmail.com",
+        "transaction.service.url": "http://localhost:8080",
+        "bonus.signup.enable": "true",
+        "mail.from.address": "noreply@trustai.com",
+        "mail.starttls.enable": "true",
+        "mail.from.name": "Trust AI",
+        "bonus.signup.calculation-type": "FLAT",
+        "bonus.referral.percentage-rate": "20",
+        "bonus.referral.enable": "true",
+        "bonus.referral.flat-amount": "300",
+        "mail.smtp.auth": "true",
+        "spring.jpa.defer-datasource-initialization": "true",
+        "logging.level.org.springframework.jdbc.datasource.init.ScriptUtils": "DEBUG",
+        "spring.datasource.password": "password",
+        "spring.jpa.show-sql": "false",
+        "spring.datasource.username": "root",
+        "mail.port": "587",
+        "spring.datasource.url": "jdbc:mysql://localhost:3306/nft",
+        "logging.level.org.springframework.jdbc.datasource.init": "DEBUG",
+        "mail.username": "cloud.trustai@gmail.com",
+      }
+    }
+  ]
+};

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './RankConfigEditor.css';
+// import './RankConfigEditor.css';
 import { LuPlus } from 'react-icons/lu';
 import { NavLink } from 'react-router-dom';
 import { API_ROUTES } from '../../constants/apiRoutes';

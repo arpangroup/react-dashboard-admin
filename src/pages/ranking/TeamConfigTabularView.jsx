@@ -1,7 +1,6 @@
 // TeamConfigTabularView
 
 import React, { useEffect, useState } from 'react';
-import './RankConfigEditor.css';
 import { useFetchJson } from '../../hooks/useFetchJson';
 import PageTitle from '../../components/page_title/PageTitle';
 import { LuPlus, LuSettings } from 'react-icons/lu';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './RankConfigEditor.css';
+// import './RankConfigEditor.css';
 import PageTitle from '../../components/page_title/PageTitle';
 import { LuPlus, LuSettings } from 'react-icons/lu';
 import RankConfigTabularView from './RankConfigTabularView';

@@ -1,15 +1,16 @@
 import { mockResponses } from "../mocks/mockResponses";
 import { findMockResponse } from "../mocks/findMockResponse";
 
-const isMockMode = process.env.REACT_APP_API_MOCK === 'true';
+// const isMockMode = process.env.REACT_APP_API_MOCK === 'true';
+const isMockMode = false;
 
 const apiClient = {
   get: async (url) => {
     if (isMockMode) {
-      const [baseUrl, queryString ] = url.split("?");
+      const [baseUrl, queryString] = url.split("?");
       const queryParams = new URLSearchParams(url.split("?")[1] || "");
       const fullMockUrl = `${baseUrl}${queryString ? `?${queryString}` : ""}`;
-      
+
       console.log(`[MOCK] GET: ${fullMockUrl}`);
 
       // Try direct match first
@@ -40,6 +41,103 @@ const apiClient = {
     if (!response.ok) throw new Error("Network response was not ok");
     return await response.json();
   },
+
+  post: async (url, body) => {
+
+    if (isMockMode) {
+      console.log(`[MOCK] POST: ${url}`, body);
+
+      let handler = mockResponses[`${url}|POST`];
+      let params = {};
+
+      if (!handler) {
+        const match = findMockResponse(url, mockResponses, "POST");
+        if (match) {
+          handler = match.handler;
+          params = match.params;
+        }
+      }
+
+      if (typeof handler === "function") {
+        return await handler({ ...params, body });
+      }
+
+      throw new Error(`No mock handler found for POST ${url}`);
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) throw new Error("Network response was not ok");
+    return await response.json();
+  },
+
+  put: async (url, body) => {
+    if (isMockMode) {
+      console.log(`[MOCK] PUT: ${url}`, body);
+
+      let handler = mockResponses[`${url}|PUT`];
+      let params = {};
+
+      if (!handler) {
+        const match = findMockResponse(url, mockResponses, "PUT");
+        if (match) {
+          handler = match.handler;
+          params = match.params;
+        }
+      }
+
+      if (typeof handler === "function") {
+        return await handler({ ...params, body });
+      }
+
+      throw new Error(`No mock handler found for PUT ${url}`);
+    }
+
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) throw new Error("Network response was not ok");
+    return await response.json();
+
+  },
+
+  delete: async (url) => {
+
+    if (isMockMode) {
+      console.log(`[MOCK] DELETE: ${url}`);
+
+      let handler = mockResponses[`${url}|DELETE`];
+      let params = {};
+
+      if (!handler) {
+        const match = findMockResponse(url, mockResponses, "DELETE");
+        if (match) {
+          handler = match.handler;
+          params = match.params;
+        }
+      }
+
+      if (typeof handler === "function") {
+        return await handler(params);
+      }
+
+      throw new Error(`No mock handler found for DELETE ${url}`);
+    }
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+    });
+    if (!response.ok) throw new Error("Network response was not ok");
+    return await response.json();
+
+  },
+
+
 };
 
 export default apiClient;
