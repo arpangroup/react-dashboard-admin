@@ -7,16 +7,16 @@ export const API_ROUTES = {
   RANK_CONFIGS: "/api/v1/rankings",
   SCHEMA_LIST: "/api/v1/investment-schemas",
   SCHEMA_By_ID: (id) =>`/api/v1/investment-schemas/${id}`,
-  // Configs...
-  CONFIG_PROPERTIES: "http://localhost:8888/nft_app/dev",
-  UPDATE_CONFIG: "http://localhost:8888/api/v1/configs/update",
+  // Notification Templates
   MAIL_CONNECTION_TEST: "/api/v1/notifications/mail-connection-test",
-  // Templates
   EMAIL_TEMPLATES: "/api/v1/templates/email",
   SMS_TEMPLATES: "/api/v1/templates/sms",
   PUSH_TEMPLATES: "/api/v1/templates/push",
   EMAIL_TEMPLATES_BY_ID: (id) => `/api/v1/templates/email/${id}`,
   SMS_TEMPLATES_BY_ID: (id) => `/api/v1/templates/sms/${id}`,
   PUSH_TEMPLATES_BY_ID: (id) => `/api/v1/templates/push/${id}`,
+  // Configs...
+  CONFIG_PROPERTIES: "http://localhost:8888/nft_app/dev",
+  UPDATE_CONFIG: "http://localhost:8888/api/v1/configs/update",
   // Add more as needed...
 };
