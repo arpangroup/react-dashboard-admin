@@ -11,8 +11,12 @@ export const API_ROUTES = {
   CONFIG_PROPERTIES: "http://localhost:8888/nft_app/dev",
   UPDATE_CONFIG: "http://localhost:8888/api/v1/configs/update",
   MAIL_CONNECTION_TEST: "/api/v1/notifications/mail-connection-test",
-
-  // Not Implemented Yet
-  SEND_EMAIL: "/api/v1/notifications/email",
+  // Templates
+  EMAIL_TEMPLATES: "/api/v1/templates/email",
+  SMS_TEMPLATES: "/api/v1/templates/sms",
+  PUSH_TEMPLATES: "/api/v1/templates/push",
+  EMAIL_TEMPLATES_BY_ID: (id) => `/api/v1/templates/email/${id}`,
+  SMS_TEMPLATES_BY_ID: (id) => `/api/v1/templates/sms/${id}`,
+  PUSH_TEMPLATES_BY_ID: (id) => `/api/v1/templates/push/${id}`,
   // Add more as needed...
 };
