@@ -18,7 +18,7 @@ const Users = ({status = ""}) => {
   const [page, setPage] = useState(0);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState("");  
-  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.USERS, page, 9999, {status: "ACTIVE"});
+  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.USERS, page, 9999, {status: "PENDING"});
 
   const ActionLink = (props) => {
     return (

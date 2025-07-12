@@ -8,6 +8,10 @@ export const API_ROUTES = {
   SCHEMA_LIST: "/api/v1/investment-schemas",
   SCHEMA_By_ID: (id) =>`/api/v1/investment-schemas/${id}`,
   // Notification Templates
+  TEMPLATE_LIST: (type) => `/api/v1/templates/${type}`,
+  TEMPLATE_BY_ID: (type, id) => `/api/v1/templates/${type}/${id}`,
+
+
   MAIL_CONNECTION_TEST: "/api/v1/notifications/mail-connection-test",
   EMAIL_TEMPLATES: "/api/v1/templates/email",
   SMS_TEMPLATES: "/api/v1/templates/sms",

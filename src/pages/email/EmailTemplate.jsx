@@ -12,28 +12,18 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import Badge from '../../components/Badge';
-
-const styleActionButtonEdit = {
-  background: "#ef476f",
-  width: "30px",
-  height: "30px",
-  lineHeight: "30px",
-  borderRadius: "50%",
-  marginRight: "3px",
-  color: "#ffffff",
-  display: "inline-block",
-  textAlign: "center",
-  color: "#ffffff",
-  background: "#5e3fc9",
-};
+import { usePaginatedFetch } from '../../api/usePaginatedFetch';
+import { API_ROUTES } from '../../constants/apiRoutes';
 
 
-const EmailTemplate = ({ name }) => {
+const EmailTemplate = ({ type = "email", pageSize = 9999 }) => {
+  const [page, setPage] = useState(0);  
+  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.TEMPLATE_LIST(type), page, pageSize);
 
     const ActionLink = (props) => {
       return (
         <>
-          <NavLink to={`/admin/template/email/${props.data.id}/edit`} style={styleActionButtonEdit} class="round-icon-btn red-btn editKyc">
+          <NavLink to={`/admin/template/email/${props.data.id}/edit`} className="round-icon-btn purple">
             <LuPencilLine />
           </NavLink>
         </>
@@ -41,7 +31,8 @@ const EmailTemplate = ({ name }) => {
     };
 
       const TemplateNameCell = ({ data }) => {
-        const { templateName } = data;
+        console.log("DATA: ", data)
+        const { code, templateFor } = data;
         return (
           <div className="table-description">
             <div className="icon-wrapper">
@@ -49,43 +40,23 @@ const EmailTemplate = ({ name }) => {
             </div>
             
             <div className="schema-cell">
-              {templateName}              
-              <span>User</span>
+              {code}              
+              <span>{templateFor}</span>
             </div>
           </div>
           )
       }
 
-  const [rowData] = useState([
-    { id: 1, templateName: "User Mail Send", status: "Deactivated" },
-    { id: 2, templateName: "Subscriber Mail Send", status: "Deactivated" },
-    { id: 3, templateName: "Email Verification", status: "Active" },
-    { id: 4, templateName: "Forget Password", status: "Active" },
-    { id: 5, templateName: "User Investment", status: "Deactivated" },
-    { id: 5, templateName: "User Account Disabled", status: "Deactivated" },
-    { id: 5, templateName: "Manual Deposit request", status: "Deactivated" },
-    { id: 5, templateName: "Withdraw Request", status: "Deactivated" },
-    { id: 5, templateName: "Admin Forget Password", status: "Deactivated" },
-    { id: 5, templateName: "Contact Mail Send", status: "Deactivated" },
-    { id: 5, templateName: "KYC Action", status: "Deactivated" },
-    { id: 5, templateName: "Invest ROI", status: "Deactivated" },
-    { id: 5, templateName: "Investment End", status: "Deactivated" },
-    { id: 5, templateName: "Withdraw Request Action", status: "Deactivated" },
-    { id: 5, templateName: "Manual Deposit request Action", status: "Deactivated" },
-    { id: 5, templateName: "Support Ticket", status: "Active" },
-    { id: 5, templateName: "Support Ticket", status: "Active" }
-  ]);
-
   const [colDefs] = useState([
-    { field: "templateName", headerName: "Email For", width: 400, cellRenderer: TemplateNameCell },
-    { field: "status", cellRenderer: Badge },
+    { field: "code", headerName: "Email For", width: 400, cellRenderer: TemplateNameCell },
+    { field: "templateActive", headerName: "Stattus", cellRenderer: Badge },
     {field: "action", width: 80, cellRenderer: ActionLink},
   ]);
 
       const ActionEmailConfig = (props) => {
       return (
         <a href="/admin/setting/mail"
-          class="title-btn">
+          className="title-btn">
           <LuMail />
           <span> Email Config</span>
         </a>
@@ -106,13 +77,17 @@ const EmailTemplate = ({ name }) => {
               <div className="site-card-body">
 
                 <div className="site-datatable">
-                  <div style={{ height: 500 }} className="ag-theme-alpine">
+                  <div style={{ height: 500 }} className="ag-theme-alpine">                      
                     <AgGridReact
                       theme={"legacy"}
-                      rowData={rowData}
+                      rowData={data}
+                      loading={loading}
                       columnDefs={colDefs}
-                      rowHeight={70}
-                      pagination={true} />
+                      pagination={true}
+                      paginationPageSize={10}
+                      paginationPageSizeSelector={[10, 20, 50, 100]}
+                      rowHeight={60}
+                    />
                   </div>
                 </div>
               </div>

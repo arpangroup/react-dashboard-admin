@@ -1,12 +1,14 @@
 
 const Badge = ({ value, style = null }) => {
   if (value === null || value === undefined) return null;
+  let badgeLabel = value;
 
   // Normalize value to string for comparison
   let normalizedValue = '';
 
   if (typeof value === 'boolean') {
     normalizedValue = value ? 'true' : 'false';
+    badgeLabel = value ? 'Active' : 'Deactivated';
   } else if (typeof value === 'string') {
     normalizedValue = value.toLowerCase();
   } else {
@@ -51,7 +53,8 @@ const Badge = ({ value, style = null }) => {
 
   return (
     <div className={`site-badge ${badgeType}`} style={combinedStyle}>
-      {String(value)}
+      {/* {String(value)} */}
+      {badgeLabel}
     </div>
   );
 };

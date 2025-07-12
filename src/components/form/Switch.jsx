@@ -9,7 +9,7 @@ const Switch = ({
     disabled = false,
     style = {}
 }) => {
-    const [internalEnabled, setInternalEnabled] = useState(enabled);
+    const [internalEnabled, setInternalEnabled] = useState(!!enabled);
 
     // Keep local state in sync with prop
     useEffect(() => {
@@ -19,7 +19,7 @@ const Switch = ({
     const handleChange = (e) => {
         if (disabled) return; // prevent change if disabled
         const value = e.target.value === '1'; // Convert "1"/"0" to true/false
-        onToggle(name, value);
+        onToggle(name, value);  // Call the parent handler
     };
 
     // Combine passed-in style with disabled style
