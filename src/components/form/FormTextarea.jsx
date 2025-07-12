@@ -9,7 +9,8 @@ const FormTextarea = ({
   required = false,
   disabled = false,
   info = null,
-  onChange
+  onChange,
+  warning = ""
 }) => {
   return (
     <div>
@@ -24,6 +25,9 @@ const FormTextarea = ({
         required={required}
         disabled={disabled}
         onChange={onChange} />
+      {warning.trim() !== "" && (
+        <p className="paragraph mb-0 mt-2">{warning}</p>
+      )}
     </div>
   );
 };

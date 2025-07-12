@@ -1,54 +1,105 @@
-import React from 'react';
-import PageTitle from '../../components/page_title/PageTitle';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import FormTextarea from '../../components/form/FormTextarea';
+import Switch from '../../components/form/Switch';
+import { API_ROUTES } from '../../constants/apiRoutes';
 
-const SmsTemplateEdit = ({ name }) => {
+const SmsTemplateEdit = ({ type = "sms" }) => {
+    const { id } = useParams();
+    const [formData, setFormData] = useState({});
+    const [originalData, setOriginalData] = useState({});
+
+    useEffect(() => {
+        axios.get(API_ROUTES.TEMPLATE_BY_ID(type, id))
+            .then((res) => {
+                setFormData(res.data);
+                setOriginalData(res.data);
+            })
+            .catch((err) => console.error("Error loading template:", err));
+    }, [id, type]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleToggle = (name, value) => {
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const changedFields = {};
+        Object.keys(formData).forEach((key) => {
+            if (formData[key] !== originalData[key]) {
+                changedFields[key] = formData[key];
+            }
+        });
+
+        if (Object.keys(changedFields).length === 0) {
+            alert("No changes detected.");
+            return;
+        }
+
+        try {
+            await axios.put(API_ROUTES.TEMPLATE_BY_ID(type, id), changedFields);
+            alert("Template updated successfully.");
+            setOriginalData({ ...formData });
+        } catch (error) {
+            console.error("Error updating template:", error);
+            alert("Failed to update template.");
+        }
+    };
+
+    const formFields = [
+        { name: "messageBody", label: "Message Body", component: FormTextarea, warning: 'The Shortcuts you can use: [[full_name]], [[message]]' }, 
+        { name: "templateActive", label: "Template Status", component: Switch }
+    ];
+
+
     return (
         <div className="main-content">
-            <div class="container-fluid mt-4">
-                <div class="row justify-content-center">
-                    <div class="col-xl-8 col-md-12">
-                        <div class="site-card">
-                            <div class="site-card-header">
-                                <h3 class="title"> Edit New User Template</h3>
-                                <div class="card-header-links">
-                                    <a href="https://81habibi.com/admin/template/sms" class="card-header-link">Back</a>
-                                </div>
+            <div className="container-fluid mt-4">
+                <div className="row justify-content-center">
+                    <div className="col-xl-8 col-md-12">
+                        <div className="site-card">
+                            <div className="site-card-header">
+                                <h2 className="title" style={{ fontWeight: '800' }}>
+                                    {formData.code} Template
+                                </h2>
                             </div>
-                            <div class="site-card-body">
-                                <form action="https://81habibi.com/admin/template/sms/template-update" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="_token" value="7NrcjLzu982bkMt6OlX8RJFogDmioNU796KbvICr" />
-                                    <input type="hidden" name="id" value="1" />
-
-
-
-
-                                    <div class="site-input-groups row">
-                                        <label for="" class="col-sm-3 col-label">Message Body<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="info" icon-name="info" data-bs-toggle="tooltip" title="" data-bs-original-title="Write the main Messages here" class="lucide lucide-info"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></label>
-                                        <div class="col-sm-9">
-                                            <textarea name="message_body" class="form-textarea" cols="30" rows="8">Thanks for joining us  [[full_name]]
-                                                [[message]]</textarea>
-
-                                            <p class="paragraph mb-0 mt-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="alert-triangle" icon-name="alert-triangle" class="lucide lucide-alert-triangle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>The Shortcuts you can use
-                                                <strong>[[full_name]], [[message]]</strong></p>
-                                        </div>
-                                    </div>
-
-                                    <div class="row site-input-groups">
-                                        <label for="" class="col-sm-3 col-label pt-0">Template Status<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="info" icon-name="info" data-bs-toggle="tooltip" title="" data-bs-original-title="Template Status" class="lucide lucide-info"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></label>
-                                        <div class="col-sm-5">
-                                            <div class="site-input-groups mb-0">
-                                                <div class="switch-field mb-0">
-                                                    <input type="radio" id="template_status_enable" name="status" value="1" checked />
-                                                    <label for="template_status_enable">Enable</label>
-                                                    <input type="radio" id="template_status_disable" name="status" value="0" />
-                                                    <label for="template_status_disable">Disable</label>
-                                                </div>
+                            <div className="site-card-body">
+                                <form onSubmit={handleSubmit}>
+                                    {formFields.map(({ name, label, component: Component, warning }) => (
+                                        <div className="site-input-groups row" key={name}>
+                                            <label className="col-sm-3 col-label">{label}</label>
+                                            <div className="col-sm-9">
+                                                {Component === Switch ? (
+                                                    <Switch
+                                                        name={name}
+                                                        labels={["Enable", "Disable"]}
+                                                        enabled={!!formData[name]}
+                                                        onToggle={handleToggle}
+                                                    />
+                                                ) : (
+                                                    <Component
+                                                        name={name}
+                                                        value={formData[name] || ""}
+                                                        warning={warning}
+                                                        onChange={handleChange}
+                                                    />
+                                                )}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="offset-sm-3 col-sm-9">
-                                            <button type="submit" class="site-btn-sm primary-btn w-100">Save Changes</button>
+                                    ))}
+
+                                    <div className="row">
+                                        <div className="offset-sm-3 col-sm-9">
+                                            <button type="submit" className="site-btn-sm primary-btn w-100">
+                                                Save Changes
+                                            </button>
                                         </div>
                                     </div>
                                 </form>

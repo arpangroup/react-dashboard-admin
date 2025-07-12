@@ -1,16 +1,19 @@
-import React from 'react';
-import { LuPencilLine, LuMail, LuTrash } from "react-icons/lu";
-import PageTitle from '../../components/page_title/PageTitle';
-
-
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { themeBalham } from 'ag-grid-community';
+// React & Related Hooks
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
+// Third-party Libraries
+import { AgGridReact } from "ag-grid-react";
+import { LuPencilLine, LuMail, LuTrash } from "react-icons/lu";
+
+// Custom Hooks
+import { usePaginatedFetch } from '../../api/usePaginatedFetch';
+
+// Constants
+import { API_ROUTES } from '../../constants/apiRoutes';
+
+// Components
+import PageTitle from '../../components/page_title/PageTitle';
 import Badge from '../../components/Badge';
 
 const styleActionButtonEdit = {
@@ -28,7 +31,9 @@ const styleActionButtonEdit = {
 };
 
 
-const SmsTemplate = ({ name }) => {
+const SmsTemplate = ({ type = "sms", pageSize = 9999 }) => {
+  const [page, setPage] = useState(0);  
+  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.TEMPLATE_LIST(type), page, pageSize);
 
     const ActionLink = (props) => {
       return (
@@ -41,7 +46,7 @@ const SmsTemplate = ({ name }) => {
     };
 
       const TemplateNameCell = ({ data }) => {
-        const { templateName } = data;
+        const { code, templateFor } = data;
         return (
           <div className="table-description">
             <div className="icon-wrapper">
@@ -49,36 +54,16 @@ const SmsTemplate = ({ name }) => {
             </div>
             
             <div className="schema-cell">
-              {templateName}              
-              <span>User</span>
+              {code}              
+              <span>{templateFor}</span>
             </div>
           </div>
           )
       }
 
-  const [rowData] = useState([
-    { id: 1, templateName: "User Mail Send", status: "Deactivated" },
-    { id: 2, templateName: "Subscriber Mail Send", status: "Deactivated" },
-    { id: 3, templateName: "Email Verification", status: "Active" },
-    { id: 4, templateName: "Forget Password", status: "Active" },
-    { id: 5, templateName: "User Investment", status: "Deactivated" },
-    { id: 5, templateName: "User Account Disabled", status: "Deactivated" },
-    { id: 5, templateName: "Manual Deposit request", status: "Deactivated" },
-    { id: 5, templateName: "Withdraw Request", status: "Deactivated" },
-    { id: 5, templateName: "Admin Forget Password", status: "Deactivated" },
-    { id: 5, templateName: "Contact Mail Send", status: "Deactivated" },
-    { id: 5, templateName: "KYC Action", status: "Deactivated" },
-    { id: 5, templateName: "Invest ROI", status: "Deactivated" },
-    { id: 5, templateName: "Investment End", status: "Deactivated" },
-    { id: 5, templateName: "Withdraw Request Action", status: "Deactivated" },
-    { id: 5, templateName: "Manual Deposit request Action", status: "Deactivated" },
-    { id: 5, templateName: "Support Ticket", status: "Active" },
-    { id: 5, templateName: "Support Ticket", status: "Active" }
-  ]);
-
   const [colDefs] = useState([
-    { field: "templateName", headerName: "Email For", width: 400, cellRenderer: TemplateNameCell },
-    { field: "status", cellRenderer: Badge },
+    { field: "code", headerName: "Email For", width: 400, cellRenderer: TemplateNameCell },
+    { field: "templateActive", headerName: "Stattus", cellRenderer: Badge },
     {field: "action", width: 80, cellRenderer: ActionLink},
   ]);
 
@@ -106,13 +91,17 @@ const SmsTemplate = ({ name }) => {
               <div className="site-card-body">
 
                 <div className="site-datatable">
-                  <div style={{ height: 500 }} className="ag-theme-alpine">
+                  <div style={{ height: 500 }} className="ag-theme-alpine">                  
                     <AgGridReact
                       theme={"legacy"}
-                      rowData={rowData}
+                      rowData={data}
+                      loading={loading}
                       columnDefs={colDefs}
-                      rowHeight={70}
-                      pagination={true} />
+                      pagination={true}
+                      paginationPageSize={10}
+                      paginationPageSizeSelector={[10, 20, 50, 100]}
+                      rowHeight={60}
+                    />
                   </div>
                 </div>
               </div>

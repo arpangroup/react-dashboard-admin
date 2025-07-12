@@ -1,19 +1,21 @@
-import React from 'react';
-import { LuPencilLine, LuMail, LuTrash } from "react-icons/lu";
-import PageTitle from '../../components/page_title/PageTitle';
-
-
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { themeBalham } from 'ag-grid-community';
-import { useState } from "react";
+// React
+import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 
-import Badge from '../../components/Badge';
+// Third-party Libraries
+import { AgGridReact } from "ag-grid-react";
+import { LuMail, LuPencilLine, LuTrash } from "react-icons/lu";
+
+// Custom Hooks
 import { usePaginatedFetch } from '../../api/usePaginatedFetch';
+
+// Constants
 import { API_ROUTES } from '../../constants/apiRoutes';
+
+// Components
+import Badge from '../../components/Badge';
+import PageTitle from '../../components/page_title/PageTitle';
+
 
 
 const EmailTemplate = ({ type = "email", pageSize = 9999 }) => {
@@ -31,7 +33,6 @@ const EmailTemplate = ({ type = "email", pageSize = 9999 }) => {
     };
 
       const TemplateNameCell = ({ data }) => {
-        console.log("DATA: ", data)
         const { code, templateFor } = data;
         return (
           <div className="table-description">
