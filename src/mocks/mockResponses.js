@@ -7,7 +7,7 @@ export const mockResponses = {
   [API_ROUTES.TRANSACTIONS]: async (queryParams) => TRANSACTIONS,
   [API_ROUTES.USER_TRANSACTIONS(1)]: async () => TRANSACTIONS,
   // Deposit:
-  [API_ROUTES.DEPOSITS]: async () => TRANSACTIONS,
+  [API_ROUTES.DEPOSIT_LIST]: async () => TRANSACTIONS,
 
   [API_ROUTES.KYC_LIST]: async () => KYC_LIST,
   [API_ROUTES.RANK_CONFIGS]: async () => RANK_CONFIGS,
