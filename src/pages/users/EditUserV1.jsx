@@ -65,22 +65,8 @@ export default function EditUserV1() {
     const [activeTab, setActiveTab] = useState("info");
     const [userInfo, setUserInfo] = useState({});
 
-
-    // const [formData, setFormData] = useState({
-    //     firstname: 'Monuking1000k',
-    //     last_name: 'King',
-    //     username: 'Monuking1000kKing2638',
-    //     country: "India",
-    //     phone: "+91 80123 45678",
-    //     city: 'Noida',
-    //     zip_code: '',
-    //     address: '',
-    //     created_at: 'Tue, May 27, 2025 1:28 PM',
-    // });
-
     const handleFormChange = (e) => {
         const { name, value } = e.target;
-        //setFormData((prev) => ({ ...prev, [name]: value }));
         setUserInfo((prev) => ({ ...prev, [name]: value }))
     };
 
@@ -108,7 +94,6 @@ export default function EditUserV1() {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                //const data = await apiClient.get(`/api/v1/users/${userId}`);
                 const data = await apiClient.get(API_ROUTES.USER_BY_ID(userId));
                 setUserInfo(data);
                 console.log("User Info:", data);

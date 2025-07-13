@@ -10,15 +10,17 @@ const FormTextarea = ({
   disabled = false,
   info = null,
   onChange,
-  warning = ""
+  rows = 8,
+  cols = 30,
+  warning = ""  
 }) => {
   return (
     <div>
       <LabelWithInfo label={label} info={info} />
       <textarea
         className="form-textarea"
-        cols="30"
-        rows="8"
+        cols={cols}
+        rows={rows}
         spellcheck="false"
         name={name}
         value={value}

@@ -1,8 +1,7 @@
 import { mockResponses } from "../mocks/mockResponses";
 import { findMockResponse } from "../mocks/findMockResponse";
 
-// const isMockMode = process.env.REACT_APP_API_MOCK === 'true';
-const isMockMode = false;
+const isMockMode = process.env.REACT_APP_API_MOCK === 'true';
 
 const apiClient = {
   get: async (url) => {
@@ -70,8 +69,18 @@ const apiClient = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-    if (!response.ok) throw new Error("Network response was not ok");
-    return await response.json();
+    /*if (!response.ok) throw new Error("Network response was not ok");
+    return await response.json();*/
+
+    const data = await response.json();
+    if (!response.ok) {
+      // Include message from the response in the thrown error
+      const error = new Error(data.message || 'Network response was not ok');
+      error.response = data;
+      throw error;
+    }
+    return data;
+    
   },
 
   put: async (url, body) => {

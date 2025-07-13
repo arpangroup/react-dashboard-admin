@@ -11,6 +11,7 @@ import KycDetailsPanel from './KycDetailsPanel';
 
 import { usePaginatedFetch } from '../../api/usePaginatedFetch';
 import { API_ROUTES } from '../../constants/apiRoutes';
+import RightPanel from '../../components/panel/RightPanel';
 
 
 const KycList = ({ status = "" }) => {
@@ -19,21 +20,17 @@ const KycList = ({ status = "" }) => {
   const [selectedKyc, setSelectedKyc] = useState(null);
   const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.KYC_LIST, page, 9999, {status: status});
 
-  const ActionLink = (props) => {
+  const ActionLink = ({data}) => {
     return (
-      <button className='round-icon-btn primary-btn' type='button' onClick={handleKycDetailsClisk}>
+      <button className='round-icon-btn primary-btn' type='button' onClick={() => handleKycDetailsClisk(data)}>
         <LuEye />
       </button>
     );
   };
 
-  const handleKycDetailsClisk = (kyc) => {
-    const kycObj = {
-      nidNumber: '6277366377363637',
-      kycImage: kycDoc,
-      actionMessage: ''
-    }
-    setSelectedKyc(kycObj);
+  const handleKycDetailsClisk = (kycData) => {
+    console.log("KYC_DATA: ", kycData);
+    setSelectedKyc(kycData);
     setIsPanelOpen(true);
   }
 
@@ -91,11 +88,10 @@ const KycList = ({ status = "" }) => {
         </div>
       </div>
 
-      <KycDetailsPanel
-        isOpen={isPanelOpen}
-        onClose={closePanel}
-        kycData={selectedKyc}
-      />
+      <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+        {selectedKyc && <KycDetailsPanel kycId={selectedKyc.kycId}/> }
+      </RightPanel>
+
     </div>
   )
 }

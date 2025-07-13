@@ -7,6 +7,7 @@ const FormInput = ({
   type = 'text',
   name,
   value,
+  placeholder = '',
   required = false,
   disabled = false,
   info = null,
@@ -18,6 +19,7 @@ const FormInput = ({
       <input
         type={type}
         className="box-input"
+        placeholder={placeholder}
         name={name}
         value={value}
         required={required}
