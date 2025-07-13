@@ -1,3 +1,5 @@
+import { act } from "react";
+
 export const API_ROUTES = {
   USERS: "/api/v1/users",
   USER_BY_ID: (id) => `/api/v1/users/${id}`,
@@ -12,6 +14,10 @@ export const API_ROUTES = {
   // Transactions:
   TRANSACTIONS: "/api/v1/transactions",
   USER_TRANSACTIONS: (userId) => `/api/v1/transactions/user/${userId}`,
+  // Deposit:
+  DEPOSIT_LIST: "/api/v1/deposits", 
+  DEPOSIT_REQUEST: (isManual) => !isManual ? "/api/v1/deposits" : `/api/v1/deposits/manual`, 
+  DEPOSIT_ACTION: (action, id) => `/api/v1/deposits/${action}/${id}`, // ['approve', 'reject']
   // Notification Templates
   MAIL_CONNECTION_TEST: "/api/v1/notifications/mail-connection-test",
   SEND_MAIL: "/api/v1/notifications/send-email",

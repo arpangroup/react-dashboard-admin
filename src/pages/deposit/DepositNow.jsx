@@ -2,6 +2,8 @@ import { useState } from "react";
 import FormInput from "../../components/form/FormInput";
 import FormDropdown from "../../components/form/FormDropdown";
 import { LuSend } from "react-icons/lu";
+import { API_ROUTES } from "../../constants/apiRoutes";
+import apiClient from "../../api/apiClient";
 
 // Dropdown options
 const paymentGateways = [
@@ -12,19 +14,8 @@ const paymentGateways = [
 ];
 
 const baseFields = [
-    {
-        type: "select",
-        label: "Payment Method",
-        name: "paymentGateway",
-        options: paymentGateways,
-        required: true,
-    },
-    {
-        type: "number",
-        label: "Amount",
-        name: "amount",
-        required: true,
-    },
+    { type: "select", label: "Payment Method", name: "paymentGateway", options: paymentGateways, required: true, },
+    { type: "number", label: "Amount", name: "amount", required: true,},
 ];
 
 const DepositNow = ({ userId, username }) => {
@@ -77,24 +68,30 @@ const DepositNow = ({ userId, username }) => {
             return;
         }
 
-        const data = new FormData();
+        /*const payload = new FormData();
         Object.entries(formData).forEach(([key, value]) => {
-            data.append(key, value);
-        });
+            payload.append(key, value);
+            console.log(`${key}:`, value);
+        });*/
+
+        const payload = {            
+            ...formData,
+            userId,
+            amount: amount,
+            paymentGateway: paymentGateway === "admin" ? "SYSTEM" : paymentGateway.toUpperCase(),
+            txnFee: 0,
+            txnRefId: transactionId,
+            remarks: "",
+            metaInfo: null,
+        }
 
         if (screenshotFile) {
-            data.append("screenshot", screenshotFile);
+            payload.append("screenshot", screenshotFile);
         }
 
         try {
-            const response = await fetch("/api/deposit", {
-                method: "POST",
-                body: data,
-            });
-
-            if (!response.ok) throw new Error("Failed to submit");
-
-            const result = await response.json();
+            console.log("PAYLOAD: ", payload);
+            const response =  await apiClient.post(API_ROUTES.DEPOSITS, payload);
             setAlert({ message: "Deposit submitted successfully!", type: "success" });
 
             // Optionally reset form
@@ -103,7 +100,8 @@ const DepositNow = ({ userId, username }) => {
             setPreviewUrl("");
         } catch (error) {
             console.error(error);
-            setAlert({ message: "Submission failed. Please try again.", type: "danger" });
+            const message = error.response?.message || "Submission failed. Please try again.";
+            setAlert({ message, type: "danger" });
         }
     };
 

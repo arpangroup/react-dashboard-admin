@@ -3,8 +3,12 @@ import { API_ROUTES } from "../constants/apiRoutes";
 export const mockResponses = {
   [API_ROUTES.USERS]: async (queryParams) => USERS,
   [API_ROUTES.USER_BY_ID(1)]: async () => USER_BY_ID,
+  // Transactions:
   [API_ROUTES.TRANSACTIONS]: async (queryParams) => TRANSACTIONS,
   [API_ROUTES.USER_TRANSACTIONS(1)]: async () => TRANSACTIONS,
+  // Deposit:
+  [API_ROUTES.DEPOSITS]: async () => TRANSACTIONS,
+
   [API_ROUTES.KYC_LIST]: async () => KYC_LIST,
   [API_ROUTES.RANK_CONFIGS]: async () => RANK_CONFIGS,
   [API_ROUTES.SCHEMA_LIST]: async () => SCHEMA_LIST,
@@ -57,6 +61,14 @@ const SCHEMA_LIST = { content: [
   {"id":3,"title":"Fixed Income for Life","schemaBadge":"CRYPTO","schemaType":"FIXED","minimumInvestmentAmount":2500.0,"maximumInvestmentAmount":null,"returnRate":5.25,"interestCalculationMethod":"PERCENTAGE","returnSchedule":{"id":5,"scheduleName":"Monthly","scheduleInHour":720},"returnType":"LIFETIME","totalReturnPeriods":0,"cancellationGracePeriodMinutes":4320,"description":"Monthly lifetime returns on a fixed deposit.","createdAt":"2025-07-10T19:35:09.805277","updatedAt":"2025-07-10T19:35:09.805277","createdBy":"manager","updatedBy":"manager","currency":"EUR","earlyExitPenalty":75.0,"termsAndConditionsUrl":"https://example.com/tc/lifetimefixed","active":false,"featured":true,"tradeable":true,"capitalReturned":false,"cancellable":true},
   {"id":4,"title":"Dynamic Tiered Plan","schemaBadge":"DYNAMIC","schemaType":"RANGE","minimumInvestmentAmount":1000.0,"maximumInvestmentAmount":20000.0,"returnRate":7.0,"interestCalculationMethod":"PERCENTAGE","returnSchedule":{"id":1,"scheduleName":"2 Week","scheduleInHour":336},"returnType":"PERIOD","totalReturnPeriods":26,"cancellationGracePeriodMinutes":0,"description":"Tiered returns for a range of investments.","createdAt":"2025-07-10T19:35:09.813798","updatedAt":"2025-07-10T19:35:09.813798","createdBy":"admin","updatedBy":"admin","currency":"USD","earlyExitPenalty":150.0,"termsAndConditionsUrl":"https://example.com/tc/dynamictier","active":true,"featured":false,"tradeable":true,"capitalReturned":true,"cancellable":false}
 ]};
+
+const DEPOSITS = { content: [
+  {"id":1,"title":"Fixed 1-Year Plan","schemaBadge":"FIXED_PLAN","schemaType":"FIXED","minimumInvestmentAmount":1000.0,"maximumInvestmentAmount":null,"returnRate":6.5,"interestCalculationMethod":"PERCENTAGE","returnSchedule":{"id":4,"scheduleName":"Weekly","scheduleInHour":168},"returnType":"PERIOD","totalReturnPeriods":52,"cancellationGracePeriodMinutes":1440,"description":"Fixed 1-Year investment with weekly returns.","createdAt":"2025-07-10T19:35:09.76929","updatedAt":"2025-07-10T19:35:09.76929","createdBy":"admin","updatedBy":"admin","currency":"USD","earlyExitPenalty":50.0,"termsAndConditionsUrl":"https://example.com/tc/fixed1yr","active":true,"featured":true,"tradeable":false,"capitalReturned":true,"cancellable":true},
+  {"id":2,"title":"Flexible Lifetime Growth Plan","schemaBadge":"LIFETIME_PLAN","schemaType":"RANGE","minimumInvestmentAmount":500.0,"maximumInvestmentAmount":10000.0,"returnRate":4.0,"interestCalculationMethod":"FLAT","returnSchedule":{"id":3,"scheduleName":"Daily","scheduleInHour":24},"returnType":"LIFETIME","totalReturnPeriods":0,"cancellationGracePeriodMinutes":0,"description":"Lifetime income with flexible investment range.","createdAt":"2025-07-10T19:35:09.795262","updatedAt":"2025-07-10T19:35:09.795262","createdBy":"system","updatedBy":"system","currency":"INR","earlyExitPenalty":100.0,"termsAndConditionsUrl":"https://example.com/tc/flexiblelife","active":true,"featured":false,"tradeable":true,"capitalReturned":false,"cancellable":false},
+  {"id":3,"title":"Fixed Income for Life","schemaBadge":"CRYPTO","schemaType":"FIXED","minimumInvestmentAmount":2500.0,"maximumInvestmentAmount":null,"returnRate":5.25,"interestCalculationMethod":"PERCENTAGE","returnSchedule":{"id":5,"scheduleName":"Monthly","scheduleInHour":720},"returnType":"LIFETIME","totalReturnPeriods":0,"cancellationGracePeriodMinutes":4320,"description":"Monthly lifetime returns on a fixed deposit.","createdAt":"2025-07-10T19:35:09.805277","updatedAt":"2025-07-10T19:35:09.805277","createdBy":"manager","updatedBy":"manager","currency":"EUR","earlyExitPenalty":75.0,"termsAndConditionsUrl":"https://example.com/tc/lifetimefixed","active":false,"featured":true,"tradeable":true,"capitalReturned":false,"cancellable":true},
+  {"id":4,"title":"Dynamic Tiered Plan","schemaBadge":"DYNAMIC","schemaType":"RANGE","minimumInvestmentAmount":1000.0,"maximumInvestmentAmount":20000.0,"returnRate":7.0,"interestCalculationMethod":"PERCENTAGE","returnSchedule":{"id":1,"scheduleName":"2 Week","scheduleInHour":336},"returnType":"PERIOD","totalReturnPeriods":26,"cancellationGracePeriodMinutes":0,"description":"Tiered returns for a range of investments.","createdAt":"2025-07-10T19:35:09.813798","updatedAt":"2025-07-10T19:35:09.813798","createdBy":"admin","updatedBy":"admin","currency":"USD","earlyExitPenalty":150.0,"termsAndConditionsUrl":"https://example.com/tc/dynamictier","active":true,"featured":false,"tradeable":true,"capitalReturned":true,"cancellable":false}
+]};
+
 
 const USER_BY_ID = {
     "id": 1,
