@@ -18,7 +18,7 @@ const baseFields = [
     { type: "number", label: "Amount", name: "amount", required: true,},
 ];
 
-const DepositNow = ({ userId, username }) => {
+const DepositNow = ({ userId, onClose }) => {
     const [formData, setFormData] = useState({
         paymentGateway: "admin",
     });
@@ -74,30 +74,33 @@ const DepositNow = ({ userId, username }) => {
             console.log(`${key}:`, value);
         });*/
 
-        const payload = {            
+        let payload = {            
             ...formData,
             userId,
             amount: amount,
             paymentGateway: paymentGateway === "admin" ? "SYSTEM" : paymentGateway.toUpperCase(),
-            txnFee: 0,
             txnRefId: transactionId,
             remarks: "",
             metaInfo: null,
         }
 
         if (screenshotFile) {
-            payload.append("screenshot", screenshotFile);
+            //payload.append("screenshot", screenshotFile);
         }
 
         try {
-            console.log("PAYLOAD: ", payload);
-            const response =  await apiClient.post(API_ROUTES.DEPOSITS, payload);
+            const isManualDeposit = payload.paymentGateway === 'SYSTEM';
+            const response =  await apiClient.post(API_ROUTES.DEPOSIT_REQUEST(isManualDeposit), payload);
             setAlert({ message: "Deposit submitted successfully!", type: "success" });
 
             // Optionally reset form
             setFormData({ paymentGateway: "admin" });
             setScreenshotFile(null);
             setPreviewUrl("");
+            
+            // Optionally trigger a page reload, modal close, or callback
+            if (onClose) onClose(); 
+            window.location.reload(); // Optional: hard reload
         } catch (error) {
             console.error(error);
             const message = error.response?.message || "Submission failed. Please try again.";

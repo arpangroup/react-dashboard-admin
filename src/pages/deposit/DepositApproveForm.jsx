@@ -1,41 +1,98 @@
-import ReactDOM from 'react-dom';
+import { useState } from 'react';
+import { LuCheck, LuX } from 'react-icons/lu';
+import FormTextarea from '../../components/form/FormTextarea';
+import apiClient from "../../api/apiClient";
+import { API_ROUTES } from '../../constants/apiRoutes';
 
-const DepositApproveForm = () => {
-    return (
-        <>
-            <ul class="list-group mb-4">
+const defaultScreenshot = 'https://81habibi.com/assets/global/images/qcVxCDUguY174izjLz37.jpg';
 
-                <li class="list-group-item">
-                    UPI ID:
-                    <img src="https://81habibi.com/assets" alt="" />
-                </li>
-                <li class="list-group-item">
-                    screenshort:
-                    <img src="https://81habibi.com/assets/global/images/qcVxCDUguY174izjLz37.jpg" alt="" />
-                </li>
-            </ul>
+const DepositApproveForm = ({ depositData, onClose }) => {
+  const { txnRefId, id: depositId } = depositData;
 
-            <form action="https://81habibi.com/admin/deposit/action-now" method="post">
-                <div class="site-input-groups">
-                    <label for="" class="box-input-label">Details Message(Optional)</label>
-                    <textarea name="message" class="form-textarea mb-0" placeholder="Details Message"></textarea>
-                </div>
+  const [message, setMessage] = useState('');
+  const [isRejecting, setIsRejecting] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-                <div class="action-btns">
-                    <button type="submit" name="approve" value="yes" class="site-btn-sm primary-btn me-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check" icon-name="check" class="lucide lucide-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        Approve
-                    </button>
-                    <button type="submit" name="reject" value="yes" class="site-btn-sm red-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" icon-name="x" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-                        Reject
-                    </button>
-                </div>
+  const handleSubmit = async (action) => {
+    setError('');
+    setIsRejecting(action === 'reject');
 
-            </form>
+    if (action === 'reject' && message.trim() === '') {
+      // Don't proceed if rejecting and no message
+      return;
+    }
 
-        </>
-    );
-}
+    setSubmitting(true);
+
+    let payload = {};
+    if(action === 'reject') {
+        payload = {rejectionReason: message}
+    }
+
+    try {
+      await apiClient.post(API_ROUTES.DEPOSIT_ACTION(action, depositId), payload);
+
+      alert(`Deposit successfully ${action}ed.`);
+      // Optionally trigger a page reload, modal close, or callback
+      if (onClose) onClose(); 
+      window.location.reload(); // Optional: hard reload
+    } catch (err) {
+      setError(err.message || 'Something went wrong.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <>
+      <ul className="list-group mb-4">
+        <li className="list-group-item">
+          TransactionRef ID: <strong>{txnRefId}</strong>
+        </li>
+        <li className="list-group-item">
+          <img
+            src={defaultScreenshot}
+            style={{ width: '300px', height: '300px' }}
+            alt="Deposit Screenshot"
+          />
+        </li>
+      </ul>
+
+      <div className="site-input-groups mb-0">
+        <FormTextarea
+          label="Details Message"
+          name="message"
+          value={message}
+          required={true}
+          rows={2}
+          onChange={(e) => setMessage(e.target.value)}
+          warning={isRejecting && message.trim() === '' ? 'This field is required for rejection.' : ''}
+        />
+      </div>
+
+      {error && <div className="text-danger mt-2 mb-2">{error}</div>}
+
+      <div className="action-btns mt-3">
+        <button
+          type="button"
+          disabled={submitting}
+          className="site-btn-sm primary-btn me-2"
+          onClick={() => handleSubmit('approve')}
+        >
+          <LuCheck /> Approve
+        </button>
+        <button
+          type="button"
+          disabled={submitting}
+          className="site-btn-sm red-btn"
+          onClick={() => handleSubmit('reject')}
+        >
+          <LuX /> Reject
+        </button>
+      </div>
+    </>
+  );
+};
 
 export default DepositApproveForm;

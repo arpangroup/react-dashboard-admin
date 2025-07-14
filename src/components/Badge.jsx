@@ -39,6 +39,7 @@ const Badge = ({ value, style = null }) => {
     case 'inactive':
     case 'cancelled':
     case 'false':
+    case 'rejected':
       badgeType = 'danger';
       break;
     default:

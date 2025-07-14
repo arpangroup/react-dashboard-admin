@@ -7,11 +7,16 @@ import { NavLink } from 'react-router-dom';
 import { API_ROUTES } from '../../constants/apiRoutes';
 import { usePaginatedFetch } from '../../api/usePaginatedFetch';
 import { formatDate } from '../../utils/dateUtils';
+import { LuEye } from 'react-icons/lu';
+import DepositApproveForm from './DepositApproveForm';
+import RightPanel from '../../components/panel/RightPanel';
 
 
-const DepositHistory = ({ pageSize = 9999 }) => {
+const DepositHistory = ({ status = '', pageSize = 9999 }) => {
   const [page, setPage] = useState(0);
-  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.DEPOSITS, page, pageSize);
+  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.DEPOSIT_LIST, page, pageSize, {status});
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedDeposit, setSelectedDeposit] = useState({});
 
   const UserCell = ({ data }) => {
     const { userId, user } = data;
@@ -22,42 +27,56 @@ const DepositHistory = ({ pageSize = 9999 }) => {
     )
   }
 
-  const AmountCell = ({ value }) => {
-    if (!value) return null;
-    return value;
+  
+  const ActionLink = ({data}) => {
+    return (
+      <button className='round-icon-btn primary-btn' type='button' onClick={() => {setSelectedDeposit(data); setIsPanelOpen(true)}}>
+        <LuEye />
+      </button>
+    );
+  };
+
+  const AmountCell = ({ data }) => {
+    const { amount, currencyCode } = data;
+    if (!amount) return null;
+    //return value;
 
     // Remove currency and commas, just check for minus sign
-    const isNegative = value.trim().startsWith('-');
+    const isNegative = amount < 0;
+    const sign = isNegative ? '-' : '+';
 
     const style = {
       color: isNegative ? '#ef476f' : '#2a9d8f', // red or green
       fontWeight: 'bold',
     };
 
-    return <span style={style}>{value}</span>;
+    return <span style={style}>{sign}{amount} {currencyCode}</span>;
   };
 
   const DateCell = ({ value }) => {
     if (!value) return null;    
-    return formatDate(value);
+    //return formatDate(value);
+    return value;
   }
 
-  // const [rowData] = useState([
-  //   { date: "Jun 07 2025 05:26", userId: 1, user: "TestTest2362", txnId: "TRXPOZ5ZZYDTJ", type: "Withdraw", amount: "500 INR", gateway: "WITHDRAWAL", charge: "250 INR", status: "Pending" },
-  //   { date: "Jun 07 2025 05:26", userId: 2, user: "JohnDoe123", txnId: "TRXPOZ5ZZYDTJ", type: "Investment", amount: "500 INR", gateway: "System", charge: "250 INR", status: "Success" },
-  //   { date: "Jun 07 2025 05:26", userId: 3, user: "ElonMusk9897", txnId: "TRXPOZ5ZZYDTJ", type: "Refund", amount: "5000 INR", gateway: "System", charge: "250 INR", status: "Success" },
-  //   { date: "Jun 07 2025 05:26", userId: 4, user: "SteveJobs5454", txnId: "TRXPOZ5ZZYDTJ", type: "Subtract", amount: "500 INR", gateway: "System", charge: "250 INR", status: "Success" },
-  //   { date: "Jun 07 2025 05:26", userId: 5, user: "TestTest2362", txnId: "TRXPOZ5ZZYDTJ", type: "Withdraw", amount: "5000 INR", gateway: "WITHDRAWAL", charge: "250 INR", status: "Cancelled" }
-  // ]);
+  const colDefs = () => {
+    const baseCols = [
+      { field: "txnDate", headerName: "DATE", width: 220, cellRenderer: DateCell },
+      { field: "txnRefId", headerName: "TRANSACTION ID", width: 230 },
+      { field: "amount", headerName: "AMOUNT", width: 120, cellRenderer: AmountCell },
+      { field: "paymentGateway", headerName: "GATEWAY", width: 120 },
+      { field: "txnFee", headerName: "CHARGE", width: 100, valueFormatter: ({ value }) => value != null ? value : 0},
+      { field: "status", headerName: "STATUS", width: 120, cellRenderer: Badge },
+    ];
 
-  const [colDefs] = useState([
-    { field: "txnDate", headerName: "DATE", width: 150, cellRenderer: DateCell },
-    { field: "txnRefId", headerName: "TRANSACTION ID", width: 230 },
-    { field: "amount", width: 120, cellRenderer: AmountCell },
-    { field: "gateway", width: 150 },
-    { field: "txnFee", width: 150, valueFormatter: ({ value }) => value != null ? value : 0},
-    { field: "status", width: 120, cellRenderer: Badge },
-  ]);
+    if (status === 'PENDING') {
+      baseCols.push({ field: "action", headerName: "ACTION", width: 120, cellRenderer: ActionLink });
+    }
+
+    return baseCols;
+  };
+
+
 
   const onPaginationChanged = useCallback((params) => {
     const newPage = params.api.paginationGetCurrentPage();
@@ -68,7 +87,7 @@ const DepositHistory = ({ pageSize = 9999 }) => {
 
   return (
     <div className="main-content">
-      <PageTitle title="Deposit History" />
+      <PageTitle title={status === 'PENDING' ? 'Pending Manual Deposit' : 'Deposit History'} />
 
       <div className="container-fluid">
         <div className="row">
@@ -76,18 +95,12 @@ const DepositHistory = ({ pageSize = 9999 }) => {
             <div className="site-card">
               <div className="site-card-body table-responsive">
                 <div className="site-datatable">
-                  <div style={{ height: 500 }} className="ag-theme-alpine">
-                    {/* <AgGridReact
-                      theme={"legacy"}
-                      rowData={rowData}
-                      columnDefs={colDefs}
-                      pagination={true} /> */}
-                      
+                  <div style={{ height: 500 }} className="ag-theme-alpine">                      
                     <AgGridReact
                       theme={"legacy"}
                       rowData={data}
                       loading={loading}
-                      columnDefs={colDefs}
+                      columnDefs={colDefs()}
                       pagination={true}
                       paginationPageSize={10}
                       onPaginationChanged={onPaginationChanged}
@@ -101,6 +114,14 @@ const DepositHistory = ({ pageSize = 9999 }) => {
           </div>
         </div>
       </div>
+      
+      <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+        <h2>Deposit Approval Action</h2>
+        <DepositApproveForm 
+          depositData={selectedDeposit}
+          onClose={() => setIsPanelOpen(false)}
+        />
+      </RightPanel>
     </div>
   )
 };

@@ -7,7 +7,8 @@ import {
   LuLanguages,
   LuPalette, LuRollerCoaster, LuWarehouse, LuEgg,
   LuMail, LuMessageSquare,
-  LuWrench, LuBraces, LuInfo
+  LuWrench, LuBraces, LuInfo,
+  LuBan
 
 } from "react-icons/lu";
 
@@ -119,6 +120,7 @@ const menuData = [
       // { label: 'Automatic Methods', href: '/admin/deposit/method/auto', icon: <LuWorkflow /> },
       // { label: 'Manual Methods', href: '/admin/deposit/method/manual', icon: <LuCompass /> },
       { label: 'Pending Manual Deposits', href: '/admin/deposit/pending', icon: <LuWallet /> },
+      { label: 'Rejected Deposits', href: '/admin/deposit/rejected', icon: <LuBan /> },
       { label: 'Deposit History', href: '/admin/deposit/history', icon: <LuClipboardCheck /> },
     ],
   },

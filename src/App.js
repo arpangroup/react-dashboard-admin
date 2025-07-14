@@ -19,8 +19,6 @@ import PaymentGateway from './pages/gateway/PaymentGateway';
 import KycForms from './pages/kyc/KycForms';
 import KycList from './pages/kyc/KycList';
 import DepositHistory from './pages/deposit/DepositHistory';
-import DepositMethodAuto from './pages/deposit/DepositMethodAuto';
-import DepositMethodManual from './pages/deposit/DepositMethodManual';
 import EmailTemplate from './pages/email/EmailTemplate';
 import PushNotificationTemplate from './pages/notification/PushNotificationTemplate';
 import PushNotificationTemplateEdit from './pages/notification/PushNotificationTemplateEdit';
@@ -114,9 +112,8 @@ function App() {
         <Route path="payment/gateway" element={<PaymentGateway />} />
 
 
-        <Route path="deposit/method/auto" element={<DepositMethodAuto />} />
-        <Route path="deposit/method/manual" element={<DepositMethodManual />} />
-        <Route path="deposit/pending" element={<DepositMethodManual />} />
+        <Route path="deposit/pending" element={<DepositHistory status='PENDING' />} />
+        <Route path="deposit/rejected" element={<DepositHistory status='REJECTED' />} />
         <Route path="deposit/history" element={<DepositHistory />} />
 
         

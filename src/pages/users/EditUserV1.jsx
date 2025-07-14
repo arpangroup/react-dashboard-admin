@@ -234,7 +234,10 @@ export default function EditUserV1() {
             {panel === 'deposit_now' &&
                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} >
                     <h3 className="mb-4">{`Deposit Amount`}</h3>
-                    <DepositNow userId={userInfo.id} username={userInfo.username}/>
+                    <DepositNow 
+                        userId={userInfo.id}                        
+                        onClose={() => setIsPanelOpen(false)}
+                    />
                     {/* <DepositSuccess userId={userInfo.id} username={userInfo.username} /> */}
                 </RightPanel>
             }
