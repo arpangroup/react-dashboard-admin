@@ -9,6 +9,7 @@ import LoaderOverlay from '../../components/LoaderOverlay';
 import { useParams } from 'react-router';
 import apiClient from '../../api/apiClient';
 import { API_ROUTES } from '../../constants/apiRoutes';
+import FileInput from '../../components/form/FileInput';
 
 const CURRENCY_UNIT = "INR";
 
@@ -69,7 +70,6 @@ const interestTypeOptions = [
   { value: 'FLAT', label: '₹' },
 ];
 
-
 const defaultFormState = {
   title: '',
   schemaBadge: '',
@@ -91,12 +91,29 @@ const defaultFormState = {
   schema_img: null,
 };
 
+const getChangedFields = (original, current) => {
+  const changes = {};
+  for (const key in current) {
+    const originalValue = original[key];
+    const currentValue = current[key];
+
+    // If value changed (shallow compare)
+    if (originalValue !== currentValue) {
+      changes[key] = currentValue;
+    }
+  }
+  return changes;
+};
+
 const SchemaForm = () => {
   const { schemaId } = useParams();
   const isEditMode = !!schemaId;
   const [formData, setFormData] = useState({ ...defaultFormState });
+  const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
+  const [screenshotFile, setScreenshotFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   useEffect(() => {
     if (!isEditMode) return;
@@ -104,18 +121,20 @@ const SchemaForm = () => {
     const fetchSchemaInfo = async () => {
       try {
         const data = await apiClient.get(API_ROUTES.SCHEMA_By_ID(schemaId));
-        setFormData({
+        const normalizedData = {
           ...defaultFormState,
           ...data,
-          schemaType: data.schemaType === 'FIXED' ? true : false,
-          returnType: data.returnType === 'PERIOD' ? true : false,
+          schemaType: data.schemaType === 'FIXED',
+          returnType: data.returnType === 'PERIOD',
           capitalReturned: data.capitalReturned,
           featured: data.featured,
           cancellable: data.cancellable,
           tradeable: data.tradeable,
           status: data.active,
           schema_img: null,
-        });
+        };
+        setFormData(normalizedData);
+        setInitialData(normalizedData)
       } catch (err) {
         setMessage({ type: 'error', text: err.message });
         console.error("Error fetching schema info:", err);
@@ -131,12 +150,21 @@ const SchemaForm = () => {
 
 
 
+
+
   // Generic change handler
   const handleChange = useCallback((e) => {
     const { name, value, type, files, options } = e.target;
 
-    if (type === 'file') {
-      setFormData(prev => ({ ...prev, [name]: files[0] }));
+    if (type === 'file' && files.length > 0) {
+      const file = files[0];
+      const allowedTypes = ["image/jpeg", "image/png"];
+      if (!allowedTypes.includes(file.type)) {
+        alert("Only JPG and PNG files are allowed!");
+        return;
+      }
+      setScreenshotFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
     } else if (type === 'select-multiple') {
       const selected = Array.from(options).filter(o => o.selected).map(o => o.value);
       setFormData(prev => ({ ...prev, [name]: selected }));
@@ -178,23 +206,41 @@ const SchemaForm = () => {
     setMessage(null);
 
     try {
-      const payload = new FormData();
-      for (const key in formData) {
-        if (formData[key] !== null) {
-          if (Array.isArray(formData[key])) {
-            payload.append(key, JSON.stringify(formData[key]));
-          } else {
-            payload.append(key, formData[key]);
-          }
+      let payload = {};
+
+      if (isEditMode && initialData) {
+        const changes = getChangedFields(initialData, formData);
+
+        if (Object.keys(changes).length === 0) {
+          setMessage({ type: 'info', text: 'No changes to save.' });
+          setLoading(false);
+          return;
         }
+
+        // Normalize specific fields
+        if ('schemaType' in changes) changes.schemaType = changes.schemaType ? 'FIXED' : 'RANGE';
+        if ('returnType' in changes) changes.returnType = changes.returnType ? 'PERIOD' : 'LIFETIME';
+        if ('status' in changes) changes.active = changes.status;
+
+        delete changes.status;
+        delete changes.schema_img;
+
+        payload = changes;
+      } else {
+        // Full payload in create mode
+        payload = { ...formData };
+        payload.schemaType = formData.schemaType ? 'FIXED' : 'RANGE';
+        payload.returnType = formData.returnType ? 'PERIOD' : 'LIFETIME';
+        payload.active = formData.status;
+        delete payload.schema_img;
       }
 
-      const endpoint = isEditMode ? `/api/schema/${schemaId}` : `/api/schema`;
-      const method = isEditMode ? 'PUT' : 'POST';
-
-      // Mock API call example
-      // await fetch(endpoint, { method, body: payload });
-
+      let response;
+      if (isEditMode) {
+        response = await apiClient.put(API_ROUTES.SCHEMA_By_ID(schemaId), payload);
+      } else {
+        response = await apiClient.post(API_ROUTES.SCHEMA_LIST, payload);
+      }
       setMessage({ type: 'success', text: isEditMode ? 'Schema updated!' : 'Schema created!' });
     } catch (error) {
       setMessage({ type: 'error', text: error.message || 'Submission failed' });
@@ -388,25 +434,14 @@ const SchemaForm = () => {
                   <div className="row">
                     <div className="col-xl-3">
                       <div className="site-input-groups">
-                        <label className="box-input-label" htmlFor="schema-icon">
-                          Upload Icon:
-                        </label>
+                        <label className="box-input-label" htmlFor="schema-icon">Upload Icon:</label>
                         <div className="wrap-custom-file">
-                          <input
-                            type="file"
-                            name="icon"
-                            id="schema-icon"
-                            accept=".gif, .jpg, .png"
+                          <FileInput
+                            name="screenshot"
+                            file={screenshotFile}
+                            previewUrl={previewUrl}
                             onChange={handleChange}
                           />
-                          <label className="file-ok" htmlFor="schema-icon">
-                            <img
-                              className="upload-icon"
-                              src="https://81habibi.com/assets/global/materials/upload.svg"
-                              alt="Upload Icon"
-                            />
-                            <span>Update Avatar</span>
-                          </label>
                         </div>
                       </div>
                     </div>
@@ -416,15 +451,15 @@ const SchemaForm = () => {
                 <form onSubmit={handleSubmit} className="row">
                   <div className="row mb-4">{fields.map(renderField)}</div>
 
-                  {message && (
-                    <div className={`alert ${message.type === 'error' ? 'alert-danger' : 'alert-success'}`}>
-                      {message.text}
-                    </div>
-                  )}
-
                   <button type="submit" className="site-btn-sm primary-btn w-100" disabled={loading}>
                     {loading ? (isEditMode ? 'Updating...' : 'Saving...') : isEditMode ? 'Update Schema' : 'Create Schema'}
                   </button>
+
+                  {message && (
+                    <div className={`alert ${message.type === 'error' ? 'alert-danger' : 'alert-success'} mt-4`}>
+                      {message.text}
+                    </div>
+                  )}
                 </form>
               </div>
             </div>

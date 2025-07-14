@@ -1,7 +1,7 @@
 import { LuPencilLine, LuPlus } from "react-icons/lu";
 
 import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import PageTitle from "../../components/page_title/PageTitle";
@@ -12,7 +12,6 @@ import { usePaginatedFetch } from "../../api/usePaginatedFetch";
 
 const Schema = (props) => {
   const [page, setPage] = useState(0);
-    //const { data, loading } = useFetchJson(`/api/v1/investment-schemas`);
     const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.SCHEMA_LIST, page, 9999);
     
     const ActionLinkAddNew = (props) => {
@@ -67,6 +66,12 @@ const Schema = (props) => {
         resizable: true,
     };
 
+    const onPaginationChanged = useCallback((params) => {
+        const newPage = params.api.paginationGetCurrentPage();
+        setPage(newPage);
+    }, []);
+    
+
     return (
         <div className="main-content">
             <PageTitle title="All Schemas" actionLink={<ActionLinkAddNew />} />
@@ -86,6 +91,7 @@ const Schema = (props) => {
                                             defaultColDef={defaultColDef}
                                             pagination={true}                      
                                             paginationPageSize={10}
+                                            onPaginationChanged={onPaginationChanged}
                                             paginationPageSizeSelector={[10, 20, 50, 100]} />
                                     </div>
                                 </div>

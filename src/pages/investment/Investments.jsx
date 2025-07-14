@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PageTitle from "../../components/page_title/PageTitle";
 import Badge from "../../components/Badge";
 import { LuArrowBigRight } from "react-icons/lu";
 import "./Investments.css";
 
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Add your preferred theme
-import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { NavLink } from 'react-router-dom';
-ModuleRegistry.registerModules([AllCommunityModule]);
+import { usePaginatedFetch } from '../../api/usePaginatedFetch';
+import { API_ROUTES } from '../../constants/apiRoutes';
 
 
-const Investments = () => {
+const Investments = ({ status = '', pageSize = 9999 }) => {
+  const [page, setPage] = useState(0);
+  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.INVESTMENT_SCHEMA_LIST, page, pageSize, {status});
 
   const UserCell = ({ data }) => {
     const { userId, user } = data;
@@ -51,11 +51,11 @@ const Investments = () => {
 
 
 
-  const [rowData] = useState([
-    { userId: 1, planId: 1, user: "John Doe", currency: "USDT", investmentAmount: "5000", roi: "2%", profit: "0 x 100 = 0 INR", capitalBack: "No", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
-    { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
-    { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "Pending" },
-  ]);
+  // const [rowData] = useState([
+  //   { userId: 1, planId: 1, user: "John Doe", currency: "USDT", investmentAmount: "5000", roi: "2%", profit: "0 x 100 = 0 INR", capitalBack: "No", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
+  //   { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
+  //   { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "Pending" },
+  // ]);
 
   const [colDefs] = useState([
     { field: "user", width: 120, cellRenderer: UserCell },
@@ -66,6 +66,11 @@ const Investments = () => {
     { field: "capitalBack", width: 120, cellRenderer: Badge },
     { field: "timeline", width: 180, cellRenderer: TimeLineCell },
   ]);
+
+    const onPaginationChanged = useCallback((params) => {
+      const newPage = params.api.paginationGetCurrentPage();
+      setPage(newPage);
+    }, []);
 
 
 
@@ -80,13 +85,18 @@ const Investments = () => {
             <div className="site-card">
               <div className="site-card-body table-responsive">
                 <div className="site-datatable">
-                  <div style={{ height: 500 }} className="ag-theme-alpine">
+                  <div style={{ height: 500 }} className="ag-theme-alpine">                                       
                     <AgGridReact
                       theme={"legacy"}
-                      rowData={rowData}
-                      columnDefs={colDefs}
-                      rowHeight={80}
-                      pagination={true} />
+                      rowData={data}
+                      loading={loading}
+                      columnDefs={colDefs()}
+                      pagination={true}
+                      paginationPageSize={10}
+                      onPaginationChanged={onPaginationChanged}
+                      paginationPageSizeSelector={[10, 20, 50, 100]}
+                      rowHeight={40}
+                    />
                   </div>
                 </div>
               </div>

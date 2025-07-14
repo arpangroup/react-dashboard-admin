@@ -22,9 +22,9 @@ const InvestNow = ({ userId, username }) => {
     // Fetch schemas on mount
     useEffect(() => {
         const fetchSchemaList = async () => {
-            const response = await apiClient.get(API_ROUTES.SCHEMA_LIST);
+            const data = await apiClient.get(API_ROUTES.SCHEMA_LIST);
             //console.log("RESPONSE_DATA: ", data);
-            const data = response.content;
+            //const data = response.content;
             const dropdownOptions = [
                 { value: "", label: "-- Select Schema --", disabled: true },
                 ...data.map(schema => ({
