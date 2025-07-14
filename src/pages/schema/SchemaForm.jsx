@@ -43,7 +43,7 @@ const fields = [
   { label: "Return Type", name: "returnType", type: "toggle", labels: ["Period", "Lifetime"] },
 
   // Only show if return_type is Period (true)
-  { type: "DIV", conditionalOn: { field: "returnType", value: false } },
+  { type: "DIV", name: "div_1", conditionalOn: { field: "returnType", value: false } },
   { label: "Number of Period", name: "totalReturnPeriods", inputType: "number", unit: "Times", type: "unit", conditionalOn: { field: "returnType", value: true } },
 
 
@@ -126,6 +126,7 @@ const SchemaForm = () => {
           ...data,
           schemaType: data.schemaType === 'FIXED',
           returnType: data.returnType === 'PERIOD',
+          currency: data.currency === 'USD',
           capitalReturned: data.capitalReturned,
           featured: data.featured,
           cancellable: data.cancellable,
@@ -193,11 +194,14 @@ const SchemaForm = () => {
   }, []);
 
   // Special handlers for number_with_select field
-  const handleReturnInterestChange = useCallback((val) => {
-    setFormData(prev => ({ ...prev, return_interest: val }));
+  const handleReturnInterestChange = useCallback((name, val) => {
+    console.log(`Changes==>${name} ==>${val}`);
+    setFormData(prev => ({ ...prev, [name]: val }));
   }, []);
-  const handleInterestTypeChange = useCallback((val) => {
-    setFormData(prev => ({ ...prev, interest_type: val }));
+
+  const handleInterestTypeChange = useCallback((name, val) => {
+    console.log(`Changes==>${name} ==>${val}`);
+    setFormData(prev => ({ ...prev, [name]: val }));
   }, []);
 
   const handleSubmit = async (e) => {
@@ -221,6 +225,7 @@ const SchemaForm = () => {
         if ('schemaType' in changes) changes.schemaType = changes.schemaType ? 'FIXED' : 'RANGE';
         if ('returnType' in changes) changes.returnType = changes.returnType ? 'PERIOD' : 'LIFETIME';
         if ('status' in changes) changes.active = changes.status;
+        if ('currency' in changes) changes.currency = changes.currency ? 'USD' : 'INR';
 
         delete changes.status;
         delete changes.schema_img;
@@ -232,6 +237,7 @@ const SchemaForm = () => {
         payload.schemaType = formData.schemaType ? 'FIXED' : 'RANGE';
         payload.returnType = formData.returnType ? 'PERIOD' : 'LIFETIME';
         payload.active = formData.status;
+        payload.currency = formData.currency ? 'USD' : 'INR';
         delete payload.schema_img;
       }
 
@@ -271,7 +277,7 @@ const SchemaForm = () => {
       switch (field.type) {
         case 'DIV':
           return (
-            <div className="col-xl-6"></div>
+            <div className="col-xl-6" key={field.name}></div>
           )
         case 'unit':
           return (
@@ -376,14 +382,16 @@ const SchemaForm = () => {
             <div className="col-xl-6" key={field.name}>
               <FormInputWithSelect
                 label={field.label}
-                inputName="return_interest"
-                inputValue={formData.returnRate || ''}
-                onInputChange={handleReturnInterestChange}
+                inputName={field.name} // returnRate
+                inputValue={formData[field.name]  ?? ''}
+                onInputChange={(name, value) => handleReturnInterestChange(name, value)}handleChange
+                // onInputChange={(name, value) => handleChange(name, value)}handleChange
                 inputPlaceholder=""
                 selectName="interestCalculationMethod"
                 selectValue={formData.interestCalculationMethod || 'PERCENTAGE'}
-                onSelectChange={handleInterestTypeChange}
+                onSelectChange={(val) => handleInterestTypeChange('interestCalculationMethod', val)}
                 selectOptions={interestTypeOptions}
+                disabled={false}
               />
             </div>
           );
@@ -401,11 +409,16 @@ const SchemaForm = () => {
           );
         case 'range':
           return (
-            <div className="col-xl-6 row">
+            <div className="col-xl-6 row" key={field.name}>
               <FormInputRange
-                minValue={formData.minimumInvestmentAmount || field.min}
-                maxValue={formData.maximumInvestmentAmount || field.max}
-                onChange={() => { }}
+                minValue={formData.minimumInvestmentAmount || ''}
+                maxValue={formData.maximumInvestmentAmount || ''}
+                minName="minimumInvestmentAmount"
+                maxName='maximumInvestmentAmount'
+                onChange={(e) => {
+                  const { name, value } = e.target;
+                  setFormData(prev => ({ ...prev, [name]: value }));
+                }}
               />
             </div>
           );

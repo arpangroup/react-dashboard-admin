@@ -2,7 +2,14 @@
 
 import React from 'react';
 
-const InputRange = ({ minValue, maxValue, onChange, minName = "min_amount", maxName = "max_amount", unit = "INR" }) => {
+const InputRange = ({ 
+  minValue, 
+  maxValue, 
+  onChange, 
+  minName = "min_amount", 
+  maxName = "max_amount", 
+  unit = "INR" 
+}) => {
   return (
     <>
     
@@ -13,7 +20,8 @@ const InputRange = ({ minValue, maxValue, onChange, minName = "min_amount", maxN
             type="number"
             name={minName}
             value={minValue}
-            onChange={onChange}
+            onChange={(e) => onChange(e)}            
+            onWheel={(e) => e.target.blur()}
             className="form-control"
             required
           />
@@ -28,7 +36,7 @@ const InputRange = ({ minValue, maxValue, onChange, minName = "min_amount", maxN
             type="number"
             name={maxName}
             value={maxValue}
-            onChange={onChange}
+            onChange={(e) => onChange(e)}
             className="form-control"
             required
           />

@@ -24,9 +24,10 @@ const Schema = (props) => {
         );
     };
 
-    const StatusBadge = (props) => {
+    const StatusBadge = ({data}) => {
+        console.log("PROPS_DATA: ", data);
         return (
-            <Badge value={props.data.active ? 'success' : 'deactivated'}/>
+            <Badge value={data.active ? 'Active' : 'Deactivated'}/>
         );
     };
 
@@ -55,7 +56,7 @@ const Schema = (props) => {
         { field: "icon", headerName: 'ICON', width: 80 },
         { field: "title", headerName: 'PLAN NAME' },
         { field: "amountRange", headerName: 'AMOUNT', cellRenderer: AmountRangeCell, filter: true, filterParams: {} },
-        { field: "schemaBadge", headerName: 'BADGE', width: 120, cellRenderer: Badge },
+        { field: "schemaBadge", headerName: 'BADGE', width: 150, cellRenderer: Badge },
         { field: "status", headerName: 'STATUS', cellRenderer: StatusBadge },
         { field: "action", headerName: "Action", cellRenderer: ActionLink },
     ]);

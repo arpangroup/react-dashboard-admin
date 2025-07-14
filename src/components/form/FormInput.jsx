@@ -24,7 +24,8 @@ const FormInput = ({
         value={value}
         required={required}
         disabled={disabled}
-        onChange={onChange}
+        onChange={onChange}            
+        onWheel={(e) => e.target.blur()}
       />
     </div>
   );

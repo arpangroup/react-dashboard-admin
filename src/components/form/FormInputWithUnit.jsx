@@ -24,7 +24,8 @@ const FormInputWithUnit = ({
           className={`form-control ${inputClassName}`}
           name={name}
           value={value}
-          onChange={onChange}
+          onChange={onChange}            
+          onWheel={(e) => e.target.blur()}
           required={required}
           disabled={disabled}
           placeholder={placeholder}

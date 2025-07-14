@@ -24,7 +24,7 @@ const FormInputWithSelect = ({
 
   const handleInputChange = (e) => {
     const validatedValue = validateDouble(e.target.value);
-    onInputChange(validatedValue);
+    onInputChange(e.target.name, validatedValue);
   };
 
   return (
