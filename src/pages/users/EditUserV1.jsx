@@ -20,7 +20,7 @@ import SendEmailPanel from "./SendEmailPanel";
 import BalancePanel from "./BalancePanel";
 import apiClient from "../../api/apiClient";
 import DepositNow from "../deposit/DepositNow";
-import InvestNow from "../deposit/InvestNow";
+import InvestNow from "../investment/InvestNow";
 import DepositSuccess from "../deposit/DepositSuccess";
 import SendMoney from "../deposit/SendMoney";
 import WithdrawRequest from "../deposit/WithdrawRequest";
@@ -96,7 +96,6 @@ export default function EditUserV1() {
             try {
                 const data = await apiClient.get(API_ROUTES.USER_BY_ID(userId));
                 setUserInfo(data);
-                console.log("User Info:", data);
             } catch (err) {
                 console.error("Error fetching user info:", err);
             }

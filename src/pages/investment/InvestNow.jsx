@@ -7,7 +7,7 @@ import apiClient from "../../api/apiClient";
 
 const walletList = [
     { value: "mainWallet", label: "Main Wallet", disabled: false },
-    { value: "profitWallet", label: "Profit Wallet", disabled: false },
+    { value: "profitWallet", label: "Profit Wallet", disabled: true },
     { value: "directGateway", label: "Direct Gateway", disabled: true },
 ];
 
@@ -22,20 +22,21 @@ const InvestNow = ({ userId, username }) => {
     // Fetch schemas on mount
     useEffect(() => {
         const fetchSchemaList = async () => {
-            const data = await apiClient.get(API_ROUTES.SCHEMA_LIST);
+            const response = await apiClient.get(API_ROUTES.SCHEMA_LIST);
+            const data = response.content;
             //console.log("RESPONSE_DATA: ", data);
             //const data = response.content;
             const dropdownOptions = [
                 { value: "", label: "-- Select Schema --", disabled: true },
                 ...data.map(schema => ({
-                    value: schema.schemaBadge,
+                    value: schema.id,
                     label: schema.title,
                     disabled: !schema.active,
                 }))
             ];
             const detailMap = {};
             data.forEach(schema => {
-                detailMap[schema.schemaBadge] = schema;
+                detailMap[schema.id] = schema;
             });
             setSchemaOptions(dropdownOptions);
             setSchemaDetailsMap(detailMap);
@@ -45,6 +46,7 @@ const InvestNow = ({ userId, username }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        console.log(`${name}==> ${value}`);
 
         // If schema changes, populate dependent fields
         if (name === "schemaName" && schemaDetailsMap[value]) {
@@ -79,8 +81,17 @@ const InvestNow = ({ userId, username }) => {
         e.preventDefault();
 
         const { schemaName, amount, walletType } = formData;
-        if (!schemaName || !amount || !walletType) {
+        if (!schemaName || !amount) {
             setAlert({ message: "Please fill in all required fields.", type: "danger" });
+            return;
+        }
+
+        const numericAmount = parseFloat(amount);
+        const selectedSchema = schemaDetailsMap[schemaName];
+        const minAmount = selectedSchema?.minimumInvestmentAmount || 0;
+        
+        if (numericAmount < minAmount) {
+            setAlert({ message: `Amount must be at least ${minAmount}.`, type: "danger" });
             return;
         }
 

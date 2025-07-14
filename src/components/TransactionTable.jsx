@@ -41,9 +41,9 @@ const TransactionTable = ({ userId = null, pageSize = 9999 }) => {
   const { data, totalPages, loading, error } = usePaginatedFetch(url, page, pageSize);
 
   const colDefs = [
-    { field: "txnDate", headerName: 'DATE', width: 150, cellRenderer: DateCell },
-    ...(!userId ? [{ field: "user", headerName: 'USER', width: 200, cellRenderer: UserCell }] : []),
-    { field: "txnRefId", headerName: 'TXN_ID', width: 150 },
+    { field: "createdAt", headerName: 'DATE', width: 150, cellRenderer: DateCell },
+    ...(!userId ? [{ field: "user", headerName: 'USER', width: 100, cellRenderer: UserCell }] : []),
+    { field: "txnRefId", headerName: 'TXN_ID', width: 220 },
     {
       field: "txnType",
       headerName: 'TYPE',

@@ -51,11 +51,11 @@ const Investments = ({ status = '', pageSize = 9999 }) => {
 
 
 
-  // const [rowData] = useState([
-  //   { userId: 1, planId: 1, user: "John Doe", currency: "USDT", investmentAmount: "5000", roi: "2%", profit: "0 x 100 = 0 INR", capitalBack: "No", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
-  //   { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
-  //   { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "Pending" },
-  // ]);
+  const [rowData] = useState([
+    { userId: 1, planId: 1, user: "John Doe", currency: "USDT", investmentAmount: "5000", roi: "2%", profit: "0 x 100 = 0 INR", capitalBack: "No", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
+    { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
+    { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "Pending" },
+  ]);
 
   const [colDefs] = useState([
     { field: "user", width: 120, cellRenderer: UserCell },
@@ -85,8 +85,14 @@ const Investments = ({ status = '', pageSize = 9999 }) => {
             <div className="site-card">
               <div className="site-card-body table-responsive">
                 <div className="site-datatable">
-                  <div style={{ height: 500 }} className="ag-theme-alpine">                                       
+                  <div style={{ height: 500 }} className="ag-theme-alpine"> 
                     <AgGridReact
+                      theme={"legacy"}
+                      rowData={rowData}
+                      columnDefs={colDefs}
+                      rowHeight={80}
+                      pagination={true}/>                                  
+                    {/* <AgGridReact
                       theme={"legacy"}
                       rowData={data}
                       loading={loading}
@@ -96,7 +102,7 @@ const Investments = ({ status = '', pageSize = 9999 }) => {
                       onPaginationChanged={onPaginationChanged}
                       paginationPageSizeSelector={[10, 20, 50, 100]}
                       rowHeight={40}
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>
