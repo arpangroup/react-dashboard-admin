@@ -1,13 +1,15 @@
 import React from 'react';
+import Investments from '../../investment/Investments';
+import InvestmentTable from '../../investment/InvestmentTable';
 
-const InvestmentTab = ({ activeTab }) => {
-  const isActive = activeTab === "investments";
-  
+const InvestmentTab = ({ userId }) => {  
   return (
-    <div 
-      className={`tab-pane fade ${isActive ? "show active" : ""}`}
-      id="pills-transfer" role="tabpanel"
-      aria-labelledby="pills-transfer-tab">
+    <div       
+      className="tab-pane fade show active"
+      id="pills-transactions"
+      role="tabpanel"
+      aria-labelledby="pills-transactions-tab"
+    >
       <div className="row">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
           <div className="site-card">
@@ -15,28 +17,11 @@ const InvestmentTab = ({ activeTab }) => {
               <h4 className="title">Investments</h4>
             </div>
             <div className="site-card-body table-responsive">
-              <div className="site-datatable">
-                <table id="user-investment-dataTable"
-                  className="display data-table">
-                  <thead>
-                    <tr>
-                      <th>Icon</th>
-                      <th>Schema</th>
-                      <th>ROI</th>
-                      <th>Profit</th>
-                      <th>Capital Back</th>
-                      <th>Timeline</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                  </tbody>
-                </table>
-              </div>
+              <InvestmentTable userId={userId} />
             </div>
           </div>
         </div>
-      </div>
+        </div>
     </div>
   );
 };

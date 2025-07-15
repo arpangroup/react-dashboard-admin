@@ -1,20 +1,37 @@
-import React, { useCallback, useState } from 'react';
-import PageTitle from "../../components/page_title/PageTitle";
-import Badge from "../../components/Badge";
-import { LuArrowBigRight } from "react-icons/lu";
-import "./Investments.css";
 
-import { AgGridReact } from "ag-grid-react";
+/*
+// External imports
+import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { usePaginatedFetch } from '../../api/usePaginatedFetch';
-import { API_ROUTES } from '../../constants/apiRoutes';
-import { formatDate } from '../../utils/dateUtils';
-import TimelineCell from './TimelineCell';
+import { AgGridReact } from 'ag-grid-react';
+
+// Internal project imports
+import { API_ROUTES } from '../constants/apiRoutes';
+import { formatDate } from '../utils/dateUtils';
+import { usePaginatedFetch } from '../api/usePaginatedFetch';
+import Badge from './Badge';
+*/
+
+import { useCallback, useState } from "react";
+import { API_ROUTES } from "../../constants/apiRoutes";
+import { usePaginatedFetch } from "../../api/usePaginatedFetch";
+import { NavLink } from "react-router-dom";
+import { LuArrowBigRight } from "react-icons/lu";
+import { formatDate } from "../../utils/dateUtils";
+import Badge from "../../components/Badge";
+import TimelineCell from "./TimelineCell";
+import { AgGridReact } from "ag-grid-react";
 
 
-const Investments = ({ status = '', pageSize = 9999 }) => {
-  const [page, setPage] = useState(0);
-  const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.INVESTMENTS, page, pageSize, {status});
+
+
+
+// Main component
+const InvestmentTable = ({ userId = null, pageSize = 9999 }) => {
+  const [page, setPage] = useState(0);  
+  const url = userId ? API_ROUTES.INVESTMENTS_BY_USER_ID(userId) : API_ROUTES.INVESTMENTS;
+  const { data, totalPages, loading, error } = usePaginatedFetch(url, page, pageSize);
+
 
   const UserCell = ({ data }) => {
     const { userId, user } = data;
@@ -44,9 +61,7 @@ const Investments = ({ status = '', pageSize = 9999 }) => {
         </strong>
         <div className="invested-date">{formatDate(subscribedAt)}</div>
       </div>
-    )
-
-    
+    )    
   }
 
   
@@ -93,6 +108,7 @@ const Investments = ({ status = '', pageSize = 9999 }) => {
     );
   }
 
+  
   // const [rowData] = useState([
   //   { userId: 1, planId: 1, user: "John Doe", currency: "USDT", investmentAmount: "5000", roi: "2%", profit: "0 x 100 = 0 INR", capitalBack: "No", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
   //   { userId: 1, planId: 2, user: "Mustafa ansari", currency: "Crypto investment", investmentAmount: "5000", roi: "20%", profit: "0 x 100 = 0 INR", capitalBack: "Yes", periodRemaining: "654 Times", createdAt: "Jun 08 2025 02:32", timeline: "" },
@@ -100,7 +116,7 @@ const Investments = ({ status = '', pageSize = 9999 }) => {
   // ]);
 
   const [colDefs] = useState([
-    { field: "user", width: 120, cellRenderer: UserCell },
+    ...(!userId ? [{ field: "user", width: 120, cellRenderer: UserCell }] : []),
     { field: "schemaName", headerName: "SCHEMA", width: 250, cellRenderer: SchemaCell },
     { field: "roiValue", headerName: "ROI", width: 80, cellRenderer: RoiCell},
     { field: "profit", headerName: "PROFIT", width: 150, cellRenderer: ProfitCell },
@@ -109,48 +125,31 @@ const Investments = ({ status = '', pageSize = 9999 }) => {
     { field: "timeline", width: 180, cellRenderer: TimelineCell },
   ]);
 
-    const onPaginationChanged = useCallback((params) => {
-      const newPage = params.api.paginationGetCurrentPage();
-      setPage(newPage);
-    }, []);
+  const defaultColDef = {
+    minWidth: 80,
+    resizable: true,
+  };
 
-
-
+  const onPaginationChanged = useCallback((params) => {
+    const newPage = params.api.paginationGetCurrentPage();
+    setPage(newPage);
+  }, []);
 
   return (
-    <div className="main-content">
-      <PageTitle title="All Investments" />
-
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-xl-12">
-            <div className="site-card">
-              <div className="site-card-body table-responsive">
-                <div className="site-datatable">
-                  <div style={{ height: 500 }} className="ag-theme-alpine"> 
-                    <AgGridReact
-                      theme={"legacy"}
-                      rowData={data}
-                      loading={loading}
-                      columnDefs={colDefs}
-                      pagination={true}
-                      paginationPageSize={10}
-                      onPaginationChanged={onPaginationChanged}
-                      paginationPageSizeSelector={[10, 20, 50, 100]}
-                      rowHeight={70}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div style={{ height: 500, width: '100%' }} className="ag-theme-alpine">      
+        <AgGridReact
+        theme={"legacy"}
+        rowData={data}
+        loading={loading}
+        columnDefs={colDefs}
+        pagination={true}
+        paginationPageSize={10}
+        onPaginationChanged={onPaginationChanged}
+        paginationPageSizeSelector={[10, 20, 50, 100]}
+        rowHeight={70}
+        />
     </div>
-  )
+  );
 };
 
-export default Investments;
-
-
-
+export default InvestmentTable;

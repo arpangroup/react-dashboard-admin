@@ -9,6 +9,7 @@
   color: #888;
   margin-top: 4px;
   padding-bottom: 6px;
+  text-align: left;
 }
 
 .schema-cell {
@@ -24,4 +25,12 @@
 }
 .site-datatable .data-table tbody tr td .investment-timeline .progress-bar {
     background: #ef476f;
+}
+
+.centered-cell {
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center;     /* vertical centering */
+  height: 100%;            /* fill the cell vertically */
+  width: 100%;             /* fill the cell horizontally */
 }

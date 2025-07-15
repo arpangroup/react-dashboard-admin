@@ -1,7 +1,7 @@
 import React from 'react';
 import TransactionTable from '../../../components/TransactionTable';
-const TransactionTab = ({ userId }) => {
 
+const TransactionTab = ({ userId }) => {
   return (
     <div
       className="tab-pane fade show active"

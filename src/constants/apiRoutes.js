@@ -19,7 +19,8 @@ export const API_ROUTES = {
   SCHEMA_LIST: "/api/v1/investment-schemas",
   SCHEMA_By_ID: (id) =>`/api/v1/investment-schemas/${id}`,
   // Investment:
-  INVESTMENT_INVESTMENT_LIST: "",
+  INVESTMENTS: "/api/v1/investments",
+  INVESTMENTS_BY_USER_ID: (userId) => `/api/v1/investments/user/${userId}`,
   // Notification Templates
   MAIL_CONNECTION_TEST: "/api/v1/notifications/mail-connection-test",
   SEND_MAIL: "/api/v1/notifications/send-email",

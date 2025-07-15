@@ -206,7 +206,8 @@ export default function EditUserV1() {
 
                         <div className="tab-content" id="pills-tabContent">
                             <ProfileBasicInfoTab activeTab={activeTab} userInfo={userInfo || {}} onFormChange={handleFormChange} />
-                            <InvestmentTab activeTab={activeTab} />
+                            {/* <InvestmentTab activeTab={activeTab} /> */}
+                            {activeTab === "investments" && <InvestmentTab userId={userInfo.id} />}
                             <EarningTab activeTab={activeTab} />
                             {/* <TransactionTab activeTab={activeTab} /> */}
                             {activeTab === "transactions" && <TransactionTab userId={userInfo.id} />}
