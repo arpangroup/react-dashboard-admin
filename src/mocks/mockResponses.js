@@ -63,7 +63,13 @@ const SCHEMA_LIST = { content: [
 ]};
 
 const DEPOSIT_LIST = { content: [
-  
+  {"id":4,"txnRefId":"TRX250716035003816D5Z","amount":200.0,"linkedAccountId":null,"paymentGateway":"BINANCE","txnFee":0.0,"currencyCode":"INR","status":"SUCCESS","remarks":"Manual deposit approved","txnDate":"16 Jul Wed, 2025 3:50 AM"},
+  {"id":3,"txnRefId":"TRX250716034904OCCIHL","amount":200.0,"linkedAccountId":null,"paymentGateway":"SYSTEM","txnFee":0.0,"currencyCode":"INR","status":"SUCCESS","remarks":"Deposit via SYSTEM","txnDate":"16 Jul Wed, 2025 3:49 AM"}
+]};
+
+const INVESTMENTS = { content: [
+  {"investmentId":1,"schemaName":"Fixed 1-Year Plan","amountRange":"N/A","investedAmount":1000.0,"roiType":"PERCENTAGE","roiValue":6.5,"perPeriodProfit":65.0,"capitalBack":true,"capitalReturned":false,"currencyCode":"USD","totalPeriods":52,"completedPeriods":0,"remainingPeriods":52,"expectedReturn":4380.0,"receivedReturn":0.0,"profit":0.0,"totalEarningPotential":5380.0,"earlyExitPenalty":50.0,"nextReturnAmount":65.0,"subscribedAt":"2025-07-16T01:44:04.311816","nextPayoutDate":"2025-07-23T01:44:04.311816","maturityAt":"2026-07-15T01:44:04.311816","payoutFrequencyLabel":"Daily","investmentStatus":"ACTIVE","canCancelNow":false,"daysRemaining":363,"withdrawableNow":false},
+  {"investmentId":2,"schemaName":"Dynamic Tiered Plan","amountRange":"₹1000 – ₹20000","investedAmount":1000.0,"roiType":"PERCENTAGE","roiValue":7.0,"perPeriodProfit":70.0,"capitalBack":true,"capitalReturned":false,"currencyCode":"USD","totalPeriods":26,"completedPeriods":0,"remainingPeriods":26,"expectedReturn":2820.0,"receivedReturn":0.0,"profit":0.0,"totalEarningPotential":3820.0,"earlyExitPenalty":150.0,"nextReturnAmount":70.0,"subscribedAt":"2025-07-16T03:41:08.623124","nextPayoutDate":"2025-07-30T03:41:08.623124","maturityAt":"2026-07-15T03:41:08.623124","payoutFrequencyLabel":"Daily","investmentStatus":"ACTIVE","canCancelNow":false,"daysRemaining":363,"withdrawableNow":false}
 ]};
 
 

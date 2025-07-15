@@ -46,7 +46,6 @@ const InvestNow = ({ userId, username }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(`${name}==> ${value}`);
 
         // If schema changes, populate dependent fields
         if (name === "schemaName" && schemaDetailsMap[value]) {
@@ -101,15 +100,16 @@ const InvestNow = ({ userId, username }) => {
         });
         if (screenshotFile) data.append("screenshot", screenshotFile);
 
+        let payload = {            
+            //...formData,
+            userId,
+            amount,
+            schemaId: selectedSchema.id,
+        }
+        
         try {
-            const response = await fetch("/api/invest", {
-                method: "POST",
-                body: data,
-            });
-
-            if (!response.ok) throw new Error("Failed to submit");
-
-            await response.json();
+            // INVESTMENT_SUBSCRIBE
+            const response =  await apiClient.post(API_ROUTES.INVESTMENT_SUBSCRIBE, payload);
             setAlert({ message: "Investment submitted successfully!", type: "success" });
             setFormData({});
             setScreenshotFile(null);

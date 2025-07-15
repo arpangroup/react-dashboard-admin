@@ -21,6 +21,7 @@ import { formatDate } from "../../utils/dateUtils";
 import Badge from "../../components/Badge";
 import TimelineCell from "./TimelineCell";
 import { AgGridReact } from "ag-grid-react";
+import './Investments.css';
 
 
 
@@ -116,12 +117,12 @@ const InvestmentTable = ({ userId = null, pageSize = 9999 }) => {
   // ]);
 
   const [colDefs] = useState([
-    ...(!userId ? [{ field: "user", width: 120, cellRenderer: UserCell }] : []),
+    ...(!userId ? [{ field: "user", headerName: "USER", width: 120, cellRenderer: UserCell }] : []),
     { field: "schemaName", headerName: "SCHEMA", width: 250, cellRenderer: SchemaCell },
     { field: "roiValue", headerName: "ROI", width: 80, cellRenderer: RoiCell},
     { field: "profit", headerName: "PROFIT", width: 150, cellRenderer: ProfitCell },
-    { field: "capitalBack", width: 120, cellRenderer: CapitalBackCell, },
-    { field: "remainingPeriods", headerName: "PERIOD REMAINING", width: 170, cellRenderer: PeriodRemainingCell},
+    { field: "capitalBack", headerName: "CAPITAL BACK", width: 130, cellRenderer: CapitalBackCell, },
+    { field: "remainingPeriods", headerName: "REMAINING", width: 120, cellRenderer: PeriodRemainingCell},
     { field: "timeline", width: 180, cellRenderer: TimelineCell },
   ]);
 

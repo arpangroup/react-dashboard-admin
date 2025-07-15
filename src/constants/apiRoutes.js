@@ -20,6 +20,7 @@ export const API_ROUTES = {
   SCHEMA_By_ID: (id) =>`/api/v1/investment-schemas/${id}`,
   // Investment:
   INVESTMENTS: "/api/v1/investments",
+  INVESTMENT_SUBSCRIBE: "/api/v1/investments/subscribe",
   INVESTMENTS_BY_USER_ID: (userId) => `/api/v1/investments/user/${userId}`,
   // Notification Templates
   MAIL_CONNECTION_TEST: "/api/v1/notifications/mail-connection-test",
