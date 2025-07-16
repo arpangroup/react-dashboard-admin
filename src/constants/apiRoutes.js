@@ -22,6 +22,8 @@ export const API_ROUTES = {
   INVESTMENTS: "/api/v1/investments",
   INVESTMENT_SUBSCRIBE: "/api/v1/investments/subscribe",
   INVESTMENTS_BY_USER_ID: (userId) => `/api/v1/investments/user/${userId}`,
+  // Referral tree View
+  REFERRAL_TREE: (userId, maxLevel = 3) => `/api/v1/tree/${userId}?maxLevel=${maxLevel}`,
   // Notification Templates
   MAIL_CONNECTION_TEST: "/api/v1/notifications/mail-connection-test",
   SEND_MAIL: "/api/v1/notifications/send-email",

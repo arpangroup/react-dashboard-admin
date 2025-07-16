@@ -80,3 +80,14 @@
   font-weight: bold;
   border-color: #d17d00;
 }
+
+.controls > div {
+  transition: color 0.2s;
+}
+
+.controls > div:hover {
+  color: #0d6efd; /* Bootstrap primary or your theme color */
+}
+
+
+/* ########################################## */

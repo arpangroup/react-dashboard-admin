@@ -64,6 +64,7 @@ export default function EditUserV1() {
     const { userId } = useParams(); // 👈 extract userId from URL
     const [activeTab, setActiveTab] = useState("info");
     const [userInfo, setUserInfo] = useState({});
+    const [isFullscreen, setIsFullscreen] = useState(false);
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
@@ -121,14 +122,14 @@ export default function EditUserV1() {
                         <div className="admin-latest-announcements"key="actions">
                             <div className="content">
                                 {sidePanelButtons.map((panel) => (
-                                    <a href="#" className="btn btn-outline-primary btn-sm me-2" key={panel.id}
+                                    <a href="#" className="site-btn-xs primary-btn" key={panel.id}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             setPanel(panel.id)
                                             setIsPanelOpen(true);
                                         }}
                                     >
-                                        {panel.icon} <span className="ms-2">{panel.label}</span>
+                                        {panel.icon} <span>{panel.label}</span>
                                     </a>
                                 ))}
 
@@ -204,8 +205,6 @@ export default function EditUserV1() {
                             </ul>
                         </div>
 
-                        
-
                         <div className="tab-content" id="pills-tabContent">
                             <ProfileBasicInfoTab activeTab={activeTab} userInfo={userInfo || {}} onFormChange={handleFormChange} />
                             {/* <InvestmentTab activeTab={activeTab} /> */}
@@ -213,8 +212,7 @@ export default function EditUserV1() {
                             <EarningTab activeTab={activeTab} />
                             {/* <TransactionTab activeTab={activeTab} /> */}
                             {activeTab === "transactions" && <TransactionTab userId={userInfo.id} />}
-                            {/* <ReferralTreeTab activeTab={activeTab} /> */}                            
-                            {activeTab === "referral" && <ReferralTreeTab userId={userInfo.id} />}
+                            <ReferralTreeTab activeTab={activeTab} />
                             <TicketsTab activeTab={activeTab} />
                         </div>
                     </div>
