@@ -10,14 +10,14 @@ import { useParams } from 'react-router';
 import apiClient from '../../api/apiClient';
 import { API_ROUTES } from '../../constants/apiRoutes';
 import FileInput from '../../components/form/FileInput';
-
-const CURRENCY_UNIT = "INR";
+import { CURRENCY_SYMBOL, CURRENCY_UNIT, CURRENCY_UNIT_DEFAULT } from '../../constants/config';
 
 const scheduleOptions = [
-  { label: 'Hourly', value: '1' },
-  { label: 'Daily', value: '24' },
-  { label: 'Weekly', value: '168' },
-  { label: 'Monthly', value: '720' }
+  { label: 'Hourly', value: 1 },
+  { label: 'Daily', value: 2 },
+  { label: 'Weekly', value: 3 },
+  { label: '2 Week', value: 4 },
+  { label: 'Monthly', value: 5 }
 ];
 
 
@@ -57,7 +57,7 @@ const fields = [
   { label: "Cancel Expiry (Minutes)", name: "cancellationGracePeriodMinutes", inputType: "number", type: "number", conditionalOn: { field: "cancellable", value: true } },
 
   { label: "Schema Trending", name: "tradeable", type: "toggle", labels: ["Yes", "No"] },
-  { label: "Currency", name: "currency", type: "toggle", labels: ["USD", "INR"] },
+  { label: "Currency", name: "currency", type: "toggle", labels: [CURRENCY_UNIT, CURRENCY_UNIT_DEFAULT] },
   { label: "Early Exit Penalty", name: "earlyExitPenalty", inputType: "number" },
   { label: "Terms & Condition URL", name: "termsAndConditionsUrl", type: "text" },
 
@@ -67,7 +67,7 @@ const fields = [
 
 const interestTypeOptions = [
   { value: 'PERCENTAGE', label: '%' },
-  { value: 'FLAT', label: '₹' },
+  { value: 'FLAT', label: CURRENCY_SYMBOL },
 ];
 
 const defaultFormState = {
@@ -77,9 +77,9 @@ const defaultFormState = {
   minimumInvestmentAmount: '0',
   maximumInvestmentAmount: '0',
   returnRate: '20',
-  returnSchedule: scheduleOptions,
+  returnSchedule: 2,
   returnType: false,  // true = Period, false = Lifetime
-  totalReturnPeriods: '0',
+  totalReturnPeriods: 0,
   capitalReturned: true,
   featured: true,
   cancellable: false,
@@ -124,9 +124,10 @@ const SchemaForm = () => {
         const normalizedData = {
           ...defaultFormState,
           ...data,
+          returnSchedule: String(data.returnSchedule?.id ?? 2),
           schemaType: data.schemaType === 'FIXED',
           returnType: data.returnType === 'PERIOD',
-          currency: data.currency === 'USD',
+          currency: data.currency === CURRENCY_UNIT,
           capitalReturned: data.capitalReturned,
           featured: data.featured,
           cancellable: data.cancellable,
@@ -169,8 +170,15 @@ const SchemaForm = () => {
     } else if (type === 'select-multiple') {
       const selected = Array.from(options).filter(o => o.selected).map(o => o.value);
       setFormData(prev => ({ ...prev, [name]: selected }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+    } else {      
+      // Find the field definition
+      const fieldMeta = fields.find(f => f.name === name);
+      const isNumber = fieldMeta?.inputType === 'number' || fieldMeta?.type === 'number';
+
+      setFormData(prev => ({
+        ...prev, 
+        [name]: isNumber ? parseFloat(value) || 0 : value, 
+      }));
     }
   }, []);
 
@@ -225,7 +233,7 @@ const SchemaForm = () => {
         if ('schemaType' in changes) changes.schemaType = changes.schemaType ? 'FIXED' : 'RANGE';
         if ('returnType' in changes) changes.returnType = changes.returnType ? 'PERIOD' : 'LIFETIME';
         if ('status' in changes) changes.active = changes.status;
-        if ('currency' in changes) changes.currency = changes.currency ? 'USD' : 'INR';
+        if ('currency' in changes) changes.currency = changes.currency ? CURRENCY_UNIT : CURRENCY_UNIT_DEFAULT;
 
         delete changes.status;
         delete changes.schema_img;
@@ -237,7 +245,7 @@ const SchemaForm = () => {
         payload.schemaType = formData.schemaType ? 'FIXED' : 'RANGE';
         payload.returnType = formData.returnType ? 'PERIOD' : 'LIFETIME';
         payload.active = formData.status;
-        payload.currency = formData.currency ? 'USD' : 'INR';
+        payload.currency = formData.currency ? CURRENCY_UNIT : CURRENCY_UNIT_DEFAULT;
         delete payload.schema_img;
       }
 
@@ -309,7 +317,8 @@ const SchemaForm = () => {
                 className="form-select"
                 name={field.name}
                 id={field.name}
-                value={field.name === 'returnSchedule' ? formData.returnSchedule.scheduleInHour : formData[field.name]}
+                //value={field.name === 'returnSchedule' ? formData.returnSchedule.scheduleInHour : formData[field.name]}
+                value={formData[field.name] || 2}
                 onChange={handleChange}
               >
                 {field.options.map((opt) => (

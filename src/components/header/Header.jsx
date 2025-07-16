@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { LuList, LuBellRing, LuGlobe, LuUser } from "react-icons/lu";
 
 // import logo from '../assets/logo.png'; // adjust the path
-import logo from './logo.png'; // adjust the path
+// import logo from './logo.png'; // adjust the path
+import logo from './../../assets/images/logo.webp'
 
 const Header = ({ onToggleSidebar }) => {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -26,7 +27,7 @@ const Header = ({ onToggleSidebar }) => {
     <div className="header">
       <div className="logo">
         <a href="/admin">
-          <img className="logo-unfold" src={logo} alt="Logo" style={{width: '100%', height: '80px'}} />
+          <img className="logo-unfold" src={logo} alt="Logo" style={{width: '80px', height: '80px'}} />
           <img className="logo-fold" src={logo} alt="Logo" style={{width: '80px'}}/>
         </a>
       </div>

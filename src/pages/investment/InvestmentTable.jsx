@@ -22,6 +22,8 @@ import Badge from "../../components/Badge";
 import TimelineCell from "./TimelineCell";
 import { AgGridReact } from "ag-grid-react";
 import './Investments.css';
+import RightPanel from "../../components/panel/RightPanel";
+import InvestmentSummary from "./InvestmentSummary";
 
 
 
@@ -32,6 +34,8 @@ const InvestmentTable = ({ userId = null, pageSize = 9999 }) => {
   const [page, setPage] = useState(0);  
   const url = userId ? API_ROUTES.INVESTMENTS_BY_USER_ID(userId) : API_ROUTES.INVESTMENTS;
   const { data, totalPages, loading, error } = usePaginatedFetch(url, page, pageSize);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState({});
 
 
   const UserCell = ({ data }) => {
@@ -137,19 +141,30 @@ const InvestmentTable = ({ userId = null, pageSize = 9999 }) => {
   }, []);
 
   return (
-    <div style={{ height: 500, width: '100%' }} className="ag-theme-alpine">      
-        <AgGridReact
-        theme={"legacy"}
-        rowData={data}
-        loading={loading}
-        columnDefs={colDefs}
-        pagination={true}
-        paginationPageSize={10}
-        onPaginationChanged={onPaginationChanged}
-        paginationPageSizeSelector={[10, 20, 50, 100]}
-        rowHeight={70}
-        />
-    </div>
+    <>
+      <div style={{ height: 500, width: '100%' }} className="ag-theme-alpine">      
+          <AgGridReact
+          theme={"legacy"}
+          rowData={data}
+          loading={loading}
+          columnDefs={colDefs}
+          pagination={true}
+          paginationPageSize={10}
+          onPaginationChanged={onPaginationChanged}
+          paginationPageSizeSelector={[10, 20, 50, 100]}
+          onRowDoubleClicked={(event) => {
+            const rowData = event.data;
+            setIsPanelOpen(true);
+            setSelectedRow(rowData);
+          }}
+          rowHeight={70}
+          />
+          <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+            <h3>Investment Summary</h3>
+            <InvestmentSummary data={selectedRow}/>
+          </RightPanel>
+      </div>
+    </>
   );
 };
 

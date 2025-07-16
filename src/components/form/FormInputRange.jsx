@@ -8,7 +8,7 @@ const InputRange = ({
   onChange, 
   minName = "min_amount", 
   maxName = "max_amount", 
-  unit = "INR" 
+  unit = "USD" 
 }) => {
   return (
     <>

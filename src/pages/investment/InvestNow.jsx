@@ -11,7 +11,7 @@ const walletList = [
     { value: "directGateway", label: "Direct Gateway", disabled: true },
 ];
 
-const InvestNow = ({ userId, username }) => {
+const InvestNow = ({ userId, onClose }) => {
     const [formData, setFormData] = useState({});
     const [schemaOptions, setSchemaOptions] = useState([]);
     const [schemaDetailsMap, setSchemaDetailsMap] = useState({});
@@ -114,6 +114,10 @@ const InvestNow = ({ userId, username }) => {
             setFormData({});
             setScreenshotFile(null);
             setPreviewUrl("");
+
+            // Optionally trigger a page reload, modal close, or callback
+            if (onClose) onClose(); 
+            window.location.reload(); // Optional: hard reload
         } catch (error) {
             console.error(error);
             setAlert({ message: "Submission failed. Please try again.", type: "danger" });

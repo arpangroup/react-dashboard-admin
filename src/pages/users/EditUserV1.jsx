@@ -245,7 +245,9 @@ export default function EditUserV1() {
             {panel === 'investment_now' &&
                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
                     <h3 className="mb-4">Confirm Investment</h3>
-                    <InvestNow userId={userInfo.id} username={userInfo.username}/>
+                    <InvestNow
+                        userId={userInfo.id}             
+                        onClose={() => setIsPanelOpen(false)}/>
                 </RightPanel>
             }
             

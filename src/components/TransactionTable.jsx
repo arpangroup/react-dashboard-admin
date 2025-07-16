@@ -20,19 +20,34 @@ const DateCell = ({ value }) => {
   return <span>{formatDate(value)}</span>;
 };
 
-const AmountCell = ({ value }) => {
-  if (value === null || value === undefined) return null;
+const AmountCell = ({ data }) => {
+  const {amount, balance, credit, currencyCode} = data;
+  if (amount === null || amount === undefined) return null;
 
-  const strValue = String(value);
-  const isNegative = strValue.trim().startsWith('-');
+  const strValue = String(amount);
+  const isNegative = !credit || strValue.trim().startsWith('-');
+  const sign = credit? '+' : '-';
 
   const style = {
     color: isNegative ? '#ef476f' : '#2a9d8f',
     fontWeight: 'bold',
   };
 
-  return <span style={style}>{strValue}{" INR"}</span>;
+  return <span style={style}>{sign} {strValue}{` ${currencyCode}`}</span>;
 };
+
+const BalanceCell = ({ data }) => {
+  const {balance, currencyCode} = data;
+  if (balance === null || balance === undefined) return null;
+
+  const style = {
+    color: '#2a9d8f',
+    fontWeight: 'bold',
+  };
+
+  return <span style={style}>{balance}{` ${currencyCode}`}</span>;
+};
+
 
 // Main component
 const TransactionTable = ({ userId = null, pageSize = 9999 }) => {
@@ -52,8 +67,9 @@ const TransactionTable = ({ userId = null, pageSize = 9999 }) => {
         <Badge value={params.value} style={{ background: '#5e3fc9' }} />
       ),
     },
-    { field: "amount", headerName: 'AMOUNT', width: 120, cellRenderer: AmountCell },
     { field: "gateway", width: 150 },
+    { field: "amount", headerName: 'AMOUNT', width: 120, cellRenderer: AmountCell },
+    { field: "balance", headerName: 'BALANCE', width: 120, cellRenderer: BalanceCell },
     { field: "status", width: 120, cellRenderer: Badge },
   ];
 
