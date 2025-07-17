@@ -16,6 +16,8 @@ export const API_ROUTES = {
   DEPOSIT_ACTION: (action, id) => `/api/v1/deposits/${action}/${id}`, // ['approve', 'reject']
   //...
   RANK_CONFIGS: "/api/v1/rankings",
+  RANK_CONFIGS_BY_ID: (rankId) => `/api/v1/rankings/${rankId}`,
+  RANK_CONFIGS_UPDATE: "/api/v1/rankings/update",
   SCHEMA_LIST: "/api/v1/investment-schemas",
   SCHEMA_By_ID: (id) =>`/api/v1/investment-schemas/${id}`,
   // Investment:

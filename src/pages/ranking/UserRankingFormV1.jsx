@@ -8,6 +8,8 @@ import LoaderOverlay from "../../components/LoaderOverlay";
 import { useParams } from 'react-router';
 import FormInputWithSelect from '../../components/form/FormInputWithSelect';
 import FormDropdown from '../../components/form/FormDropdown';
+import apiClient from '../../api/apiClient';
+import { API_ROUTES } from '../../constants/apiRoutes';
 
 const CURRENCY_UNIT = "INR";
 
@@ -85,11 +87,8 @@ const UserRankingFormV1 = () => {
 
     const fetchRanking = async () => {
       setLoading(true);
-      try {
-        // Call your API with rankingId
-        const response = await fetch(`/api/v2/rankings/${rankingId}`);
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const data = await response.json();
+      try {         
+        const data = await apiClient.get(API_ROUTES.RANK_CONFIGS_BY_ID(rankingId));
         const dataObj = {
           ...data,
           icon: null,

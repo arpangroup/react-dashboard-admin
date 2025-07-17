@@ -6,12 +6,13 @@ import FormInputWithUnit from "../../components/form/FormInputWithUnit";
 import Switch from '../../components/form/Switch';
 import LoaderOverlay from "../../components/LoaderOverlay";
 import { useParams } from 'react-router';
+import apiClient from '../../api/apiClient';
 
 const CURRENCY_UNIT  = "INR";
 
 const fields = [
   { label: "Ranking", name: "ranking" },
-  { label: "Ranking Name", name: "ranking_name" },
+  { label: "Ranking Name", name: "code" },
   { label: "Minimum Deposit", name: "minimum_deposit", unit: CURRENCY_UNIT , type: "unit", inputType: "number" },
   { label: "Minimum Invest", name: "minimum_invest", unit: CURRENCY_UNIT , type: "unit", inputType: "number" },
   { label: "Minimum Referral", name: "minimum_referral", inputType: "number" },
@@ -54,9 +55,10 @@ const UserRankingForm = () => {
       setLoading(true);
       try {
         // Call your API with rankingId
-        const response = await fetch(`/api/user-ranking/${rankingId}`);
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const data = await response.json();
+        // const response = await fetch(`/api/user-ranking/${rankingId}`);
+        // if (!response.ok) throw new Error("Failed to fetch data");
+        // const data = await response.json();
+        const data = await apiClient.get(`/api/v1/rankings/${rankingId}`);
         setFormData({
           ...data,
           icon: null,
