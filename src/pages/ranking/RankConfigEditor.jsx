@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import PageTitle from "../../components/page_title/PageTitle";
-
-const API_URL = "/api/v1/rankings"; // Adjust if needed
+import { API_ROUTES } from "../../constants/apiRoutes";
 
 const RankConfigEditor = () => {
   const [ranks, setRanks] = useState([]);
   const [changes, setChanges] = useState({});
 
   useEffect(() => {
-    axios.get(API_URL).then((res) => {
+    axios.get(API_ROUTES.RANK_CONFIGS).then((res) => {
       const flattened = res.data.content.map((rank) => ({
         ...rank,
         minLevel1Count: rank.requiredLevelCounts?.["1"] || 0,
@@ -56,7 +55,7 @@ const RankConfigEditor = () => {
     });
 
     axios
-      .patch(`${API_URL}/update`, payload)
+      .patch(`${API_ROUTES.RANK_CONFIGS_UPDATE}/update`, payload)
       .then(() => {
         alert("Ranks updated successfully!");
         setChanges({});
