@@ -1,23 +1,30 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-import PageTitle from "../../components/page_title/PageTitle";
 import { API_ROUTES } from "../../constants/apiRoutes";
+import apiClient from "../../api/apiClient";
 
 const RankConfigEditor = () => {
   const [ranks, setRanks] = useState([]);
   const [changes, setChanges] = useState({});
 
   useEffect(() => {
-    axios.get(API_ROUTES.RANK_CONFIGS).then((res) => {
-      const flattened = res.data.content.map((rank) => ({
-        ...rank,
-        minLevel1Count: rank.requiredLevelCounts?.["1"] || 0,
-        minLevel2Count: rank.requiredLevelCounts?.["2"] || 0,
-        minLevel3Count: rank.requiredLevelCounts?.["3"] || 0,
-      }));
-      setRanks(flattened);
-    });
+    const fetchRanks = async () => {
+      try {
+        const res = await apiClient.get(API_ROUTES.RANK_CONFIGS);
+        const flattened = res.content.map((rank) => ({
+          ...rank,
+          minLevel1Count: rank.requiredLevelCounts?.["1"] || 0,
+          minLevel2Count: rank.requiredLevelCounts?.["2"] || 0,
+          minLevel3Count: rank.requiredLevelCounts?.["3"] || 0,
+        }));
+        setRanks(flattened);
+      } catch (error) {
+        console.error("Error fetching ranks:", error);
+      }
+    };
+
+    fetchRanks();
   }, []);
 
   const handleChange = (id, field, value) => {
@@ -55,7 +62,7 @@ const RankConfigEditor = () => {
     });
 
     axios
-      .patch(`${API_ROUTES.RANK_CONFIGS_UPDATE}/update`, payload)
+      .patch(`${API_ROUTES.RANK_CONFIGS_UPDATE}`, payload)
       .then(() => {
         alert("Ranks updated successfully!");
         setChanges({});
@@ -121,7 +128,8 @@ const RankConfigEditor = () => {
                       value={rank[field]}
                       onChange={(e) =>
                         handleChange(rank.id, field, Number(e.target.value))
-                      }
+                      }          
+                      onWheel={(e) => e.target.blur()}
                     />
                   </td>
                 ))}
