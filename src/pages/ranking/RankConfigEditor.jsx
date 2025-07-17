@@ -69,8 +69,7 @@ const RankConfigEditor = () => {
   const isCellChanged = (id, field) => changes[id]?.hasOwnProperty(field);
 
   return (
-    <div className="main-content">
-      <div className="container mt-4">
+    <div className="container mt-4">
       <h3 className="mb-4">Rank Config Editor</h3>
       <div className="table-responsive">
         <table className="table table-bordered table-striped table-sm">
@@ -117,9 +116,8 @@ const RankConfigEditor = () => {
                   <td key={field}>
                     <input
                       type="number"
-                      className={`form-control form-control-sm ${
-                        isCellChanged(rank.id, field) ? "bg-warning" : ""
-                      }`}
+                      className={`form-control form-control-sm ${isCellChanged(rank.id, field) ? "bg-warning" : ""
+                        }`}
                       value={rank[field]}
                       onChange={(e) =>
                         handleChange(rank.id, field, Number(e.target.value))
@@ -139,7 +137,6 @@ const RankConfigEditor = () => {
           </button>
         </div>
       )}
-    </div>
     </div>
   );
 };

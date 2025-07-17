@@ -74,6 +74,7 @@ const menuData = [
     items: [
       // { label: 'Schedule', href: '#', icon: <LuAlarmClock /> },
       { label: 'Investment Schemas', href: '/admin/schemas', icon: <FiAirplay /> },
+      { label: 'Schemas Config Editor', href: '/admin/schemas/config-editor', icon: <FiAirplay /> },
     ],
   },
 

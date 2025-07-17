@@ -76,6 +76,7 @@ const Schema = (props) => {
     return (
         <div className="main-content">
             <PageTitle title="All Schemas" actionLink={<ActionLinkAddNew />} />
+        
 
             <div className="container-fluid">
                 <div className="row">
