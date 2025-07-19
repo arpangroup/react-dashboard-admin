@@ -21,6 +21,8 @@ export const API_ROUTES = {
   RANK_CONFIGS_BULK_UPSERT: "/api/v1/investment-schemas/bulk-upsert",
   SCHEMA_LIST: "/api/v1/investment-schemas",
   SCHEMA_By_ID: (id) =>`/api/v1/investment-schemas/${id}`,
+  // Team Income Config:
+  TEAM_INCOME_CONFIGS: '/api/v1/income/configs',
   // Investment:
   INVESTMENTS: "/api/v1/investments",
   INVESTMENT_SUBSCRIBE: "/api/v1/investments/subscribe",

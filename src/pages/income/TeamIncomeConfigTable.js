@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FormInputWithUnit from '../../components/form/FormInputWithUnit';
 import './TeamIncomeConfigTable.css';
+import { API_ROUTES } from '../../constants/apiRoutes';
 
-const API_URL = '/api/v1/income/configs';
+
 const RANKS = ['RANK_2', 'RANK_3', 'RANK_4', 'RANK_5'];
 const LEVEL_LABELS = {
     1: 'Lv.A / Depth-1',
@@ -19,7 +20,7 @@ export default function TeamIncomeConfigTable() {
 
     // Fetch and pivot data
     useEffect(() => {
-        axios.get(API_URL).then(res => {
+        axios.get(API_ROUTES.TEAM_INCOME_CONFIGS).then(res => {
             const rawData = res.data;
             const pivot = { 1: {}, 2: {}, 3: {} };
 
@@ -48,7 +49,7 @@ export default function TeamIncomeConfigTable() {
                 [rank]: numericValue
             }
         };
-        setPivotedData(updatedPivot);
+        setPivotedData(updatedPivot);        
 
         // Compare with original to determine change
         const originalRank = originalData.find(r => r.rankCode === rank);
@@ -67,7 +68,7 @@ export default function TeamIncomeConfigTable() {
         }));
 
         try {
-            await axios.put(`${API_URL}/team`, unpivoted);
+            await axios.put(`${API_ROUTES.TEAM_INCOME_CONFIGS}`, unpivoted);
             alert('Update successful');
             setOriginalData(unpivoted);
             setHasChanges(false);
