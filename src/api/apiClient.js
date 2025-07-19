@@ -72,7 +72,10 @@ const apiClient = {
     /*if (!response.ok) throw new Error("Network response was not ok");
     return await response.json();*/
 
-    const data = await response.json();
+    const text = await response.text(); // Handle empty response body safely
+    //const data = await response.json();
+    const data = text ? JSON.parse(text) : {};
+    
     if (!response.ok) {
       // Include message from the response in the thrown error
       const error = new Error(data.message || 'Network response was not ok');

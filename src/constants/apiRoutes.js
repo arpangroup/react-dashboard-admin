@@ -18,6 +18,7 @@ export const API_ROUTES = {
   RANK_CONFIGS: "/api/v1/rankings",
   RANK_CONFIGS_BY_ID: (rankId) => `/api/v1/rankings/${rankId}`,
   RANK_CONFIGS_UPDATE: "/api/v1/rankings/update",
+  RANK_CONFIGS_BULK_UPSERT: "/api/v1/investment-schemas/bulk-upsert",
   SCHEMA_LIST: "/api/v1/investment-schemas",
   SCHEMA_By_ID: (id) =>`/api/v1/investment-schemas/${id}`,
   // Investment:

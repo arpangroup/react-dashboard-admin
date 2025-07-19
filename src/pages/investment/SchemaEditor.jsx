@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { SCHEDULE_OPTIONS } from "../../constants/config";
 import { LuPlus, LuTrash } from "react-icons/lu";
+import apiClient from "../../api/apiClient";
+import { API_ROUTES } from "../../constants/apiRoutes";
 
 const SchemaEditor = () => {
   const [schemas, setSchemas] = useState([]);
@@ -11,28 +12,30 @@ const SchemaEditor = () => {
   const [modifiedRows, setModifiedRows] = useState(new Set());
   const [newRows, setNewRows] = useState(new Set());
   const [fullRankList, setFullRankList] = useState([]);
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
-    const fetchSchemas = axios.get("/api/v1/investment-schemas");
-    const fetchRanks = axios.get("/api/v1/rankings");
+    const fetchSchemas = apiClient.get(API_ROUTES.SCHEMA_LIST);
+    const fetchRanks = apiClient.get(API_ROUTES.RANK_CONFIGS);
 
     Promise.all([fetchSchemas, fetchRanks])
       .then(([schemaRes, rankRes]) => {
-        const ranks = rankRes.data?.content || [];
+        const ranks = rankRes?.content || [];
         setFullRankList(ranks);
 
-        const activeRanks = ranks.filter(r => r.active);        
+        const activeRanks = ranks.filter(r => r.active);
         setRankOptions(activeRanks.map(rank => ({
           label: rank.code,
           value: rank.code
         })));
 
-        const enrichedSchemas = (schemaRes.data?.content || []).map(schema => ({
+        const enrichedSchemas = (schemaRes?.content || []).map(schema => ({
           ...schema,
           linkedRank: schema.linkedRank || "",
           returnSchedule: { id: schema.returnSchedule?.id || 2 },
           _original: {
             minimumInvestmentAmount: schema.minimumInvestmentAmount,
+            maximumInvestmentAmount: schema.maximumInvestmentAmount,
             returnRate: schema.returnRate,
             totalReturnPeriods: schema.totalReturnPeriods,
             returnScheduleId: schema.returnSchedule?.id,
@@ -53,6 +56,7 @@ const SchemaEditor = () => {
   const handleChange = (index, field, value) => {
     const updated = [...schemas];
     const keys = field.split(".");
+
     if (keys.length === 2) {
       updated[index][keys[0]] = {
         ...updated[index][keys[0]],
@@ -68,18 +72,46 @@ const SchemaEditor = () => {
 
     // If field is "rankId", auto-fill minimumInvestmentAmount from rankOptions
     if (field === "linkedRank") {
-        console.log("SELECTED: ", value);
-        const selectedRank = rankOptions.find((rank) => rank.value === value);
-        if (selectedRank) {
-            // You need access to full rank objects here
-            const fullRank = fullRankList.find((r) => r.code === selectedRank.value);
-            if (fullRank) {
-                updated[index].minimumInvestmentAmount = fullRank.minInvestmentAmount;
-            }
+      const selectedRank = rankOptions.find((rank) => rank.value === value);
+      if (selectedRank) {
+        const fullRank = fullRankList.find((r) => r.code === selectedRank.value);
+        if (fullRank) {
+          updated[index].minimumInvestmentAmount = fullRank.minInvestmentAmount;
         }
+      }
     }
 
     setSchemas(updated);
+  };
+
+  const handleMinInvestmentBlur = (index) => {
+    // Validation for minimumInvestmentAmount
+    const schema = schemas[index];
+    const rankCode = schema.linkedRank;
+    const currentRank = fullRankList.find(r => r.code === rankCode);
+
+    if (!currentRank) return;
+
+    const sortedRanks = [...fullRankList].sort((a, b) => a.minInvestmentAmount - b.minInvestmentAmount);
+    const currentIndex = sortedRanks.findIndex(r => r.code === currentRank.code);
+    const nextRank = sortedRanks[currentIndex + 1];
+
+    const min = currentRank.minInvestmentAmount;
+    const max = nextRank ? nextRank.minInvestmentAmount : Infinity;
+
+    const value = Number(schema.minimumInvestmentAmount);
+
+    if (isNaN(value) || value < min || value >= max) {
+      //alert(`Minimum investment for ${rankCode} must be ≥ ${min} and < ${max === Infinity ? "∞" : max}`);
+      setValidationErrors(prev => ({
+        ...prev,
+        [index]: `Min. investment should be between ${min} and ${max === Infinity ? "∞" : max}`
+      }));
+
+      const updated = [...schemas];
+      updated[index].minimumInvestmentAmount = min;
+      setSchemas(updated);
+    }
   };
 
   const handleAddRowBelow = (index) => {
@@ -87,10 +119,11 @@ const SchemaEditor = () => {
     const newRow = {
       linkedRank: prev?.linkedRank || "RANK_1",
       minimumInvestmentAmount: "",
+      maximumInvestmentAmount: "",
       returnRate: "",
       totalReturnPeriods: "",
       returnSchedule: { id: 2 },
-      capitalReturned: false,
+      capitalReturned: true,
       active: true
     };
 
@@ -106,7 +139,7 @@ const SchemaEditor = () => {
     if (!schemaId) return;
     if (!window.confirm("Are you sure you want to delete this schema?")) return;
     try {
-      await axios.delete(`/api/v1/investment-schemas/${schemaId}`);
+      await apiClient.delete(API_ROUTES.RANK_CONFIGS_BY_ID(schemaId));
       setSchemas(prev => prev.filter(s => s.id !== schemaId));
     } catch (err) {
       console.error("Delete failed", err);
@@ -118,10 +151,16 @@ const SchemaEditor = () => {
     const payload = schemas.map((schema, index) => {
       const isNew = newRows.has(index);
 
+      if (Object.keys(validationErrors).length > 0) {
+        //alert("Please fix validation errors before submitting.");
+        return;
+      }
+
       if (isNew) {
         return {
           linkedRankCode: schema.linkedRank,
           minimumInvestmentAmount: schema.minimumInvestmentAmount,
+          maximumInvestmentAmount: schema.maximumInvestmentAmount,
           returnRate: schema.returnRate,
           totalReturnPeriods: schema.totalReturnPeriods,
           returnScheduleId: schema.returnSchedule?.id,
@@ -135,6 +174,8 @@ const SchemaEditor = () => {
 
         if (schema.minimumInvestmentAmount !== schema._original.minimumInvestmentAmount)
           modified.minimumInvestmentAmount = schema.minimumInvestmentAmount;
+        if (schema.maximumInvestmentAmount !== schema._original.maximumInvestmentAmount)
+          modified.maximumInvestmentAmount = schema.maximumInvestmentAmount;
         if (schema.returnRate !== schema._original.returnRate)
           modified.returnRate = schema.returnRate;
         if (schema.totalReturnPeriods !== schema._original.totalReturnPeriods)
@@ -154,15 +195,13 @@ const SchemaEditor = () => {
       return null;
     }).filter(Boolean);
 
-    console.log("Submitting payload:", payload);
-
     try {
-      await axios.post("/api/v1/investment-schemas/bulk-update", payload);
+      await apiClient.post(API_ROUTES.RANK_CONFIGS_BULK_UPSERT, payload);
       alert("Schemas updated successfully");
       window.location.reload();
     } catch (err) {
       console.error("Submit error", err);
-      alert("Update failed.");
+      alert("Update failed with error: " + err.message);
     }
   };
 
@@ -210,12 +249,18 @@ const SchemaEditor = () => {
                 <td>
                   <input
                     type="number"
-                    className="form-control form-control-sm"
+                    // className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${validationErrors[index] ? 'is-invalid' : ''
+                      }`}
                     value={schema.minimumInvestmentAmount}
                     onChange={(e) =>
                       handleChange(index, "minimumInvestmentAmount", e.target.value)
                     }
+                    onBlur={() => handleMinInvestmentBlur(index)}
                   />
+                  {validationErrors[index] && (
+                    <div className="invalid-feedback">{validationErrors[index]}</div>
+                  )}
                 </td>
                 <td>
                   <input
@@ -247,7 +292,7 @@ const SchemaEditor = () => {
                   >
                     <option value="">Select</option>
                     {SCHEDULE_OPTIONS.map(opt => (
-                      <option key={opt.value} value={opt.value}>
+                      <option key={opt.value} value={opt.value} disabled={opt.disabled}>
                         {opt.label}
                       </option>
                     ))}
