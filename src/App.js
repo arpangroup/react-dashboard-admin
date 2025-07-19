@@ -54,6 +54,7 @@ import SendEmailPanel from './pages/users/SendEmailPanel';
 import UserRankingFormV1 from './pages/ranking/UserRankingFormV1';
 import RankConfigEditor from './pages/ranking/RankConfigEditor';
 import SchemaEditor from './pages/investment/SchemaEditor';
+import TeamIncomeConfigTable from './pages/income/TeamIncomeConfigTable';
 
 
 
@@ -130,8 +131,7 @@ function App() {
         <Route path="rankings" element={<UserRanking />} />
         <Route path="rankings/create" element={<UserRankingFormV1 />} />
         <Route path="rankings/edit/:rankingId" element={<UserRankingFormV1 />} />
-        <Route path="rankings/config-editor" element={<RankConfigEditor />} />
-
+        
         
         <Route path="setting/site" element={<SiteSetting />} />
         <Route path="setting/mail" element={<EmailSetting />} />

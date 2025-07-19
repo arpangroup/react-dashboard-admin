@@ -161,10 +161,9 @@ const menuData = [
     icon: <LuMedal />,
     items: [
       { label: 'Rankings', href: '/admin/rankings', icon: <LuAlarmClock /> },
-      { label: 'Rank Configs', href: '/admin/rankings/config-editor', icon: <FiAirplay /> },
     ],
   },
-
+  
 
 
 
@@ -185,6 +184,8 @@ const menuData = [
       { label: 'Notification Tune', href: '/admin/setting/tune', icon: <LuVolume2 /> }
     ],
   },
+
+
 
   // {
   //   type: 'link',

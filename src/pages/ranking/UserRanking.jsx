@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import { AgGridReact } from 'ag-grid-react';
-import { LuPencilLine, LuPlus, LuSettings } from 'react-icons/lu';
+import { LuAnchor, LuCast, LuPencilLine, LuPlus, LuSettings, LuUser } from 'react-icons/lu';
 
 import PageTitle from '../../components/page_title/PageTitle';
 import Badge from '../../components/Badge';
@@ -17,6 +17,10 @@ import rank5 from '../../assets/icons/rank5.jpg';
 
 import { usePaginatedFetch } from '../../api/usePaginatedFetch';
 import { API_ROUTES } from '../../constants/apiRoutes';
+import { max } from 'moment';
+import { CURRENCY_SYMBOL } from '../../constants/config';
+import TeamIncomeConfigTable from '../income/TeamIncomeConfigTable';
+import InvestmentSchemaSummary from '../schema/InvestmentSchemaSummary';
 
 
 // const fallbackIcons = {
@@ -37,11 +41,18 @@ const fallbackIcons = {
   6: rank5,
 };
 
+const sidePanelButtons = [
+    { id: "team_rebate_config", label: "Team Rebate Config",  disabled: true, icon: <LuAnchor /> },
+    { id: "rank_config_editor", label: "Rank Config Editor",  disabled: true, icon: <LuCast /> },
+];
+
 const UserRanking = (props) => {
   const [page, setPage] = useState(0);
     //const { data, loading } = useFetchJson(`/api/v2/rankings`);
     const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.RANK_CONFIGS, page, 9999, {status: "ACTIVE"});
     const [isPanelOpen, setIsPanelOpen] = useState(false);
+    const [panel, setPanel] = useState(null);
+    const [selectedData, setSelectedData] = useState({});
 
 
       const ActionLinkAddNew = (props) => {
@@ -61,6 +72,20 @@ const UserRanking = (props) => {
         );
       };
 
+      const RankCodeCell = ({data}) => {
+        const {code} = data;
+           return <a 
+            href='#' 
+            onClick={() => {
+                setSelectedData(data);
+                setPanel("investment_summary"); 
+                setIsPanelOpen(true);
+            }}
+            >
+            {code}
+           </a>
+      }
+
     const ActionLink = (props) => {
         return (
             <NavLink to={`/admin/rankings/edit/${props.data.id}`} className="round-icon-btn purple">
@@ -78,12 +103,20 @@ const UserRanking = (props) => {
         );
     };
 
+    const ReservationRangeCell = ({data}) => {
+        const {minInvestmentAmount, maxInvestmentAmount, } = data;
+        return <>{`${minInvestmentAmount} - ${maxInvestmentAmount} ${CURRENCY_SYMBOL}`}</>
+    }
+
     const [colDefs] = useState([
-        { field: "code", headerName: 'RANK', width: 100,  },
-        { field: "rankIcon", width: 80, headerName: "ICON", cellRenderer: RankIconCell },
-        { field: "displayName", headerName: 'RANKING NAME', filter: true, filterParams: {} },
-        { field: "minDepositAmount", headerName: 'MIN. DEPOSIT', valueFormatter: (params) => `${params.value}$`, width: 140 },
-        { field: "minTotalEarnings", headerName: "MIN. EARNING", width: 140,  },
+        { field: "code", headerName: 'Rank', width: 90, cellRenderer: RankCodeCell},
+        { field: "rankIcon", width: 60, headerName: "Icon", cellRenderer: RankIconCell },
+        { field: "displayName", headerName: 'Ranking Name', width: 160, filter: true, filterParams: {} },
+        { field: "minDepositAmount", headerName: 'MinDeposit', width: 110, valueFormatter: (params) => `${params.value}$` },
+        { field: "", headerName: 'ReservationRange', width: 150, cellRenderer: ReservationRangeCell },
+        { field: "", headerName: 'Profit/Day', width: 100 },
+        { field: "txnPerDay", headerName: 'Txn/Day', width: 100 },
+        { field: "minTotalEarnings", headerName: "MinEarning", width: 110,  },
         { field: "rankBonus", headerName: 'BONUS', width: 100},
         { field: "active", headerName: 'STATUS', cellRenderer: Badge },
         {
@@ -102,7 +135,49 @@ const UserRanking = (props) => {
 
     return (
         <div className="main-content">
-            <PageTitle title="User Rankings"  actionLink={<ActionLinkAddNew />} /> 
+            {/* <PageTitle title="User Rankings"  actionLink={<ActionLinkAddNew />} />  */}
+
+            <div className="page-title">                
+                <div className='site-card-header d-flex justify-content-between align-items-center'>
+                    <h4 className="title mb-0">User Rankings</h4>
+                    <div>
+                        {/* <button 
+                            className="btn btn-outline-primary btn-sm me-2"
+                        >Investment Schema</button>
+                        <button 
+                            className="btn btn-outline-primary btn-sm me-2"
+                        >Team Rebate Configs</button>
+                        <button 
+                            className="btn btn-outline-secondary btn-sm me-2"
+                            onClick={() => setIsPanelOpen(true)}                            
+                            >Rank Config Editor</button>
+                         */}
+
+                        {sidePanelButtons.map((panel) => (
+                            <a href="#" className="btn btn-outline-primary btn-sm me-2" key={panel.id}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setPanel(panel.id)
+                                    setIsPanelOpen(true);
+                                }}
+                            >
+                                {panel.icon} <span className="ms-2">{panel.label}</span>
+                            </a>
+                        ))}
+                        
+                        <a href="/admin/rankings/create" className="btn btn-outline-primary btn-sm me-2">
+                            <LuPlus />
+                            <span> ADD NEW</span>
+                        </a>
+                        
+                        
+
+                    </div>
+                </div>
+            </div>
+
+
+
 
             <div className="container-fluid">
                 <div className="row">
@@ -127,9 +202,23 @@ const UserRanking = (props) => {
                     </div>
                 </div>
             </div>
-             <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{width: '1150px'}}>
-                <RankConfigEditor/>
-            </RightPanel>
+            {panel === 'investment_summary' &&
+                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)}>
+                    <InvestmentSchemaSummary rankCode={selectedData?.code} />
+                </RightPanel>
+            }
+
+            {panel === 'team_rebate_config' &&
+                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{width: '800px'}}>
+                    <TeamIncomeConfigTable/>
+                </RightPanel>
+            }
+
+            {panel === 'rank_config_editor' &&
+                 <RightPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} style={{width: '1200px'}}>
+                    <RankConfigEditor/>
+                </RightPanel>
+            }
         </div>
     );
 };
