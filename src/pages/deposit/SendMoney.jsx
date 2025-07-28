@@ -7,7 +7,7 @@ const SendMoney = ({ senderId, senderName }) => {
     const [email, setEmail] = useState("");
     const [amount, setAmount] = useState("");
     const [remarks, setRemarks] = useState("");
-    const [alert, setAlert] = useState({ type: "", message: "" });
+    const [alert, setAlert] = useState({ type: "danger", message: "Send money feature is currently not available" });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -78,7 +78,7 @@ const SendMoney = ({ senderId, senderName }) => {
                     </div>
 
                     <div className="action-btns">
-                        <button type="submit" className="site-btn-sm primary-btn me-2">
+                        <button type="submit" className="site-btn-sm primary-btn me-2" disabled={true}>
                             <LuSend />  &nbsp; Send Money
                         </button>
                     </div>

@@ -6,24 +6,30 @@ const FormDropdown = ({
   label,
   name,
   value,
-  options,
+  options = [],
   required = false,
   disabled = false,
   info = null,
-  onChange
+  onChange,  
+  error = '',
+  className = '',
+  wrapperClass='',
+  ...props
 }) => {
   return (
-    <div className="col-xl-6 site-input-groups mt-0" key={name}> 
+    // <div className="col-xl-6 site-input-groups mt-0" key={name}> 
+      <div className={wrapperClass || 'col-xl-6 site-input-groups mt-0'} key={name}>
       <LabelWithInfo label={label} info={info} />
 
       <select
         name={name}
-        className="form-select"
+        className={`form-select ${className} ${error ? 'is-invalid' : ''}`}
         value={value || ""}
         onChange={onChange}
       // onChange={e => onSelectChange(e.target.value)}
         required={required}
         disabled={disabled}
+        {...props}
       >
         {options.map(({ value, label, disabled  }) => (
           <option key={value} value={value} disabled={disabled}>
@@ -31,6 +37,7 @@ const FormDropdown = ({
           </option>
         ))}
       </select>
+      {error && <div className="invalid-feedback">{error}</div>}
 
     </div>
   );

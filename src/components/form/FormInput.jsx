@@ -11,22 +11,29 @@ const FormInput = ({
   required = false,
   disabled = false,
   info = null,
-  onChange
+  onChange,  
+  onBlur,
+  className = '',
+  wrapperClass='',
+  error = ''
 }) => {  
   return (
-    <div className="site-input-groups">      
+    // <div className="site-input-groups">
+      <div className={wrapperClass || 'site-input-groups'} key={name}>
       <LabelWithInfo label={label} info={info} />
       <input
         type={type}
-        className="box-input"
+        className={`box-input ${className} ${error ? 'is-invalid' : ''}`}
         placeholder={placeholder}
         name={name}
         value={value}
         required={required}
         disabled={disabled}
-        onChange={onChange}            
+        onChange={onChange}        
+        onBlur={onBlur}       
         onWheel={(e) => e.target.blur()}
       />
+      {error && <div className="invalid-feedback">{error}</div>}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { LuPlus, LuTrash } from "react-icons/lu";
 import apiClient from "../../api/apiClient";
 import { API_ROUTES } from "../../constants/apiRoutes";
 
-const SchemaEditor = () => {
+const StakeEditor = () => {
   const [schemas, setSchemas] = useState([]);
   const [rankOptions, setRankOptions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -217,6 +217,8 @@ const SchemaEditor = () => {
               <th>Linked Rank</th>
               <th>Min Invest</th>
               <th>Return Rate (%)</th>
+              <th>Handling Fee</th>
+              <th>Minimum Withdraw</th>
               <th>Duration (Days)</th>
               <th>Schedule</th>
               <th>Capital Returned</th>
@@ -262,6 +264,7 @@ const SchemaEditor = () => {
                     <div className="invalid-feedback">{validationErrors[index]}</div>
                   )}
                 </td>
+                
                 <td>
                   <input
                     type="number"
@@ -269,6 +272,33 @@ const SchemaEditor = () => {
                     value={schema.returnRate}
                     onChange={(e) =>
                       handleChange(index, "returnRate", e.target.value)
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    // className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${validationErrors[index] ? 'is-invalid' : ''
+                      }`}
+                    value={schema.handlingFee}
+                    disabled={true}
+                    onChange={(e) =>
+                      handleChange(index, "handlingFee", e.target.value)
+                    }
+                  />
+                  {validationErrors[index] && (
+                    <div className="invalid-feedback">{validationErrors[index]}</div>
+                  )}
+                </td>
+                <td>
+                   <input
+                    type="number"
+                    className="form-control form-control-sm"
+                    value={schema.minimumWithdrawalAmount}
+                    disabled={true}
+                    onChange={(e) =>
+                      handleChange(index, "minimumWithdrawalAmount", e.target.value)
                     }
                   />
                 </td>
@@ -346,4 +376,4 @@ const SchemaEditor = () => {
   );
 };
 
-export default SchemaEditor;
+export default StakeEditor;

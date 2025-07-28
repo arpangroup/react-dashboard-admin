@@ -53,8 +53,9 @@ import Dashboard from './pages/dashboard/Dashboard';
 import SendEmailPanel from './pages/users/SendEmailPanel';
 import UserRankingFormV1 from './pages/ranking/UserRankingFormV1';
 import RankConfigEditor from './pages/ranking/RankConfigEditor';
-import SchemaEditor from './pages/investment/SchemaEditor';
+// import SchemaEditor from './pages/schema/SchemaEditor';
 import TeamIncomeConfigTable from './pages/income/TeamIncomeConfigTable';
+import StakeEditor from './pages/schema/StakeEditor';
 
 
 
@@ -102,7 +103,7 @@ function App() {
         <Route path="schemas" element={<Schema />} /> 
         <Route path="schemas/create" element={<SchemaForm />} />
         <Route path="schemas/edit/:schemaId" element={<SchemaForm />} /> 
-        <Route path="schemas/config-editor" element={<SchemaEditor />} /> 
+        <Route path="schemas/stakes" element={<StakeEditor />} /> 
 
 
 

@@ -10,6 +10,7 @@ export const API_ROUTES = {
   // Transactions:
   TRANSACTIONS: "/api/v1/transactions",
   USER_TRANSACTIONS: (userId) => `/api/v1/transactions/user/${userId}`,
+  TRANSACTION_ADJUST_BALANCE: (isCredit) => `/api/v1/transactions/adjustments/${isCredit ? 'add' : 'subtract'}`,
   // Deposit:
   DEPOSIT_LIST: "/api/v1/deposits", 
   DEPOSIT_REQUEST: (isManual) => !isManual ? "/api/v1/deposits" : `/api/v1/deposits/manual`, 

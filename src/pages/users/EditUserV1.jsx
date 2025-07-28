@@ -25,6 +25,7 @@ import DepositSuccess from "../deposit/DepositSuccess";
 import SendMoney from "../deposit/SendMoney";
 import WithdrawRequest from "../deposit/WithdrawRequest";
 import { API_ROUTES } from "../../constants/apiRoutes";
+import { CURRENCY_UNIT } from "../../constants/config";
 
 
 
@@ -160,7 +161,7 @@ export default function EditUserV1() {
                             <WalletStatus
                                 walletBalance={userInfo.walletBalance}
                                 profitBalance={userInfo.profitBalance}
-                                currency="USD" />
+                                currency={CURRENCY_UNIT} />
 
                             {/* Account Status Update */}
                             <AccountStatusForm
