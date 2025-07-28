@@ -8,6 +8,7 @@ import FormDropdown from "../../components/form/FormDropdown";
 import SchemaInputField from "./components/SchemaInputField ";
 import SchemaSelectField from "./components/SchemaSelectField";
 import './StakeEditor.css';
+import ImageUploadCell from "../../components/form/file/ImageUploadCell";
 
 const FIELD_DEFINITIONS = [
   { key: "linkedRank", label: "Linked Rank", type: "select", optionsKey: "rankOptions", thStyle: { minWidth: "120px" } },
@@ -17,7 +18,7 @@ const FIELD_DEFINITIONS = [
   { key: "minimumWithdrawalAmount", label: "Minimum Withdraw", type: "number", disabled: true },
   { key: "totalReturnPeriods", label: "Duration (Days)", type: "number" },
   { key: "returnSchedule.id", label: "Schedule", type: "select", optionsKey: "SCHEDULE_OPTIONS" },
-  { key: "stakeImage", label: "Stake Image", type: "image", thStyle: { minWidth: "150px" } },
+  { key: "stakeImage", label: "Image", type: "image", thStyle: { minWidth: "150px" } },
   { key: "capitalReturned", label: "Capital Returned", type: "checkbox" },
   { key: "active", label: "Active", type: "checkbox" },
 ];
@@ -219,8 +220,10 @@ const StakeEditor = () => {
   if (loading) return <div>Loading investment schemas...</div>;
 
   return (
-    <div className="container mt-4">
-      <h4 className="mb-3">Investment Schema Editor</h4>
+    <div className="main-content">
+      <div className="title-content mt-4">
+        <h2>Stakes</h2>
+      </div>
       <div className="table-responsive">
         <table className="table table-bordered table-striped table-sm align-middle">
           <thead className="table-light">
@@ -291,40 +294,15 @@ const StakeEditor = () => {
                   }
 
                   if (field.type === "image") {
-                    const imageObj = schema.stakeImage;
-
                     return (
-                      <td key={field.key} className="text-center align-middle">
-                        {imageObj?.preview ? (
-                          <div className="position-relative d-inline-block">
-                            <img
-                              src={imageObj.preview}
-                              alt="preview"
-                              className="img-thumbnail shadow-sm"
-                              style={{ width: "48px", height: "48px", objectFit: "cover", borderRadius: "4px" }}
-                            />
-                            <button
-                              className="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle"
-                              style={{ transform: "translate(50%, -50%)" }}
-                              onClick={() => handleImageDelete(index)}
-                              data-bs-toggle="tooltip"
-                              title="Delete Image"
-                            >
-                              <LuTrash size={14} />
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="custom-file-upload">
-                            <label className="btn btn-outline-primary btn-sm custom-upload-btn">
-                              Upload
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => handleImageChange(index, e.target.files[0])}
-                              />
-                            </label>
-                          </div>
-                        )}
+                      <td key={field.key}>
+                        <ImageUploadCell
+                          image={schema.stakeImage}
+                          onChange={(file) => handleImageChange(index, file)}
+                          onDelete={() => handleImageDelete(index)}
+                          previewWidth={48}
+                          previewHeight={48}
+                        />
                       </td>
                     );
                   }
