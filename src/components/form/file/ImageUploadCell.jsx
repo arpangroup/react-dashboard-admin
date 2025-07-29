@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { LuTrash } from "react-icons/lu";
 import PropTypes from "prop-types";
 import "./ImageUploadCell.css"; // Style below
+import ImageUploadModal from "../upload/ImageUploadModal";
 
 const ImageUploadCell = ({ 
   image, 
@@ -10,6 +11,13 @@ const ImageUploadCell = ({
   previewWidth = 80,
   previewHeight = 80 
 }) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleImageSelect = (url) => {
+    onChange({ preview: url });
+    setShowModal(false);
+  };
+
   return (
     <div className="text-center">
       {image?.preview ? (
@@ -37,16 +45,29 @@ const ImageUploadCell = ({
         </div>
       ) : (
         <div className="custom-file-upload">
-          <label className="btn btn-outline-primary btn-sm custom-upload-btn">
+          <label 
+            className="btn btn-outline-primary btn-sm custom-upload-btn"
+            onClick={() => setShowModal(true)}
+            >
             Upload
-            <input
+            {/* <input
               type="file"
               accept="image/*"
               onChange={(e) => onChange(e.target.files[0])}
-            />
+            /> */}
           </label>
         </div>
       )}
+      <ImageUploadModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSelect={(url) => {
+          onChange(url);
+          setShowModal(false);
+        }}
+      />
+
+    
     </div>
   );
 };

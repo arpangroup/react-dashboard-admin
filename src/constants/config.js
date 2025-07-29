@@ -14,3 +14,7 @@ export const SCHEDULE_OPTIONS = [
   { label: "Monthly", value: 5, disabled: true, },
   { label: "No Schedule", value: 6, disabled: true, }
 ];
+
+const imageFileTypes = "image/png, image/jpeg, image/gif";
+const allFileTypes = "";
+export const ACCEPTED_FILE_TYPES = imageFileTypes;

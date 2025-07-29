@@ -9,6 +9,7 @@ import SchemaInputField from "./components/SchemaInputField ";
 import SchemaSelectField from "./components/SchemaSelectField";
 import './StakeEditor.css';
 import ImageUploadCell from "../../components/form/file/ImageUploadCell";
+import FileUploadWithInput from "../../components/form/upload/FileUploadWithInput ";
 
 const FIELD_DEFINITIONS = [
   { key: "linkedRank", label: "Linked Rank", type: "select", optionsKey: "rankOptions", thStyle: { minWidth: "120px" } },
@@ -87,11 +88,14 @@ const StakeEditor = () => {
     setSchemas(updated);
   };
 
-  const handleImageChange = (index, file) => {
+  const handleImageChange = (index, fileOrUrl) => {
     const updated = [...schemas];
+
     updated[index].stakeImage = {
-      file,
-      preview: URL.createObjectURL(file),
+      file: fileOrUrl,
+      preview: fileOrUrl instanceof File
+        ? URL.createObjectURL(fileOrUrl)
+        : fileOrUrl, // direct URL from modal
     };
     setSchemas(updated);
   };
