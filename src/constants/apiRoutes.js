@@ -20,7 +20,11 @@ export const API_ROUTES = {
   RANK_CONFIGS_BY_ID: (rankId) => `/api/v1/rankings/${rankId}`,
   RANK_CONFIGS_UPDATE: "/api/v1/rankings/update",
   RANK_CONFIGS_BULK_UPSERT: "/api/v1/investment-schemas/bulk-upsert",
-  SCHEMA_LIST: "/api/v1/investment-schemas",
+  SCHEMA_LIST: `/api/v1/investment-schemas`,
+  SCHEMA_LIST_FILTER: (filters = {}) => {
+    const queryString = new URLSearchParams(filters).toString();
+    return `/api/v1/investment-schemas${queryString ? `?${queryString}` : ''}`;
+  },
   SCHEMA_By_ID: (id) =>`/api/v1/investment-schemas/${id}`,
   // Team Income Config:
   TEAM_INCOME_CONFIGS: '/api/v1/income/configs',

@@ -36,7 +36,7 @@ const StakeEditor = () => {
 
   useEffect(() => {
     Promise.all([
-      apiClient.get(API_ROUTES.SCHEMA_LIST),
+      apiClient.get(API_ROUTES.SCHEMA_LIST_FILTER({ type: 'STAKE' })),
       apiClient.get(API_ROUTES.RANK_CONFIGS),
     ])
       .then(([schemaRes, rankRes]) => {
@@ -156,6 +156,23 @@ const StakeEditor = () => {
     setHighlightedIndices((prev) => [...prev, index + 1]);
   };
 
+  const handleAddNewStake = () => {
+    const newRow = {
+      linkedRank: "RANK_0",
+      minimumInvestmentAmount: "",
+      maximumInvestmentAmount: "",
+      returnRate: "",
+      totalReturnPeriods: "",
+      returnSchedule: { id: 2 },
+      capitalReturned: true,
+      active: true,
+      stakeImage: null,
+    };
+    setSchemas((prev) => [...prev, newRow]);
+    setNewRows((prev) => new Set(prev).add(schemas.length));
+    setHighlightedIndices((prev) => [...prev, schemas.length]);
+  };
+
   const handleDeleteRow = async (schemaId) => {
     if (!schemaId) return;
     if (!window.confirm("Are you sure you want to delete this schema?")) return;
@@ -225,8 +242,11 @@ const StakeEditor = () => {
 
   return (
     <div className="main-content">
-      <div className="title-content mt-4">
+      <div className="title-content mt-4 d-flex justify-content-between align-items-center">
         <h2>Stakes</h2>
+        <button className="btn btn-primary btn-sm" onClick={handleAddNewStake}>
+        + Add New Stake
+      </button>
       </div>
       <div className="table-responsive">
         <table className="table table-bordered table-striped table-sm align-middle">
@@ -235,7 +255,7 @@ const StakeEditor = () => {
               {FIELD_DEFINITIONS.map((field) => (
                 <th key={field.key} style={field.thStyle}>{field.label}</th>
               ))}
-              <th style={{ width: "80px" }}>Actions</th>
+              {/* <th style={{ width: "80px" }}>Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -328,12 +348,12 @@ const StakeEditor = () => {
                     </td>
                   );
                 })}
-                <td className="text-center">
+                {/* <td className="text-center">
                   <LuPlus size={18} color="green" style={{ cursor: "pointer", marginRight: 8 }} onClick={() => handleAddRowBelow(index)} />
                   {schema.id && (
                     <LuTrash size={18} color="red" style={{ cursor: "pointer" }} onClick={() => handleDeleteRow(schema.id)} />
                   )}
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
