@@ -12,7 +12,7 @@ const RankConfigEditor = () => {
     const fetchRanks = async () => {
       try {
         const res = await apiClient.get(API_ROUTES.RANK_CONFIGS);
-        const flattened = res.content.map((rank) => ({
+        const flattened = res.map((rank) => ({
           ...rank,
           minLevel1Count: rank.requiredLevelCounts?.["1"] || 0,
           minLevel2Count: rank.requiredLevelCounts?.["2"] || 0,

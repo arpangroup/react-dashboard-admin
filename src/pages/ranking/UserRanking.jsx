@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, NavLink } from 'react-router-dom';
 import { AgGridReact } from 'ag-grid-react';
 import { LuAnchor, LuCast, LuPencilLine, LuPlus, LuSettings, LuUser } from 'react-icons/lu';
@@ -21,6 +21,7 @@ import { max } from 'moment';
 import { CURRENCY_SYMBOL } from '../../constants/config';
 import TeamIncomeConfigTable from '../income/TeamIncomeConfigTable';
 import InvestmentSchemaSummary from '../schema/InvestmentSchemaSummary';
+import apiClient from '../../api/apiClient';
 
 
 // const fallbackIcons = {
@@ -49,10 +50,23 @@ const sidePanelButtons = [
 const UserRanking = (props) => {
   const [page, setPage] = useState(0);
     //const { data, loading } = useFetchJson(`/api/v2/rankings`);
-    const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.RANK_CONFIGS, page, 9999, {status: "ACTIVE"});
+    // const { data, totalPages, loading, error } = usePaginatedFetch(API_ROUTES.RANK_CONFIGS, page, 9999, {status: "ACTIVE"});
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [isPanelOpen, setIsPanelOpen] = useState(false);
     const [panel, setPanel] = useState(null);
     const [selectedData, setSelectedData] = useState({});
+
+    useEffect(() => {
+        fetchRanks();
+    }, []);
+
+
+    const fetchRanks = async () => {
+        const data = await apiClient.get(API_ROUTES.RANK_CONFIGS);
+        setData(data);
+        setLoading(false);
+    }
 
 
       const ActionLinkAddNew = (props) => {

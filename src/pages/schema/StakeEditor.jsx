@@ -19,7 +19,7 @@ const FIELD_DEFINITIONS = [
   { key: "minimumWithdrawalAmount", label: "Minimum Withdraw", type: "number", disabled: true },
   { key: "totalReturnPeriods", label: "Duration (Days)", type: "number" },
   { key: "returnSchedule.id", label: "Schedule", type: "select", optionsKey: "SCHEDULE_OPTIONS" },
-  { key: "stakeImage", label: "Image", type: "image", thStyle: { minWidth: "150px" } },
+  { key: "imageUrl", label: "Image", type: "image", thStyle: { minWidth: "150px" } },
   { key: "capitalReturned", label: "Capital Returned", type: "checkbox" },
   { key: "active", label: "Active", type: "checkbox" },
 ];
@@ -49,6 +49,7 @@ const StakeEditor = () => {
           ...schema,
           linkedRank: schema.linkedRank || "",
           returnSchedule: { id: schema.returnSchedule?.id || 2 },
+          imageUrl: schema.imageUrl ? { file: schema.imageUrl, preview: schema.imageUrl } : null,
           _original: {
             minimumInvestmentAmount: schema.minimumInvestmentAmount,
             maximumInvestmentAmount: schema.maximumInvestmentAmount,
@@ -91,7 +92,7 @@ const StakeEditor = () => {
   const handleImageChange = (index, fileOrUrl) => {
     const updated = [...schemas];
 
-    updated[index].stakeImage = {
+    updated[index].imageUrl = {
       file: fileOrUrl,
       preview: fileOrUrl instanceof File
         ? URL.createObjectURL(fileOrUrl)
@@ -102,7 +103,7 @@ const StakeEditor = () => {
 
   const handleImageDelete = (index) => {
     const updated = [...schemas];
-    updated[index].stakeImage = null;
+    updated[index].imageUrl = null;
     setSchemas(updated);
   };
 
@@ -166,7 +167,7 @@ const StakeEditor = () => {
       returnSchedule: { id: 2 },
       capitalReturned: true,
       active: true,
-      stakeImage: null,
+      imageUrl: null,
     };
     setSchemas((prev) => [...prev, newRow]);
     setNewRows((prev) => new Set(prev).add(schemas.length));
@@ -321,7 +322,7 @@ const StakeEditor = () => {
                     return (
                       <td key={field.key}>
                         <ImageUploadCell
-                          image={schema.stakeImage}
+                          image={schema.imageUrl}
                           onChange={(file) => handleImageChange(index, file)}
                           onDelete={() => handleImageDelete(index)}
                           previewWidth={48}
